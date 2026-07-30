@@ -1,49 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LUMIÈRE | Gourmet Digital Menu & Culinary Showcase</title>
-  <meta name="description" content="Experience Lumière's interactive digital menu. Browse gourmet starters, chef signatures, traditional Ethiopian specialties, and artisan craft beverages in English, Amharic, or Afaan Oromoo.">
-  <meta name="keywords" content="digital menu, QR restaurant menu, Lumiere dining, Ethiopian cuisine, fine dining, Amharic menu, Oromo menu">
+  <meta name="description" content="Experience Lumière's interactive digital menu built with Tailwind CSS. Browse gourmet starters, chef signatures, and craft drinks in English, Amharic, or Oromo.">
+  <meta name="keywords" content="digital menu, Tailwind CSS menu, QR restaurant menu, Lumiere dining, Ethiopian cuisine, Amharic menu, Oromo menu">
   
-  <!-- Favicon & Stylesheet -->
+  <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  
+  <!-- Tailwind CSS v3 Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#e6b763',
+              darkGold: '#b38020',
+              bgDark: '#0b0d12',
+              surfaceDark: '#131722',
+              cardDark: 'rgba(22, 27, 38, 0.75)',
+              glassDark: 'rgba(18, 22, 33, 0.8)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Ethiopic', 'sans-serif'],
+            display: ['Outfit', 'Noto Sans Ethiopic', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Design Tokens & Ethiopic Font Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="bg-[#0b0d12] text-slate-100 font-sans min-h-screen antialiased transition-colors duration-300">
 
   <!-- Table Context Announcement Bar -->
-  <div class="table-bar" id="tableNoticeBar" style="display: none;">
-    <span>✨ <span data-t="tableNotice">Browsing from Table</span></span>
-    <span class="table-badge-chip">Table #<span id="tableNumberSpan">--</span></span>
+  <div class="table-bar bg-gradient-to-r from-indigo-950 via-purple-950 to-indigo-950 text-amber-400 py-2 px-4 text-xs sm:text-sm font-semibold flex justify-center items-center gap-2 border-b border-white/10" id="tableNoticeBar" style="display: none;">
+    <span class="flex items-center gap-1">✨ <span data-t="tableNotice">Browsing from Table</span></span>
+    <span class="table-badge-chip bg-amber-400/20 border border-amber-400/40 text-amber-300 px-3 py-0.5 rounded-full text-xs">Table #<span id="tableNumberSpan">--</span></span>
   </div>
 
   <!-- Main Navigation Header -->
-  <header class="navbar">
-    <div class="navbar-container">
+  <header class="navbar sticky top-0 z-50 bg-[#121621]/80 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
       
       <!-- Brand Logo -->
-      <div class="brand-wrapper" id="brandLogoBtn">
-        <div class="brand-logo-icon">✨</div>
-        <div class="brand-text-block">
-          <span class="brand-name" data-t="brandName">LUMIÈRE</span>
-          <span class="brand-subtitle" data-t="brandSubtitle">Gourmet Digital Menu</span>
+      <div class="brand-wrapper flex items-center gap-3 cursor-pointer group" id="brandLogoBtn">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-xl text-white shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">✨</div>
+        <div class="flex flex-col">
+          <span class="brand-name font-display text-xl font-bold tracking-tight text-amber-400" data-t="brandName">LUMIÈRE</span>
+          <span class="brand-subtitle text-[11px] text-slate-400 uppercase tracking-widest" data-t="brandSubtitle">Gourmet Digital Menu</span>
         </div>
       </div>
 
       <!-- Header Controls: Language, Currency, Theme & Wishlist -->
-      <div class="header-actions">
+      <div class="header-actions flex items-center gap-2.5">
         
         <!-- Multi-Language Switcher (Instant EN, AM, OM) -->
-        <select class="control-select" id="langSelect" aria-label="Select Language">
+        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="langSelect" aria-label="Select Language">
           <option value="en">🇬🇧 English</option>
           <option value="am">🇪🇹 አማርኛ (Amharic)</option>
           <option value="om">🇪🇹 Afaan Oromoo</option>
         </select>
 
         <!-- Multi-Currency Switcher -->
-        <select class="control-select" id="currencySelect" aria-label="Select Currency">
+        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="currencySelect" aria-label="Select Currency">
           <option value="ETB">Br ETB</option>
           <option value="USD">$ USD</option>
           <option value="EUR">€ EUR</option>
@@ -51,14 +79,14 @@
         </select>
 
         <!-- Theme Toggle -->
-        <button class="icon-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+        <button class="icon-btn w-10 h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           🌙
         </button>
 
         <!-- My Selection / Wishlist Drawer Button -->
-        <button class="icon-btn" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
+        <button class="icon-btn relative w-10 h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
           🔖
-          <span class="badge-count" id="selectionCountBadge" style="display: none;">0</span>
+          <span class="badge-count absolute -top-1.5 -right-1.5 bg-amber-400 text-black font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md" id="selectionCountBadge" style="display: none;">0</span>
         </button>
 
       </div>
@@ -66,14 +94,14 @@
   </header>
 
   <!-- Hero Banner Section -->
-  <section class="hero-section">
-    <div class="hero-card">
-      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80" alt="Lumiere Dining Experience" class="hero-bg-img">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1 class="hero-title" data-t="generalWelcome">Welcome to Lumière Fine Dining</h1>
-        <div class="hero-meta">
-          <span class="meta-item"><span class="status-dot"></span> <span data-t="openHours">Open Today: 11:30 AM - 11:00 PM</span></span>
+  <section class="hero-section max-w-7xl mx-auto px-4 sm:px-8 mt-5 mb-3">
+    <div class="hero-card relative h-64 sm:h-72 rounded-2xl overflow-hidden flex items-end p-6 sm:p-8 border border-white/10 shadow-2xl">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80" alt="Lumiere Dining Experience" class="hero-bg-img absolute inset-0 w-full h-full object-cover brightness-75 contrast-110 hover:scale-105 transition-transform duration-700">
+      <div class="hero-overlay absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+      <div class="hero-content relative z-10 w-full">
+        <h1 class="hero-title text-2xl sm:text-4xl font-display font-extrabold text-white mb-2 drop-shadow-md" data-t="generalWelcome">Welcome to Lumière Fine Dining</h1>
+        <div class="hero-meta flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300">
+          <span class="meta-item flex items-center gap-2"><span class="status-dot w-2 h-2 rounded-full bg-emerald-400 shadow-md shadow-emerald-400"></span> <span data-t="openHours">Open Today: 11:30 AM - 11:00 PM</span></span>
           <span class="meta-item">📍 Bole Road, Addis Ababa</span>
           <span class="meta-item">📶 WiFi: LumiereGuest (Pass: Lumiere2026)</span>
         </div>
@@ -82,35 +110,35 @@
   </section>
 
   <!-- Search & Dietary Filter Controls -->
-  <div class="controls-wrapper">
+  <div class="controls-wrapper max-w-7xl mx-auto px-4 sm:px-8 my-6 flex flex-col gap-4">
     <!-- Live Search Bar -->
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Search dishes, ingredients, drinks..." aria-label="Search dishes">
+    <div class="search-box relative w-full">
+      <span class="search-icon absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">🔍</span>
+      <input type="text" id="searchInput" class="search-input w-full bg-slate-900/70 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-400 outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 backdrop-blur-md transition-all" placeholder="Search dishes, ingredients, drinks..." aria-label="Search dishes">
     </div>
 
     <!-- Dietary Filters Row -->
-    <div class="filter-pills" id="filterPills">
+    <div class="filter-pills flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="filterPills">
       <!-- Dynamically Rendered Pills -->
     </div>
   </div>
 
   <!-- Sticky Category Navigation -->
-  <nav class="sticky-cat-nav">
-    <div class="cat-container" id="categoryNav">
+  <nav class="sticky-cat-nav sticky top-[69px] z-40 bg-[#121621]/80 backdrop-blur-md border-b border-white/10 py-2.5">
+    <div class="cat-container max-w-7xl mx-auto px-4 sm:px-8 flex gap-2 overflow-x-auto scrollbar-none" id="categoryNav">
       <!-- Dynamically Rendered Category Tabs -->
     </div>
   </nav>
 
   <!-- Main Menu Grid Container -->
-  <main class="main-content" id="menuContainer">
+  <main class="main-content max-w-7xl mx-auto px-4 sm:px-8 mt-8 mb-20" id="menuContainer">
     <!-- Dynamically Rendered Menu Sections -->
   </main>
 
   <!-- Dish Detail Backdrop Modal -->
-  <div class="modal-overlay" id="dishModalOverlay">
-    <div class="modal-card">
-      <button class="modal-close-btn" id="closeDishModalBtn" aria-label="Close Modal">✕</button>
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" id="dishModalOverlay">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-transform duration-300">
+      <button class="modal-close-btn absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600 transition-colors" id="closeDishModalBtn" aria-label="Close Modal">✕</button>
       <div id="modalContent">
         <!-- Dynamically Populated Dish Content -->
       </div>
@@ -118,89 +146,89 @@
   </div>
 
   <!-- My Selection / Wishlist Drawer -->
-  <div class="drawer-overlay" id="selectionDrawerOverlay">
-    <div class="drawer-panel">
-      <div class="drawer-header">
-        <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+  <div class="drawer-overlay fixed inset-0 z-40 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300" id="selectionDrawerOverlay">
+    <div class="drawer-panel fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#141824] border-l border-white/10 shadow-2xl flex flex-col translate-x-full transition-transform duration-300">
+      <div class="drawer-header p-5 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-lg font-bold flex items-center gap-2 text-amber-400">
           <span>🔖</span> <span data-t="mySelection">My Selection</span>
         </h3>
-        <button class="icon-btn" id="closeSelectionBtn" aria-label="Close Drawer">✕</button>
+        <button class="icon-btn w-9 h-9 rounded-lg bg-slate-900 border border-white/10 text-slate-300 flex items-center justify-center hover:text-white" id="closeSelectionBtn" aria-label="Close Drawer">✕</button>
       </div>
 
-      <div class="drawer-body" id="drawerItemsList">
+      <div class="drawer-body p-5 flex-1 overflow-y-auto flex flex-col gap-3" id="drawerItemsList">
         <!-- Wishlist items listed here -->
       </div>
 
-      <div class="drawer-footer">
-        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-          <button class="pill-btn" id="clearSelectionBtn" style="flex: 1; text-align: center;" data-t="clearAll">Clear Selection</button>
-          <button class="pill-btn" id="shareMenuBtn" style="flex: 1; text-align: center;" data-t="shareMenu">Share Menu</button>
+      <div class="drawer-footer p-5 border-t border-white/10 bg-slate-900/60">
+        <div class="flex gap-2.5 mb-3">
+          <button class="pill-btn flex-1 py-2.5 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700" id="clearSelectionBtn" data-t="clearAll">Clear Selection</button>
+          <button class="pill-btn flex-1 py-2.5 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700" id="shareMenuBtn" data-t="shareMenu">Share Menu</button>
         </div>
-        <button class="primary-btn" id="openFeedbackBtn" data-t="leaveFeedback">Give Feedback</button>
+        <button class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3.5 rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:scale-[1.01] transition-transform" id="openFeedbackBtn" data-t="leaveFeedback">Give Feedback</button>
       </div>
     </div>
   </div>
 
   <!-- QR Table Simulator Modal -->
-  <div class="modal-overlay" id="qrModalOverlay">
-    <div class="modal-card" style="max-width: 440px;">
-      <button class="modal-close-btn" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
-      <div class="modal-body text-center" style="text-align: center; padding: 30px;">
-        <h3 style="font-size: 1.3rem; margin-bottom: 8px;" data-t="qrCodeTest">Table QR Code</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Simulate guest scanning a table QR code</p>
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" id="qrModalOverlay">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative scale-95 transition-transform duration-300">
+      <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
+      <div class="modal-body text-center">
+        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="qrCodeTest">Table QR Code</h3>
+        <p class="text-xs text-slate-400 mb-4">Simulate guest scanning a table QR code</p>
         
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-          <input type="number" id="qrTableInput" class="search-input" placeholder="Table #" value="12" style="padding-left: 15px; text-align: center;">
-          <button class="primary-btn" id="generateQrBtn" style="width: auto; padding: 0 20px;">Generate</button>
+        <div class="flex gap-2.5 mb-4">
+          <input type="number" id="qrTableInput" class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-2.5 text-center text-sm text-white" placeholder="Table #" value="12">
+          <button class="primary-btn px-5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-bold rounded-xl text-sm" id="generateQrBtn">Generate</button>
         </div>
 
         <div class="qr-preview-box" id="qrCanvasBox">
-          <p style="font-size: 0.85rem; color: var(--text-subtle);">Click generate to simulate QR link</p>
+          <p class="text-xs text-slate-400">Click generate to simulate QR link</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Customer Feedback & Review Modal -->
-  <div class="modal-overlay" id="feedbackModalOverlay">
-    <div class="modal-card" style="max-width: 500px;">
-      <button class="modal-close-btn" id="closeFeedbackBtn" aria-label="Close Feedback Modal">✕</button>
-      <div class="modal-body" style="padding: 30px;">
-        <h3 style="font-size: 1.4rem; margin-bottom: 6px;" data-t="rateDish">Rate your experience</h3>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Help us perfect our culinary offerings and service</p>
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" id="feedbackModalOverlay">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative scale-95 transition-transform duration-300">
+      <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeFeedbackBtn" aria-label="Close Feedback Modal">✕</button>
+      <div class="modal-body">
+        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="rateDish">Rate your experience</h3>
+        <p class="text-xs text-slate-400 mb-5">Help us perfect our culinary offerings and service</p>
         
         <form id="feedbackForm">
-          <div style="font-size: 1.8rem; text-align: center; margin-bottom: 15px; cursor: pointer;">
+          <div class="flex justify-center gap-1 text-2xl mb-4 cursor-pointer">
             <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
           </div>
 
-          <div style="margin-bottom: 14px;">
-            <input type="text" class="search-input" placeholder="Your Name (Optional)" data-t-placeholder="yourName" style="padding-left: 16px;">
+          <div class="mb-3">
+            <input type="text" class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400" placeholder="Your Name (Optional)" data-t-placeholder="yourName">
           </div>
 
-          <div style="margin-bottom: 20px;">
-            <textarea class="search-input" rows="4" placeholder="Share your thoughts on the taste & presentation..." data-t-placeholder="yourComment" style="padding-left: 16px; resize: none;"></textarea>
+          <div class="mb-5">
+            <textarea class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 resize-none" rows="4" placeholder="Share your thoughts on the taste & presentation..." data-t-placeholder="yourComment"></textarea>
           </div>
 
-          <button type="submit" class="primary-btn" data-t="submitFeedback">Submit Review</button>
+          <button type="submit" class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3.5 rounded-xl text-sm shadow-md" data-t="submitFeedback">Submit Review</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Floating Footer Actions Bar -->
-  <footer style="border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); padding: 30px 20px; text-align: center; margin-top: 50px;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 1.2rem; color: var(--accent-gold);">✨ LUMIÈRE</span>
-        <span style="color: var(--text-subtle);">|</span>
-        <span style="font-size: 0.85rem; color: var(--text-muted);">Gourmet Digital Platform</span>
+  <!-- Footer Section -->
+  <footer class="border-t border-white/10 bg-slate-950 py-8 px-4 text-center mt-16">
+    <div class="max-w-7xl mx-auto flex flex-col items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-bold text-amber-400">✨ LUMIÈRE</span>
+        <span class="text-slate-600">|</span>
+        <span class="text-xs text-slate-400">Gourmet Digital Platform (Tailwind CSS v3)</span>
       </div>
-      <div style="display: flex; gap: 15px; font-size: 0.85rem;">
-        <button class="pill-btn" id="openQrBtn" data-t="qrCodeTest">Table QR Code</button>
-        <button class="pill-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
+      <div class="flex gap-3 text-xs">
+        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" id="openQrBtn" data-t="qrCodeTest">Table QR Code</button>
+        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
       </div>
-      <p style="font-size: 0.78rem; color: var(--text-subtle); margin-top: 10px;">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>
+      <p class="text-[11px] text-slate-500 mt-2">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>
     </div>
   </footer>
 
