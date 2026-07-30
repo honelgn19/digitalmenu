@@ -1,0 +1,90 @@
+// Prisma schema for Lumière Digital Menu Platform (PostgreSQL)
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Language {
+  EN
+  AM
+  OM
+}
+
+model Restaurant {
+  id          String   @id @default(uuid())
+  name        String   @default("LUMIÈRE")
+  subtitle    String?  @default("Gourmet Digital Menu")
+  heroImage   String?
+  openHours   String?  @default("11:30 AM - 11:00 PM")
+  address     String?  @default("Bole Road, Addis Ababa")
+  wifiName    String?  @default("LumiereGuest")
+  wifiPass    String?  @default("Lumiere2026")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Category {
+  id           String                @id @default(uuid())
+  slug         String                @unique
+  icon         String
+  sortOrder    Int                   @default(0)
+  items        MenuItem[]
+  translations CategoryTranslation[]
+  createdAt    DateTime              @default(now())
+}
+
+model CategoryTranslation {
+  id         String   @id @default(uuid())
+  categoryId String
+  language   Language
+  title      String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, language])
+}
+
+model MenuItem {
+  id            String                @id @default(uuid())
+  categoryId    String
+  priceETB      Float
+  rating        Float                 @default(5.0)
+  reviewCount   Int                   @default(0)
+  spiciness     Int                   @default(0)
+  prepMinutes   Int                   @default(15)
+  calories      Int                   @default(400)
+  isPopular     Boolean               @default(false)
+  isChefSpecial Boolean               @default(false)
+  dietaryTags   String[]              // ["vegan", "halal", "glutenFree", etc.]
+  image         String
+  category      Category              @relation(fields: [categoryId], references: [id])
+  translations  MenuItemTranslation[]
+  createdAt     DateTime              @default(now())
+}
+
+model MenuItemTranslation {
+  id          String   @id @default(uuid())
+  menuItemId  String
+  language    Language
+  title       String
+  description String   @db.Text
+  allergens   String[]
+  chefTip     String?  @db.Text
+  pairing     String?
+  menuItem    MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@unique([menuItemId, language])
+}
+
+model CustomerFeedback {
+  id          String   @id @default(uuid())
+  tableNumber Int?
+  rating      Int      @default(5)
+  guestName   String?
+  comment     String?  @db.Text
+  createdAt   DateTime @default(now())
+}

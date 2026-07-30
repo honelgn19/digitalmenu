@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMIÈRE | Gourmet Digital Menu & Culinary Showcase</title>
+  <meta name="description" content="Experience Lumière's interactive digital menu. Browse gourmet starters, chef signatures, traditional Ethiopian specialties, and artisan craft beverages in English, Amharic, or Afaan Oromoo.">
+  <meta name="keywords" content="digital menu, QR restaurant menu, Lumiere dining, Ethiopian cuisine, fine dining, Amharic menu, Oromo menu">
+  
+  <!-- Favicon & Stylesheet -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Table Context Announcement Bar -->
+  <div class="table-bar" id="tableNoticeBar" style="display: none;">
+    <span>✨ <span data-t="tableNotice">Browsing from Table</span></span>
+    <span class="table-badge-chip">Table #<span id="tableNumberSpan">--</span></span>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="navbar">
+    <div class="navbar-container">
+      
+      <!-- Brand Logo -->
+      <div class="brand-wrapper" id="brandLogoBtn">
+        <div class="brand-logo-icon">✨</div>
+        <div class="brand-text-block">
+          <span class="brand-name" data-t="brandName">LUMIÈRE</span>
+          <span class="brand-subtitle" data-t="brandSubtitle">Gourmet Digital Menu</span>
+        </div>
+      </div>
+
+      <!-- Header Controls: Language, Currency, Theme & Wishlist -->
+      <div class="header-actions">
+        
+        <!-- Multi-Language Switcher (Instant EN, AM, OM) -->
+        <select class="control-select" id="langSelect" aria-label="Select Language">
+          <option value="en">🇬🇧 English</option>
+          <option value="am">🇪🇹 አማርኛ (Amharic)</option>
+          <option value="om">🇪🇹 Afaan Oromoo</option>
+        </select>
+
+        <!-- Multi-Currency Switcher -->
+        <select class="control-select" id="currencySelect" aria-label="Select Currency">
+          <option value="ETB">Br ETB</option>
+          <option value="USD">$ USD</option>
+          <option value="EUR">€ EUR</option>
+          <option value="GBP">£ GBP</option>
+        </select>
+
+        <!-- Theme Toggle -->
+        <button class="icon-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+          🌙
+        </button>
+
+        <!-- My Selection / Wishlist Drawer Button -->
+        <button class="icon-btn" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
+          🔖
+          <span class="badge-count" id="selectionCountBadge" style="display: none;">0</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner Section -->
+  <section class="hero-section">
+    <div class="hero-card">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80" alt="Lumiere Dining Experience" class="hero-bg-img">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title" data-t="generalWelcome">Welcome to Lumière Fine Dining</h1>
+        <div class="hero-meta">
+          <span class="meta-item"><span class="status-dot"></span> <span data-t="openHours">Open Today: 11:30 AM - 11:00 PM</span></span>
+          <span class="meta-item">📍 Bole Road, Addis Ababa</span>
+          <span class="meta-item">📶 WiFi: LumiereGuest (Pass: Lumiere2026)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Dietary Filter Controls -->
+  <div class="controls-wrapper">
+    <!-- Live Search Bar -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search dishes, ingredients, drinks..." aria-label="Search dishes">
+    </div>
+
+    <!-- Dietary Filters Row -->
+    <div class="filter-pills" id="filterPills">
+      <!-- Dynamically Rendered Pills -->
+    </div>
+  </div>
+
+  <!-- Sticky Category Navigation -->
+  <nav class="sticky-cat-nav">
+    <div class="cat-container" id="categoryNav">
+      <!-- Dynamically Rendered Category Tabs -->
+    </div>
+  </nav>
+
+  <!-- Main Menu Grid Container -->
+  <main class="main-content" id="menuContainer">
+    <!-- Dynamically Rendered Menu Sections -->
+  </main>
+
+  <!-- Dish Detail Backdrop Modal -->
+  <div class="modal-overlay" id="dishModalOverlay">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="closeDishModalBtn" aria-label="Close Modal">✕</button>
+      <div id="modalContent">
+        <!-- Dynamically Populated Dish Content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- My Selection / Wishlist Drawer -->
+  <div class="drawer-overlay" id="selectionDrawerOverlay">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+          <span>🔖</span> <span data-t="mySelection">My Selection</span>
+        </h3>
+        <button class="icon-btn" id="closeSelectionBtn" aria-label="Close Drawer">✕</button>
+      </div>
+
+      <div class="drawer-body" id="drawerItemsList">
+        <!-- Wishlist items listed here -->
+      </div>
+
+      <div class="drawer-footer">
+        <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+          <button class="pill-btn" id="clearSelectionBtn" style="flex: 1; text-align: center;" data-t="clearAll">Clear Selection</button>
+          <button class="pill-btn" id="shareMenuBtn" style="flex: 1; text-align: center;" data-t="shareMenu">Share Menu</button>
+        </div>
+        <button class="primary-btn" id="openFeedbackBtn" data-t="leaveFeedback">Give Feedback</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Table Simulator Modal -->
+  <div class="modal-overlay" id="qrModalOverlay">
+    <div class="modal-card" style="max-width: 440px;">
+      <button class="modal-close-btn" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
+      <div class="modal-body text-center" style="text-align: center; padding: 30px;">
+        <h3 style="font-size: 1.3rem; margin-bottom: 8px;" data-t="qrCodeTest">Table QR Code</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Simulate guest scanning a table QR code</p>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+          <input type="number" id="qrTableInput" class="search-input" placeholder="Table #" value="12" style="padding-left: 15px; text-align: center;">
+          <button class="primary-btn" id="generateQrBtn" style="width: auto; padding: 0 20px;">Generate</button>
+        </div>
+
+        <div class="qr-preview-box" id="qrCanvasBox">
+          <p style="font-size: 0.85rem; color: var(--text-subtle);">Click generate to simulate QR link</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Feedback & Review Modal -->
+  <div class="modal-overlay" id="feedbackModalOverlay">
+    <div class="modal-card" style="max-width: 500px;">
+      <button class="modal-close-btn" id="closeFeedbackBtn" aria-label="Close Feedback Modal">✕</button>
+      <div class="modal-body" style="padding: 30px;">
+        <h3 style="font-size: 1.4rem; margin-bottom: 6px;" data-t="rateDish">Rate your experience</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Help us perfect our culinary offerings and service</p>
+        
+        <form id="feedbackForm">
+          <div style="font-size: 1.8rem; text-align: center; margin-bottom: 15px; cursor: pointer;">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <input type="text" class="search-input" placeholder="Your Name (Optional)" data-t-placeholder="yourName" style="padding-left: 16px;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <textarea class="search-input" rows="4" placeholder="Share your thoughts on the taste & presentation..." data-t-placeholder="yourComment" style="padding-left: 16px; resize: none;"></textarea>
+          </div>
+
+          <button type="submit" class="primary-btn" data-t="submitFeedback">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Footer Actions Bar -->
+  <footer style="border-top: 1px solid var(--border-subtle); background: var(--bg-secondary); padding: 30px 20px; text-align: center; margin-top: 50px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.2rem; color: var(--accent-gold);">✨ LUMIÈRE</span>
+        <span style="color: var(--text-subtle);">|</span>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Gourmet Digital Platform</span>
+      </div>
+      <div style="display: flex; gap: 15px; font-size: 0.85rem;">
+        <button class="pill-btn" id="openQrBtn" data-t="qrCodeTest">Table QR Code</button>
+        <button class="pill-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
+      </div>
+      <p style="font-size: 0.78rem; color: var(--text-subtle); margin-top: 10px;">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>
+    </div>
+  </footer>
+
+  <!-- Script Module -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
