@@ -130,7 +130,7 @@ app.get('/api/menu', async (req, res) => {
     });
 
     const itemsDb = await prisma.menuItem.findMany({
-      where: { isAvailable: true }, // Only available items for guests
+      where: { isAvailable: true },
       include: {
         category: true,
         translations: {
@@ -164,7 +164,7 @@ app.get('/api/menu', async (req, res) => {
         isChefSpecial: item.isChefSpecial,
         isAvailable: item.isAvailable,
         dietary: item.dietaryTags,
-        image: item.image,
+        image: item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
         title: trans.title || 'Untitled',
         description: trans.description || '',
         allergens: trans.allergens || [],
@@ -287,6 +287,16 @@ app.post('/api/menu', async (req, res) => {
       category = await prisma.category.findFirst();
     }
 
+    const finalTitleEn = titleEn ? titleEn.trim() : 'New Ethiopian Dish';
+    const finalTitleAm = titleAm ? titleAm.trim() : finalTitleEn;
+    const finalTitleOm = titleOm ? titleOm.trim() : finalTitleEn;
+
+    const finalDescEn = descEn ? descEn.trim() : `Delicious authentic Ethiopian ${finalTitleEn} freshly prepared with traditional spices.`;
+    const finalDescAm = descAm ? descAm.trim() : `በጥንቃቄ የተዘጋጀ ባህላዊ የኢትዮጵያ ${finalTitleAm}።`;
+    const finalDescOm = descOm ? descOm.trim() : finalDescEn;
+
+    const finalImage = (image && image.trim()) ? image.trim() : 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80';
+
     const newItem = await prisma.menuItem.create({
       data: {
         categoryId: category.id,
@@ -298,12 +308,12 @@ app.post('/api/menu', async (req, res) => {
         isChefSpecial: Boolean(isChefSpecial),
         isAvailable: true,
         dietaryTags: Array.isArray(dietaryTags) ? dietaryTags : [],
-        image: image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+        image: finalImage,
         translations: {
           create: [
-            { language: 'EN', title: titleEn || 'New Dish', description: descEn || '' },
-            { language: 'AM', title: titleAm || titleEn || 'አዲስ ምግብ', description: descAm || descEn || '' },
-            { language: 'OM', title: titleOm || titleEn || 'Nyaata Haaraya', description: descOm || descEn || '' }
+            { language: 'EN', title: finalTitleEn, description: finalDescEn },
+            { language: 'AM', title: finalTitleAm, description: finalDescAm },
+            { language: 'OM', title: finalTitleOm, description: finalDescOm }
           ]
         }
       },
