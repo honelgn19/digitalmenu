@@ -4,14 +4,14 @@ import { CATEGORIES, MENU_ITEMS } from '../menuData.js';
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding PostgreSQL database with Prisma ORM...');
+  console.log('🌱 Seeding PostgreSQL database with authentic Ethiopian foods dataset via Prisma ORM...');
 
   // 1. Seed Restaurant Settings
   await prisma.restaurant.deleteMany();
   await prisma.restaurant.create({
     data: {
       name: 'LUMIÈRE',
-      subtitle: 'Gourmet Digital Menu',
+      subtitle: 'Authentic Ethiopian Culinary Showcase',
       heroImage: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
       openHours: 'Open Today: 11:30 AM - 11:00 PM',
       address: 'Bole Road, Addis Ababa',
@@ -20,14 +20,14 @@ async function main() {
     }
   });
 
-  // 2. Clean existing data
+  // 2. Clean existing records
   await prisma.categoryTranslation.deleteMany();
   await prisma.menuItemTranslation.deleteMany();
   await prisma.menuItem.deleteMany();
   await prisma.category.deleteMany();
   await prisma.customerFeedback.deleteMany();
 
-  // 3. Seed Categories & Translations (EN, AM, OM)
+  // 3. Seed Categories & Multi-Language Translations (EN, AM, OM)
   const categoryMap = new Map();
 
   for (let i = 0; i < CATEGORIES.length; i++) {
@@ -48,9 +48,9 @@ async function main() {
     });
     categoryMap.set(cat.id, createdCat.id);
   }
-  console.log(`✅ Seeded ${CATEGORIES.length} Categories with EN, AM, OM translations.`);
+  console.log(`✅ Seeded ${CATEGORIES.length} Ethiopian Categories into PostgreSQL.`);
 
-  // 4. Seed Menu Items & Translations (EN, AM, OM)
+  // 4. Seed Ethiopian Menu Items with Database Image URLs, Prices & Multi-Language Translations
   for (const item of MENU_ITEMS) {
     const categoryDbId = categoryMap.get(item.categoryId);
     if (!categoryDbId) continue;
@@ -67,7 +67,7 @@ async function main() {
         isPopular: item.isPopular,
         isChefSpecial: item.isChefSpecial,
         dietaryTags: item.dietary,
-        image: item.image,
+        image: item.image, // Dynamically stored database image URL
         translations: {
           create: [
             {
@@ -100,7 +100,7 @@ async function main() {
     });
   }
 
-  console.log(`✅ Seeded ${MENU_ITEMS.length} Menu Items with full multi-language translations into PostgreSQL.`);
+  console.log(`✅ Seeded ${MENU_ITEMS.length} Authentic Ethiopian Menu Items with database-driven images, prices, descriptions, and EN/AM/OM translations into PostgreSQL!`);
 }
 
 main()
