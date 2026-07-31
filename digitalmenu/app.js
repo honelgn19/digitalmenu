@@ -9,7 +9,6 @@ const state = {
   searchQuery: '',
   activeFilters: new Set(),
   mySelection: new Set(JSON.parse(localStorage.getItem('lumiere_selection') || '[]')),
-  activeTable: new URLSearchParams(window.location.search).get('table') || null,
   categories: FALLBACK_CATEGORIES,
   menuItems: FALLBACK_MENU,
   dataSource: 'initial'
@@ -21,7 +20,6 @@ const elements = {
   langSelect: document.getElementById('langSelect'),
   currencySelect: document.getElementById('currencySelect'),
   tableNoticeBar: document.getElementById('tableNoticeBar'),
-  tableNumberSpan: document.getElementById('tableNumberSpan'),
   searchInput: document.getElementById('searchInput'),
   filterPills: document.getElementById('filterPills'),
   categoryNav: document.getElementById('categoryNav'),
@@ -38,9 +36,8 @@ const elements = {
   openQrBtn: document.getElementById('openQrBtn'),
   qrModalOverlay: document.getElementById('qrModalOverlay'),
   closeQrBtn: document.getElementById('closeQrBtn'),
-  qrTableInput: document.getElementById('qrTableInput'),
-  generateQrBtn: document.getElementById('generateQrBtn'),
   qrCanvasBox: document.getElementById('qrCanvasBox'),
+  printQrBtn: document.getElementById('printQrBtn'),
   shareMenuBtn: document.getElementById('shareMenuBtn'),
   openFeedbackBtn: document.getElementById('openFeedbackBtn'),
   feedbackModalOverlay: document.getElementById('feedbackModalOverlay'),
@@ -58,19 +55,11 @@ async function init() {
 
   // Render static translated strings
   applyTranslations();
-  
-  // Render table notice if available
-  if (state.activeTable) {
-    elements.tableNoticeBar.style.display = 'flex';
-    elements.tableNumberSpan.textContent = state.activeTable;
-  } else {
-    elements.tableNoticeBar.style.display = 'none';
-  }
 
   // Bind Event Listeners
   bindEvents();
 
-  // Try fetching dynamic menu data from PostgreSQL API
+  // Load menu data from PostgreSQL API
   await loadMenuData();
 
   // Render Dynamic Components
@@ -536,6 +525,20 @@ function renderSelectionDrawer() {
   });
 }
 
+// Generate Universal Table QR Code pointing directly to the Menu URL
+function renderUniversalQrCode() {
+  const universalUrl = `${window.location.origin}${window.location.pathname}`;
+  
+  elements.qrCanvasBox.innerHTML = `
+    <div style="background: #ffffff; padding: 16px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
+    </div>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; word-break: break-all;">
+      📍 <span style="color: var(--accent-gold); font-weight: 600;">Scan URL:</span> ${universalUrl}
+    </p>
+  `;
+}
+
 // Bind Event Handlers
 function bindEvents() {
   // Theme Toggle
@@ -601,8 +604,9 @@ function bindEvents() {
     }
   });
 
-  // QR Modal Tester
+  // Universal QR Modal Trigger
   elements.openQrBtn.addEventListener('click', () => {
+    renderUniversalQrCode();
     elements.qrModalOverlay.classList.add('open');
   });
 
@@ -610,16 +614,9 @@ function bindEvents() {
     elements.qrModalOverlay.classList.remove('open');
   });
 
-  elements.generateQrBtn.addEventListener('click', () => {
-    const tableNum = elements.qrTableInput.value || 1;
-    const url = `${window.location.origin}${window.location.pathname}?table=${tableNum}`;
-    
-    elements.qrCanvasBox.innerHTML = `
-      <div style="background: #ffffff; padding: 15px; border-radius: 12px; display: inline-block;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}" alt="QR Code" style="display: block;" />
-      </div>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 10px; word-break: break-all;">${url}</p>
-    `;
+  // Print QR Code Action
+  elements.printQrBtn.addEventListener('click', () => {
+    window.print();
   });
 
   // Share Menu
@@ -661,8 +658,7 @@ function bindEvents() {
         body: JSON.stringify({
           rating: 5,
           guestName,
-          comment,
-          tableNumber: state.activeTable
+          comment
         })
       });
     } catch (err) {

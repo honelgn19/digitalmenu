@@ -41,10 +41,10 @@
 </head>
 <body class="bg-[#0b0d12] text-slate-100 font-sans min-h-screen antialiased transition-colors duration-300">
 
-  <!-- Table Context Announcement Bar -->
-  <div class="table-bar bg-gradient-to-r from-indigo-950 via-purple-950 to-indigo-950 text-amber-400 py-2 px-4 text-xs sm:text-sm font-semibold flex justify-center items-center gap-2 border-b border-white/10" id="tableNoticeBar" style="display: none;">
-    <span class="flex items-center gap-1">✨ <span data-t="tableNotice">Browsing from Table</span></span>
-    <span class="table-badge-chip bg-amber-400/20 border border-amber-400/40 text-amber-300 px-3 py-0.5 rounded-full text-xs">Table #<span id="tableNumberSpan">--</span></span>
+  <!-- Universal Table Announcement Bar -->
+  <div class="table-bar bg-gradient-to-r from-indigo-950 via-purple-950 to-indigo-950 text-amber-400 py-2 px-4 text-xs sm:text-sm font-semibold flex justify-center items-center gap-2 border-b border-white/10" id="tableNoticeBar">
+    <span class="flex items-center gap-1.5">✨ <span data-t="tableNotice">Universal Restaurant Table Menu</span></span>
+    <span class="table-badge-chip bg-amber-400/20 border border-amber-400/40 text-amber-300 px-3 py-0.5 rounded-full text-xs">Scan & Explore</span>
   </div>
 
   <!-- Main Navigation Header -->
@@ -169,21 +169,20 @@
     </div>
   </div>
 
-  <!-- QR Table Simulator Modal -->
+  <!-- Universal Restaurant Table QR Code Modal -->
   <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" id="qrModalOverlay">
     <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative scale-95 transition-transform duration-300">
       <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
       <div class="modal-body text-center">
-        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="qrCodeTest">Table QR Code</h3>
-        <p class="text-xs text-slate-400 mb-4">Simulate guest scanning a table QR code</p>
+        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="qrCodeTest">Universal Table QR Code</h3>
+        <p class="text-xs text-slate-400 mb-4" data-t="qrSubtitle">Print or display this single QR code on all restaurant tables.</p>
         
-        <div class="flex gap-2.5 mb-4">
-          <input type="number" id="qrTableInput" class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-2.5 text-center text-sm text-white" placeholder="Table #" value="12">
-          <button class="primary-btn px-5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-bold rounded-xl text-sm" id="generateQrBtn">Generate</button>
+        <div class="qr-preview-box p-4 bg-slate-900/80 rounded-xl border border-white/10" id="qrCanvasBox">
+          <!-- Dynamically Generated Universal QR Code -->
         </div>
 
-        <div class="qr-preview-box" id="qrCanvasBox">
-          <p class="text-xs text-slate-400">Click generate to simulate QR link</p>
+        <div class="mt-4">
+          <button class="primary-btn w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold rounded-xl text-sm shadow-md" id="printQrBtn" data-t="printQr">Print QR Code</button>
         </div>
       </div>
     </div>
@@ -222,10 +221,10 @@
       <div class="flex items-center gap-2">
         <span class="text-lg font-bold text-amber-400">✨ LUMIÈRE</span>
         <span class="text-slate-600">|</span>
-        <span class="text-xs text-slate-400">Gourmet Digital Platform (Tailwind CSS v3)</span>
+        <span class="text-xs text-slate-400">Gourmet Digital Platform</span>
       </div>
       <div class="flex gap-3 text-xs">
-        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" id="openQrBtn" data-t="qrCodeTest">Table QR Code</button>
+        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" id="openQrBtn" data-t="qrCodeTest">Universal Table QR Code</button>
         <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
       </div>
       <p class="text-[11px] text-slate-500 mt-2">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>
