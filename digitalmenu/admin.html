@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUMIÈRE Admin | Menu Management & Food Creation</title>
-  <meta name="description" content="Admin Portal for Lumiere Digital Menu. Add new Ethiopian dishes, set availability, update prices, and manage menu items.">
+  <title>SELAM Admin | Menu Management & Food Creation</title>
+  <meta name="description" content="Admin Portal for Selam Restaurant Digital Menu. Add new Ethiopian dishes, set availability, update prices, and manage menu items.">
   
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
@@ -42,13 +42,13 @@
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-lg text-white font-bold shadow-lg shadow-amber-500/20">⚙️</div>
         <div>
-          <h1 class="font-display font-bold text-lg sm:text-xl text-amber-400">LUMIÈRE Admin Portal</h1>
-          <p class="text-xs text-slate-400">Menu Setup, Availability & Dish Addition</p>
+          <h1 class="font-display font-bold text-lg sm:text-xl text-amber-400">SELAM Admin Portal</h1>
+          <p class="text-xs text-slate-400">Selam Restaurant Menu Setup & Food Addition</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <a href="index.html" target="_blank" class="bg-slate-900 border border-white/10 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors">
+        <a href="menu" target="_blank" class="bg-slate-900 border border-white/10 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors">
           👁️ Customer View ↗
         </a>
         <button id="refreshAdminBtn" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1">
@@ -120,7 +120,7 @@
     <!-- Admin Dishes Table / Grid -->
     <div class="bg-[#141824] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
       <div class="p-5 border-b border-white/10 flex items-center justify-between">
-        <h2 class="font-display font-bold text-lg text-white">Manage Ethiopian Menu Items</h2>
+        <h2 class="font-display font-bold text-lg text-white">Manage Selam Ethiopian Menu Items</h2>
         <span class="text-xs text-slate-400" id="showingCount">Showing -- items</span>
       </div>
 
@@ -150,7 +150,7 @@
       <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeAddDishModalBtn">✕</button>
       
       <h3 class="text-xl font-bold font-display text-amber-400 mb-1">➕ Add New Ethiopian Dish</h3>
-      <p class="text-xs text-slate-400 mb-6">Create a new menu record saved directly to PostgreSQL database.</p>
+      <p class="text-xs text-slate-400 mb-6">Create a new menu record saved directly to Selam PostgreSQL database.</p>
 
       <form id="addDishForm" class="space-y-4">
         <!-- Multi-language Titles -->
@@ -249,17 +249,17 @@
 
   <script type="module">
     // Authentication Protection Check
-    const token = localStorage.getItem('lumiere_admin_token') || sessionStorage.getItem('lumiere_admin_token');
+    const token = localStorage.getItem('selam_admin_token') || sessionStorage.getItem('selam_admin_token');
     if (!token) {
       window.location.href = 'login.html';
     }
 
     // Logout Handler
     document.getElementById('adminLogoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('lumiere_admin_token');
-      localStorage.removeItem('lumiere_admin_user');
-      sessionStorage.removeItem('lumiere_admin_token');
-      sessionStorage.removeItem('lumiere_admin_user');
+      localStorage.removeItem('selam_admin_token');
+      localStorage.removeItem('selam_admin_user');
+      sessionStorage.removeItem('selam_admin_token');
+      sessionStorage.removeItem('selam_admin_user');
       window.location.href = 'login.html';
     });
 
@@ -298,17 +298,14 @@
       const showingCount = document.getElementById('showingCount');
 
       let filtered = adminState.items.filter(item => {
-        // Category filter
         const itemCatSlug = item.category ? item.category.slug : item.categoryId;
         if (adminState.filterCategory !== 'all' && itemCatSlug !== adminState.filterCategory) {
           return false;
         }
 
-        // Availability filter
         if (adminState.filterAvailability === 'available' && item.isAvailable === false) return false;
         if (adminState.filterAvailability === 'soldout' && item.isAvailable !== false) return false;
 
-        // Search query
         if (adminState.searchQuery.trim() !== '') {
           const query = adminState.searchQuery.toLowerCase();
           const titleEn = (item.translations?.find(t => t.language === 'EN')?.title || item.title?.en || item.title || '').toLowerCase();
@@ -369,7 +366,6 @@
         `;
       }).join('');
 
-      // Bind toggle & delete handlers
       tbody.querySelectorAll('.toggle-availability-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
           const id = btn.getAttribute('data-id');
@@ -404,7 +400,6 @@
       });
     }
 
-    // Bind Controls
     document.getElementById('adminSearchInput').addEventListener('input', (e) => {
       adminState.searchQuery = e.target.value;
       renderAdminTable();
@@ -422,7 +417,6 @@
 
     document.getElementById('refreshAdminBtn').addEventListener('click', loadAdminData);
 
-    // Add Dish Modal logic
     const modal = document.getElementById('addDishModal');
     document.getElementById('openAddDishModalBtn').addEventListener('click', () => {
       modal.classList.add('open');
@@ -436,7 +430,6 @@
       if (e.target === modal) modal.classList.remove('open');
     });
 
-    // Submit Add Dish Form
     document.getElementById('addDishForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -466,7 +459,7 @@
         });
 
         if (res.ok) {
-          alert('✅ New Ethiopian Dish successfully saved to PostgreSQL database!');
+          alert('✅ New Ethiopian Dish successfully saved to Selam PostgreSQL database!');
           modal.classList.remove('open');
           document.getElementById('addDishForm').reset();
           await loadAdminData();

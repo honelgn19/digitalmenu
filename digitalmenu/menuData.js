@@ -1,598 +1,525 @@
+// Authentic Ethiopian Restaurant Dataset for SELAM Restaurant
+export const RESTAURANT_INFO = {
+  name: 'SELAM',
+  subtitle: 'Authentic Ethiopian Restaurant & Fine Dining',
+  heroImage: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
+  openHours: 'Open Today: 11:30 AM - 11:00 PM',
+  address: 'Bole Road, Addis Ababa',
+  wifiName: 'SelamGuest',
+  wifiPass: 'Selam2026'
+};
+
+export const CURRENCY_RATES = {
+  ETB: { symbol: 'Br', rate: 1.0, position: 'after' },
+  USD: { symbol: '$', rate: 0.0078, position: 'before' },
+  EUR: { symbol: '€', rate: 0.0072, position: 'before' },
+  GBP: { symbol: '£', rate: 0.0061, position: 'before' }
+};
+
 export const TRANSLATIONS = {
   en: {
-    brandName: "LUMIÈRE",
-    brandSubtitle: "Authentic Ethiopian Digital Menu",
-    welcome: "Welcome to Lumière Fine Dining",
-    generalWelcome: "Lumière Ethiopian Culinary Showcase",
-    tableNotice: "Universal Restaurant Table Menu",
-    openHours: "Open Today: 11:30 AM - 11:00 PM",
-    searchPlaceholder: "Search Ethiopian dishes, ingredients, drinks...",
-    allCategories: "All Ethiopian Items",
-    mySelection: "My Selection",
-    selectionEmpty: "Your menu wishlist is empty.",
-    selectionSubhead: "Tap the bookmark icon on any dish to save it here.",
-    clearAll: "Clear Selection",
-    shareMenu: "Share Menu",
-    qrCodeTest: "Universal Table QR Code",
-    qrSubtitle: "Print or display this single QR code on all restaurant tables.",
-    leaveFeedback: "Give Feedback",
-    close: "Close",
-    prepTime: "Prep Time",
-    calories: "Calories",
-    allergens: "Allergens & Dietary Info",
-    recommendedPairing: "Recommended Pairing",
-    chefTip: "Chef's Special Note",
-    rateDish: "Rate your experience",
-    feedbackSuccess: "Thank you for your feedback!",
-    submitFeedback: "Submit Review",
-    yourName: "Your Name (Optional)",
-    yourComment: "Share your thoughts on the taste & presentation...",
-    printQr: "Print QR Code",
-    soldOut: "Sold Out",
-    inStock: "In Stock",
+    brandName: 'SELAM',
+    brandSubtitle: 'Authentic Ethiopian Cuisine',
+    tableNotice: 'Universal Restaurant Table Menu',
+    generalWelcome: 'Welcome to Selam Restaurant',
+    openHours: 'Open Today: 11:30 AM - 11:00 PM',
+    searchPlaceholder: 'Search Ethiopian stews, tibs, coffee...',
+    allCategories: 'All Categories',
+    mySelection: 'My Selection',
+    clearAll: 'Clear All',
+    shareMenu: 'Share Menu',
+    leaveFeedback: 'Give Feedback',
+    rateDish: 'Rate Your Dining Experience',
+    submitFeedback: 'Submit Review',
+    yourName: 'Your Name (Optional)',
+    yourComment: 'Share your thoughts on taste & presentation...',
+    feedbackSuccess: 'Thank you for your feedback!',
+    selectionEmpty: 'Your selection is empty',
+    selectionSubhead: 'Tap the 🔖 icon on any Ethiopian dish to save your selection.',
+    prepTime: 'Prep Time',
+    calories: 'Calories',
+    allergens: 'Allergens & Ingredients',
+    chefTip: 'Chef Signature Tip',
+    recommendedPairing: 'Recommended Drink Pairing',
+    printQr: 'Print QR Code',
+    qrCodeTest: 'Universal Table QR Code',
+    qrSubtitle: 'Print or display this single QR code on all restaurant tables.',
+    soldOut: 'Sold Out',
+    inStock: 'In Stock',
     filters: {
-      vegan: "🌱 Vegan",
-      vegetarian: "🥗 Vegetarian",
-      glutenFree: "🌾 Gluten-Free",
-      halal: "🥩 Halal",
-      nutFree: "🥜 Nut-Free",
-      spicy: "🌶️ Spicy Only"
-    },
-    currencies: {
-      ETB: "ETB (Br)",
-      USD: "USD ($)",
-      EUR: "EUR (€)",
-      GBP: "GBP (£)"
+      vegan: '🌱 Vegan',
+      vegetarian: '🥗 Fasting',
+      glutenFree: '🌾 Gluten-Free',
+      halal: '🥩 Halal',
+      nutFree: '🥜 Nut-Free',
+      spicy: '🌶️ Spicy'
     }
   },
   am: {
-    brandName: "ሉሚዬር",
-    brandSubtitle: "የኢትዮጵያ ባህላዊ እና ዘመናዊ ዲጂታል ሜኑ",
-    welcome: "እንኳን ወደ ሉሚዬር ምርጥ ምግብ ቤት በደህና መጡ",
-    generalWelcome: "እንኳን ወደ ሉሚዬር የኢትዮጵያ ባህላዊ ምግብ ቤት በደህና መጡ",
-    tableNotice: "የምግብ ቤቱ የጠረጴዛዎች አጠቃላይ ሜኑ",
-    openHours: "ክፍት ሰዓት፡ ዛሬ ከ 5:30 ጠዋት - 5:00 ማታ",
-    searchPlaceholder: "ምግቦችን፣ ግብአቶችን፣ መጠጦችን ይፈልጉ...",
-    allCategories: "ሁሉንም ምግቦች",
-    mySelection: "የመረጧቸው ምግቦች",
-    selectionEmpty: "ምንም የመረጡት ምግብ የለም።",
-    selectionSubhead: "ምግቦችን ለማስቀመጥ የዕልባት ምልክቷን ይጫኑ።",
-    clearAll: "ሁሉንም አጽዳ",
-    shareMenu: "ሜኑውን ያጋሩ",
-    qrCodeTest: "አጠቃላይ የጠረጴዛዎች QR ኮድ",
-    qrSubtitle: "ይህንን አንዱን QR ኮድ በሁሉም የምግብ ቤቱ ጠረጴዛዎች ላይ ይለጥፉት።",
-    leaveFeedback: "አስተያየት ይስጡ",
-    close: "ዝጋ",
-    prepTime: "የዝግጅት ጊዜ",
-    calories: "ካሎሪ",
-    allergens: "የአለርጂ እና የአመጋገብ መረጃ",
-    recommendedPairing: "አብሮ የሚሄድ መጠጥ/ምግብ",
-    chefTip: "የሼፉ ልዩ ማስታወሻ",
-    rateDish: "አስተያየትዎን እና ደረጃዎን ይስጡ",
-    feedbackSuccess: "ስለ አስተያየትዎ እናመሰግናለን!",
-    submitFeedback: "አስተያየት ላክ",
-    yourName: "ስምዎ (በምርጫ)",
-    yourComment: "ስለ ምግቡ ጣዕም እና አቀራረብ አስተያየትዎን ያጋሩ...",
-    printQr: "QR ኮዱን አትም",
-    soldOut: "ተሸጦ ያለቀ",
-    inStock: "አለ",
+    brandName: 'ሰላም',
+    brandSubtitle: 'ባህላዊ የኢትዮጵያ ምግብ ቤት',
+    tableNotice: 'የሬስቶራንቱ ሁለንተናዊ የጠረጴዛ ሜኑ',
+    generalWelcome: 'እንኳን ወደ ሰላም ባህላዊ ምግብ ቤት በደህና መጡ',
+    openHours: 'ዛሬ ክፍት ነው፡ 5:30 ጠዋት - 5:00 ማታ',
+    searchPlaceholder: 'ወጥ፡ ጥብስ፡ ቡና፡ መጠጥ ይፈልጉ...',
+    allCategories: 'ሁሉም ዓይነቶች',
+    mySelection: 'የመረጥኳቸው ምግቦች',
+    clearAll: 'ሁሉንም አጽዳ',
+    shareMenu: 'ሜኑ አጋራ',
+    leaveFeedback: 'አስተያየት ይስጡ',
+    rateDish: 'የምግብ ተሞክሮዎን ይገምግሙ',
+    submitFeedback: 'አስተያየት ላክ',
+    yourName: 'ስምዎ (አማራጭ)',
+    yourComment: 'ስለ ምግቡ ጣዕምና አቀራረብ አስተያየትዎን ያካፍሉ...',
+    feedbackSuccess: 'ስለ አስተያየትዎ እናመሰግናለን!',
+    selectionEmpty: 'ምንም ምግብ አልመረጡም',
+    selectionSubhead: 'የሚፈልጉትን ምግብ ለመምረጥ በምግቡ ላይ የሚገኘውን 🔖 ምልክት ይጫኑ።',
+    prepTime: 'የዝግጅት ጊዜ',
+    calories: 'ካሎሪ',
+    allergens: 'የምግብ ይዘትና አለርጂ',
+    chefTip: 'የሼፉ ልዩ ምክር',
+    recommendedPairing: 'ተስማሚ መጠጥ',
+    printQr: 'QR ኮድ አትም',
+    qrCodeTest: 'የጠረጴዛ ሁለንተናዊ QR ኮድ',
+    qrSubtitle: 'ይህንን አንድ QR ኮድ በማንኛውም የሬስቶራንቱ ጠረጴዛ ላይ ይጠቀሙ።',
+    soldOut: 'አልቋል (ተሸጧል)',
+    inStock: 'አለ',
     filters: {
-      vegan: "🌱 ቪጋን",
-      vegetarian: "🥗 ቬጀቴሪያን",
-      glutenFree: "🌾 ግሉተን-ነጻ",
-      halal: "🥩 ሀላል",
-      nutFree: "🥜 ለውዝ-ነጻ",
-      spicy: "🌶️ አቃጣይ ምግቦች"
-    },
-    currencies: {
-      ETB: "ብር (ETB)",
-      USD: "ዶላር ($)",
-      EUR: "ዩሮ (€)",
-      GBP: "ፓውንድ (£)"
+      vegan: '🌱 የቪጋን',
+      vegetarian: '🥗 የጾም',
+      glutenFree: '🌾 ግሉተን-ነፃ',
+      halal: '🥩 ሀላል',
+      nutFree: '🥜 ለውዝ-ነፃ',
+      spicy: '🌶️ ቃሪያ ያለው'
     }
   },
   om: {
-    brandName: "LUMIÈRE",
-    brandSubtitle: "Menu Diijitaalaa Nyaata Aadaa Itoophiyaa",
-    welcome: "Baga Gara Mana Nyaataa Lumière Nagaan Dhuftan",
-    generalWelcome: "Baga Gara Mana Nyaataa Lumière Nagaan Dhuftan",
-    tableNotice: "Menu Minjaala Mana Nyaataa Waligalaa",
-    openHours: "Bantii: Sa'a 5:30 WD - 11:00 WB",
-    searchPlaceholder: "Nyaata Aadaa Itoophiyaa, qabiyyeewwan, dhugaatii barbaadaa...",
-    allCategories: "Nyaata Hundumaa",
-    mySelection: "Nyaata Filtan",
-    selectionEmpty: "Nyaatni filatame hin jiru.",
-    selectionSubhead: "Nyaata olkaa'achuuf mallattoo bookmaarkii tuqaa.",
-    clearAll: "Hundumaa Haqaa",
-    shareMenu: "Qoodduu Menu",
-    qrCodeTest: "Koodii QR Minjaalaa Waligalaa",
-    qrSubtitle: "Koodii QR tokkicha kana minjaala mana nyaataa hundumaa irratti maxxansaa.",
-    leaveFeedback: "Yaada Keessan Kennaa",
-    close: "Cufaa",
-    prepTime: "Yeroo Qophii",
-    calories: "Kaaloorii",
-    allergens: "Odeeffannoo Alarji fi Nyaataa",
-    recommendedPairing: "Dhugaatii Waliin Tahu",
-    chefTip: "Yaada Addaa Sheefii",
-    rateDish: "Muuxannoo Keessan Madaalaa",
-    feedbackSuccess: "Galatoomaa yaada keessaniif!",
-    submitFeedback: "Yaada Ergaa",
-    yourName: "Maqaa Keessan (Filannoodhaan)",
-    yourComment: "Mi'aa fi haala dhiyeessa nyaataa irratti yaada keessan qooddaa...",
-    printQr: "Maxxansaa QR Code",
-    soldOut: "Dhumate",
-    inStock: "Jira",
+    brandName: 'SELAM',
+    brandSubtitle: 'Mana Nyaata Aadaa Itoophiyaa',
+    tableNotice: 'Meenuu Gabatee Mana Nyaataa',
+    generalWelcome: 'Baga gara Mana Nyaata Selam nagaan dhuftan',
+    openHours: 'Banaadha: Waaree booda 5:30 - Halkan 5:00',
+    searchPlaceholder: 'Wat, Tibsi, Buna barbaadaa...',
+    allCategories: 'Gosa Hunda',
+    mySelection: 'Filannoo Koo',
+    clearAll: 'Hunda Haqi',
+    shareMenu: 'Meenuu Qooddiin',
+    leaveFeedback: 'Yaada Kenni',
+    rateDish: 'Muuxannoo Nyaataa Madaali',
+    submitFeedback: 'Yaada Ergi',
+    yourName: 'Maqaa Keessan (Filannoo)',
+    yourComment: 'Mijaawina dhandhamaa fi dhiyeessii irratti yaada kennai...',
+    feedbackSuccess: 'Yaada keessaniif galatoomaa!',
+    selectionEmpty: 'Filannoon keessan duudaadha',
+    selectionSubhead: 'Nyaata filachuuf mallattoo 🔖 tuqaa.',
+    prepTime: 'Yeroo Qophii',
+    calories: 'Kaaloorii',
+    allergens: 'Qabiyyee Nyaataa',
+    chefTip: 'Gorsa Addaa Kookii',
+    recommendedPairing: 'Dhugaatii Wajjin Deemu',
+    printQr: 'QR Kodii Maxxansi',
+    qrCodeTest: 'QR Kodii Gabatee Universal',
+    qrSubtitle: 'Kodii QR kana gabatee mana nyaataa hunda irratti fayyadamaa.',
+    soldOut: 'Dhumera',
+    inStock: 'Jira',
     filters: {
-      vegan: "🌱 Viigaan",
-      vegetarian: "🥗 Vejiteeriyaan",
-      glutenFree: "🌾 Guluuteen-Free",
-      halal: "🥩 Halaal",
-      nutFree: "🥜 Nut-Free",
-      spicy: "🌶️ Mi'eessituu Qofa"
-    },
-    currencies: {
-      ETB: "ETB (Br)",
-      USD: "USD ($)",
-      EUR: "EUR (€)",
-      GBP: "GBP (£)"
+      vegan: '🌱 Veegaanii',
+      vegetarian: '🥗 Soomaa',
+      glutenFree: '🌾 Gluten-Free',
+      halal: '🥩 Halaal',
+      nutFree: '🥜 Nut-Free',
+      spicy: '🌶️ Mi'aawaa'
     }
   }
 };
 
-export const CURRENCY_RATES = {
-  ETB: { symbol: "Br ", rate: 1, position: "after" },
-  USD: { symbol: "$", rate: 0.0083, position: "before" },
-  EUR: { symbol: "€", rate: 0.0076, position: "before" },
-  GBP: { symbol: "£", rate: 0.0064, position: "before" }
-};
-
 export const CATEGORIES = [
   {
-    id: "starters",
-    icon: "🥗",
-    title: {
-      en: "Starters & Breakfast",
-      am: "መክሰስ እና ቁርስ",
-      om: "Nyaata Seensaa & Ciree"
-    }
+    id: 'starters',
+    icon: '🥣',
+    title: { en: 'Starters & Breakfast', am: 'ቁርስና መክሰስ', om: 'Ciree fi Qophii' }
   },
   {
-    id: "traditional-mains",
-    icon: "🥘",
-    title: {
-      en: "Traditional Meat Mains",
-      am: "የስጋ ዋና ምግቦች",
-      om: "Nyaata Foonii Aadaa"
-    }
+    id: 'traditional-mains',
+    icon: '🍲',
+    title: { en: 'Traditional Meat Mains', am: 'የስጋ ምግቦች', om: 'Nyaata Foonii Aadaa' }
   },
   {
-    id: "veggie-fasting",
-    icon: "🍲",
-    title: {
-      en: "Fasting & Vegan Delights",
-      am: "የጾም ምግቦች",
-      om: "Nyaata Soomaa & Biqiltuu"
-    }
+    id: 'veggie-fasting',
+    icon: '🥗',
+    title: { en: 'Fasting & Vegan Specials', am: 'የጾም ምግቦች', om: 'Nyaata Soomaa & Veegaan' }
   },
   {
-    id: "seafood",
-    icon: "🐟",
-    title: {
-      en: "Seafood Specialties",
-      am: "የዓሳ ምግቦች",
-      om: "Nyaata Qurxummii"
-    }
+    id: 'seafood',
+    icon: '🐟',
+    title: { en: 'Fish & Seafood', am: 'የዓሳ ምግቦች', om: 'Nyaata Qurxummii' }
   },
   {
-    id: "desserts-drinks",
-    icon: "☕",
-    title: {
-      en: "Coffee & Traditional Drinks",
-      am: "ቡና እና ባህላዊ መጠጦች",
-      om: "Buna & Dhugaatii Aadaa"
-    }
+    id: 'desserts-drinks',
+    icon: '☕',
+    title: { en: 'Coffee Ceremony & Drinks', am: 'ቡናና መጠጦች', om: 'Buna Aadaa & Dhugaatii' }
   }
 ];
 
 export const MENU_ITEMS = [
   {
-    id: "doro-wat-royal",
-    categoryId: "traditional-mains",
-    priceETB: 1250,
-    rating: 5.0,
+    id: 'doro-wat-special',
+    categoryId: 'traditional-mains',
+    priceETB: 950,
+    rating: 4.9,
     reviewCount: 142,
     spiciness: 3,
-    prepMinutes: 30,
-    calories: 720,
-    isPopular: true,
-    isChefSpecial: true,
-    isAvailable: true,
-    dietary: ["halal", "glutenFree"],
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
-    title: {
-      en: "Royal Doro Wat (ዶሮ ወጥ)",
-      am: "ንጉሳዊ ዶሮ ወጥ",
-      om: "Doro Wat Nyaata Aadaa"
-    },
-    description: {
-      en: "The crown jewel of Ethiopian cuisine. Tender chicken drumsticks and hard-boiled eggs slow-simmered for 6 hours in rich caramelized onion gravy, aromatic Berbere spice blend, and spiced clarified butter (Niter Kibbeh). Served over warm 100% Teff Injera.",
-      am: "የኢትዮጵያ ምግቦች ዘውድ። በበርበሬ፣ በአንጥር ቅቤ እና በሽንኩርት መረቅ ለ 6 ሰዓታት በዝግታ የበሰለ የዶሮ ስጋ ከእንቁላል እና ከ100% ነጭ ጤፍ እንጀራ ጋር።",
-      om: "Nyaata aadaa Itoophiyaa beekamaa. Foon lukkuu fi hanqaaquu barbaree, dhaabaa fi qullubbii diimaa waliin suuta bilchaate injeraa taafii waliin."
-    },
-    allergens: {
-      en: ["Clarified Butter (Niter Kibbeh)", "Eggs"],
-      am: ["አንጥር ቅቤ", "እንቁላል"],
-      om: ["Dhaaba Qulqullaa'e", "Hanqaaquu"]
-    },
-    chefTip: {
-      en: "Best enjoyed by wrapping with Injera using your right hand. Pairs magnificently with Tej honey wine.",
-      am: "በቀኝ እጅ በሞቀ እንጀራ ተጠቅልሎ ሲበላ እና በማር ጠጅ ሲሸኝ የላቀ ጣዕም ይሰጣል።",
-      om: "Injeraan qabatamee dhaaba dammaa (Tej) waliin dhugamuudhaaf baay'ee mi'aawaa."
-    },
-    pairing: {
-      en: "Lumière Special Forest Honey Tej",
-      am: "የሉሚዬር የዱር ማር ጠጅ",
-      om: "Damma Tej Lumière"
-    }
-  },
-  {
-    id: "special-kitfo-platter",
-    categoryId: "traditional-mains",
-    priceETB: 1100,
-    rating: 4.9,
-    reviewCount: 118,
-    spiciness: 2,
-    prepMinutes: 15,
+    prepMinutes: 25,
     calories: 680,
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ["halal", "glutenFree"],
-    image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
+    dietary: ['halal'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Special Gurage Kitfo (ልዩ ክትፎ)",
-      am: "ልዩ የጉራጌ ክትፎ ከጎመን እና አይብ ጋር",
-      om: "Kitfoo Addaa Gurage Ayiib Waliin"
+      en: 'Royal Doro Wat (ልዩ ዶሮ ወጥ)',
+      am: 'ልዩ የዶሮ ወጥ በአይብና በእንቁላል',
+      om: 'Doro Wat Addaa (Kukkuuu Aadaa)'
     },
     description: {
-      en: "Prime extra-lean minced beef delicately seasoned with fiery Mitmita and warm Korerima-infused herbal butter (Niter Kibbeh). Served with fresh cottage cheese (Ayib), spiced collard greens (Gomen), and toasted Kocho bread.",
-      am: "በሚጥሚጣ እና በኮረሪማ ቅቤ የተሸተ በጥንቃቄ የተዘጋጀ ለስላሳ ክትፎ ከትኩስ አይብ፣ ጎመን እና ከተጠበሰ ቆጮ ጋር የቀረበ።",
-      om: "Foon lallafaa mitmiitaa fi dhaaba dhaan mi'eeffame, ayiib aadaa, goomana fi kochoo waliin dhihaatu."
+      en: 'Slow-simmered tender chicken leg cooked in aromatic berbere chili spice blend, served with hard-boiled organic egg, ayib cottage cheese, and freshly baked injera.',
+      am: 'በበሰለ በርበሬና ቅቤ በዝግታ የተሰራ የዶሮ ወጥ ከቀነበሰ እንቁላልና አይብ ጋር ከጥሩ እንጀራ ጋር ይቀርባል።',
+      om: 'Foon lukuu barbaree aadaatiin suuta leemmanfame, kuuphee haaraa fi ayib wajjin injeraa haaraarratti dhihaata.'
     },
     allergens: {
-      en: ["Dairy (Cottage Cheese, Clarified Butter)"],
-      am: ["ወተት ተዋጽኦ (አይብ፣ ቅቤ)"],
-      om: ["Aannan (Ayiib, Dhaaba)"]
+      en: ['Eggs', 'Dairy (Ayib)', 'Gluten (Injera)'],
+      am: ['እንቁላል', 'አይብ', 'እንጀራ'],
+      om: ['Hanqaaquu', 'Ayib', 'Injeraa']
     },
     chefTip: {
-      en: "Order 'Trebess' (Warm/Lightly seared) or 'Lebleb' to experience the melt-in-your-mouth richness.",
-      am: "ለብለብ ተደርጎ ሲቀርብ ቅቤው እና ሚጥሚጣው ተዋህደው በአፍ ውስጥ ይቀልጣሉ።",
-      om: "Ho'ifamee yoo dhihaatu dhaabni fi mitmiitaan caalaatti mi'aawa."
+      en: 'Best enjoyed by pairing each bite of spicy doro wat with cool house-made ayib cottage cheese.',
+      am: 'የዶሮ ወጡን ቃሪያ ከለሰለሰው አይብ ጋር አጣጥመው ይመገቡ።',
+      om: 'Mi'aawina barbaree ayib qabbanaawaa wajjin makanii nyaachuun mi'aa addaa kenne.'
     },
     pairing: {
-      en: "Bedele Draught / Cabernet Red Wine",
-      am: "ድራፍት ቢራ / ቀይ ወይን",
-      om: "Biiraa Qabanaawaa ykn Wayinii"
+      en: 'House Tej (Traditional Ethiopian Honey Wine)',
+      am: 'የቤት ውስጥ ንጹህ ማር ጠጅ',
+      om: 'Daadhii Dammaa Aadaa'
     }
   },
   {
-    id: "beef-tibs-sizzling",
-    categoryId: "traditional-mains",
-    priceETB: 980,
+    id: 'special-kitfo',
+    categoryId: 'traditional-mains',
+    priceETB: 890,
     rating: 4.8,
-    reviewCount: 95,
+    reviewCount: 118,
     spiciness: 2,
-    prepMinutes: 18,
-    calories: 640,
-    isPopular: true,
-    isChefSpecial: false,
-    isAvailable: true,
-    dietary: ["halal", "glutenFree"],
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
-    title: {
-      en: "Sizzling Beef Tibs (የስጋ ጥብስ)",
-      am: "በሸክላ የተጠበሰ የስጋ ጥብስ",
-      om: "Tibsi Foon Loonii Shaklaa"
-    },
-    description: {
-      en: "Tender beef cubes sautéed in a clay stove with red onions, fresh garlic, rosemary sprigs, green jalapeños, and spiced Niter Kibbeh butter. Served sizzling with Awaze dip and warm Injera.",
-      am: "በሸክላ ላይ በሽንኩርት፣ በነጭ ሽንኩርት፣ በሮዝመሪ እና በሚጥሚጣ ቅቤ የተጠበሰ የላም ስጋ ከአዋዜ እና እንጀራ ጋር።",
-      om: "Foon loonii murame qullubbii diimaa, qullubbii adii, roosmarinii fi dhaabaa waliin shaklaa irratti waadame."
-    },
-    allergens: {
-      en: ["Clarified Butter (Niter Kibbeh)"],
-      am: ["አንጥር ቅቤ"],
-      om: ["Dhaaba Qulqullaa'e"]
-    },
-    chefTip: {
-      en: "Squeeze fresh lemon over the hot sizzling meat for an extra pop of flavor.",
-      am: "ትኩሱ ጥብስ ላይ ሎሚ በመጭመቅ የበለፀገ ጣዕም ያግኙ።",
-      om: "Lomii dheeda'aa foon ho'aa irratti dhangalaasuun mi'aa dabalataa kenne."
-    },
-    pairing: {
-      en: "Chilled Saint George Beer",
-      am: "የቀዘቀዘ ጊዮርጊስ ቢራ",
-      om: "Biiraa Saint George Qabanaawaa"
-    }
-  },
-  {
-    id: "beyaynetu-royal-platter",
-    categoryId: "veggie-fasting",
-    priceETB: 850,
-    rating: 4.9,
-    reviewCount: 160,
-    spiciness: 1,
     prepMinutes: 15,
-    calories: 510,
+    calories: 720,
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+    dietary: ['halal', 'glutenFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Royal Veggie Beyaynetu (የጾም በያይነቱ)",
-      am: "የበያይነቱ ንጉሳዊ የጾም ምግብ ቦርድ",
-      om: "Beyaynetu Nyaata Soomaa Gurguddaa"
+      en: 'Gurage Special Kitfo (ክትፎ)',
+      am: 'የጉራጌ ልዩ ክትፎ በጎመንና በአይብ',
+      om: 'Kitfoo Gurragee Addaa'
     },
     description: {
-      en: "A magnificent colorful sampler platter of Ethiopian plant-based stews: spicy Misir Wat (red lentils), Kik Alicha (yellow split peas), Shiro, sautéed Gomen (collard greens), Beetroot Salad, and Azifa (green lentil salad) over Teff Injera.",
-      am: "ምርጥ የጾም ምግቦች ስብስብ፡ ምስር ወጥ፣ ክክ አልጫ፣ ሽሮ፣ ጎመን፣ የቀርንፉል ቢትሩት እና አዚፋ በሞቅ ያለ ጤፍ እንጀራ የቀረበ 100% የጾም ምግብ።",
-      om: "Nyaata soomaa bareeda: misira, kiikii, shiroo, goomana, saalaata beetroot fi azifa injera taafii waliin."
+      en: 'Finely minced lean beef seasoned with clarified niter kibbeh butter, mitmita chili pepper, and korarima spice, served with gomen spinach and ayib cheese.',
+      am: 'በጥንቃቄ የተከተፈስጋ በሚጥሚጣና በሚጣፈጥ የለሰለሰ ቅቤ ተለውሶ ከጎመንና ከለስላሳ አይብ ጋር ይቀርባል።',
+      om: 'Foon loonii bulchaan mitmiitaa fi niter kibbeh kornii wajjin waadame, goomana fi ayib wajjin dhihaata.'
     },
     allergens: {
-      en: ["Sesame (in Azifa salad)"],
-      am: ["ሰሊጥ (በአዚፋ ሰላጣ ውስጥ)"],
-      om: ["Sooliyaa / Saliita"]
+      en: ['Dairy (Kibbeh Butter)', 'Beef'],
+      am: ['ቅቤ', 'የበሬ ስጋ'],
+      om: ['Kibbeh', 'Foon Loonii']
     },
     chefTip: {
-      en: "100% plant-based feast. Try a bit of every stew wrapped together in one bite!",
-      am: "100% ከዕፅዋት የተሰራ። ሁሉንም የጾም ወጦች በአንድ ላይ በጥቅል ይቅመሷቸው!",
-      om: "Nyaata biqiltuu irraa qophaaye 100%. Hundumaa walitti qabachuun yaalaa."
+      en: 'Specify your cooking preference: Raw (Tire), Medium Rare (Lebleb), or Well Done (Wotet).',
+      am: 'እንደ ምርጫዎ ጥሬ፣ ለብለብ ወይም የበሰለ ብለው ይዘዙ።',
+      om: 'Dhaala keessan: Dheedhi (Tire), Lebleb akkasumas well done jennee qopheessina.'
     },
     pairing: {
-      en: "Fresh Passionfruit Cooler",
-      am: "ትኩስ ፓሽንፍሩት ጁስ",
-      om: "Dhugaatii Paashinfruut Qabanaawaa"
+      en: 'St. George Premium Lager or Honey Tej',
+      am: 'ቅዱስ ጊዮርጊስ ቢራ ወይም ንጹህ ጠጅ',
+      om: 'Biraa St. George ykn Daadhii Dammaa'
     }
   },
   {
-    id: "shiro-tegabino-pot",
-    categoryId: "veggie-fasting",
-    priceETB: 650,
+    id: 'beef-tibs-sizzling',
+    categoryId: 'traditional-mains',
+    priceETB: 850,
     rating: 4.9,
-    reviewCount: 112,
-    spiciness: 1,
-    prepMinutes: 12,
-    calories: 440,
+    reviewCount: 96,
+    spiciness: 2,
+    prepMinutes: 18,
+    calories: 610,
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+    dietary: ['halal'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Shiro Tegabino Clay Pot (ሽሮ ተጋቢኖ)",
-      am: "በሸክላ የተሰናዳ ሽሮ ተጋቢኖ",
-      om: "Shiroo Tegabiinoo Shaklaa"
+      en: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
+      am: 'የሸክላ የበሬ ጥብስ በቃሪያና በሽንኩርት',
+      om: 'Tibsi Foon Loonii Sheklaa'
     },
     description: {
-      en: "Silky, bubbling stew made from sun-dried roasted chickpea and broad bean flour seasoned with garlic, ginger, cardamom, and berbere. Served piping hot straight from the clay pot with fresh green pepper.",
-      am: "በጥንቃቄ ከተቆላ የሽሮ ዱቄት፣ በነጭ ሽንኩርት፣ በዝንጅብል እና በርበሬ በሸክላ ድስት ውስጥ ተንፈቅፍቆ የሚቀርብ ጣፋጭ ሽሮ።",
-      om: "Shiroo shumburaa irraa qophaa'e, qullubbii adii, jinjibila fi barbaree waliin shaklaa ho'aa irratti bilchaate."
+      en: 'Sautéed tender beef tenderloin cubes cooked on a traditional clay burner with sliced red onions, garlic, fresh rosemary, and green jalapeño peppers.',
+      am: 'በሸክላ ላይ በደመቀ እሳት የተጠበሰ የበሬ ስጋ በሽንኩርት፣ በነጭ ሽንኩርትና በቃሪያ ተራይቶ የሚቀርብ።',
+      om: 'Foon loonii lallaafaan sheklaa aadaa irratti shunkurtii diimaa, qullubbii adii fi qorii jalapeño wajjin waadame.'
     },
     allergens: {
-      en: ["Chickpea Flour"],
-      am: ["የሽሮ ዱቄት (ሽምብራ)"],
-      om: ["Daakuu Shumburaa"]
+      en: ['Beef', 'Gluten (Injera)'],
+      am: ['የበሬ ስጋ', 'እንጀራ'],
+      om: ['Foon Loonii', 'Injeraa']
     },
     chefTip: {
-      en: "Dip crisp Injera directly into the bubbling clay pot while hot!",
-      am: "ሸክላው እየተንፈቀፈቀ እንጀራውን እያጠቆሱ መብላት ልዩ እርካታ ይሰጣል።",
-      om: "Shaklaa ho'aa irraa injeraan cuphachuun mi'aawaa."
+      en: 'Poured hot on a sizzling clay burner with charcoal beneath to keep every piece tender.',
+      am: 'በሸክላው ፍም እሳት ላይ ትኩሱን ተመገቡ።',
+      om: 'Gubbaa sheklaa oo'aa irratti dhihaata.'
     },
     pairing: {
-      en: "Sparkling Mineral Water with Lime",
-      am: "የካርቦኔት ውሃ ከሎሚ ጋር",
-      om: "Bishaan Gasii Lomiin"
+      en: 'Habesha Cold Beer',
+      am: 'ሐበሻ ቀዝቃዛ ቢራ',
+      om: 'Biraa Qabbanaawaa Habesha'
     }
   },
   {
-    id: "chechebsa-kitta-firfir",
-    categoryId: "starters",
-    priceETB: 550,
+    id: 'beyaynetu-grand-platter',
+    categoryId: 'veggie-fasting',
+    priceETB: 720,
+    rating: 5.0,
+    reviewCount: 210,
+    spiciness: 1,
+    prepMinutes: 12,
+    calories: 520,
+    isPopular: true,
+    isChefSpecial: true,
+    isAvailable: true,
+    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    title: {
+      en: 'Grand Yetsom Beyaynetu (ልዩ የጾም በያይነቱ)',
+      am: 'ልዩ የጾም በያይነቱ ከሽንብራ፣ ምስርና አትክልት ጋር',
+      om: 'Beyaynetu Soomaa Addaa'
+    },
+    description: {
+      en: 'Vibrant feast of plant-based dishes: Shiro wot chickpea stew, Misir red lentil stew, Kik yellow split peas, Gomen collard greens, Atkilt wot cabbage & carrots, and Beetroot salad.',
+      am: 'በቀይና በቢጫ ምስር፣ በሽሮ፣ በጎመን፣ በጥቅል ጎመንና በቀይ ስር ያሸበረቀ ባህላዊ የጾም በያይነቱ።',
+      om: 'Nyaata biqiltuu aadaa: Shiroo, Misira diimaa, Kik wallagaa, Goomana, Atkil tii fi Beetroot wajjin injeraarratti dhihaata.'
+    },
+    allergens: {
+      en: ['Legumes (Lentils, Chickpeas)'],
+      am: ['ምስርና ሽንብራ'],
+      om: ['Misira fi Shamburaa']
+    },
+    chefTip: {
+      en: '100% Vegan & Fasting friendly, loaded with fiber and authentic herbs.',
+      am: '100% የቪጋንና የጾም ምግብ፣ በፕሮቲንና በፋይበር የበለጸገ።',
+      om: '100% Veegaanii fi Soomaa, nyaata fayyaalessa.'
+    },
+    pairing: {
+      en: 'Fresh Passionfruit Juice',
+      am: 'የተፈጥሮ ፓሽን ፍሩት ጁስ',
+      om: 'Juusii Paashinii Haaraa'
+    }
+  },
+  {
+    id: 'shiro-tegabino',
+    categoryId: 'veggie-fasting',
+    priceETB: 580,
     rating: 4.8,
-    reviewCount: 78,
+    reviewCount: 165,
+    spiciness: 2,
+    prepMinutes: 15,
+    calories: 450,
+    isPopular: true,
+    isChefSpecial: false,
+    isAvailable: true,
+    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    title: {
+      en: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
+      am: 'በትኩስ የሸክላ ድስት የሚፈካ የትጋቢኖ ሽሮ',
+      om: 'Shiroo Tegabinoo Sheklaa'
+    },
+    description: {
+      en: 'Rich, bubbling chickpea flour stew spiced with berbere, garlic, and herbs, served bubbling hot in an authentic clay pot with teff injera.',
+      am: 'በሽንብራ ዱቄትና በበርበሬ ተክክሎ በሸክላ ድስት ውስጥ እየተከተከተ ትኩሱን የሚቀርብ ጣፋጭ ሽሮ።',
+      om: 'Shiroo shamburaa barbaree fi qullubbii adii wajjin danfe, sheklaa aadaa keessatti injeraa teffii wajjin dhihaata.'
+    },
+    allergens: {
+      en: ['Chickpea Flour'],
+      am: ['የሽንብራ ዱቄት'],
+      om: ['Daakuu Shamburaa']
+    },
+    chefTip: {
+      en: 'Add a touch of spiced niter kibbeh or olive oil for extra richness.',
+      am: 'የለሰለሰ ቅቤ ወይም የወይራ ዘይት በመጨመር ጣዕሙን ያጎልብቱ።',
+      om: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi'aa dabala.'
+    },
+    pairing: {
+      en: 'Traditional Spiced Black Tea',
+      am: 'የቅመም ሻይ',
+      om: 'Shaayee Qorichaa Aadaa'
+    }
+  },
+  {
+    id: 'chechebsa-special',
+    categoryId: 'starters',
+    priceETB: 520,
+    rating: 4.9,
+    reviewCount: 88,
     spiciness: 1,
     prepMinutes: 15,
     calories: 580,
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ["vegetarian", "halal"],
-    image: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80",
+    dietary: ['vegetarian', 'halal'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Chechebsa / Kitta Firfir (ጨጨብሳ)",
-      am: "ጨጨብሳ በቅቤ እና ማር",
-      om: "Chechebsaa Dhaabaa fi Damma Waliin"
+      en: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
+      am: 'ልዩ ጨጨብሳ በማርና በአይብ',
+      om: 'Chechebsaa Addaa (Kitaa Firfir)'
     },
     description: {
-      en: "Pan-fried shredded homemade flatbread (Kitta) tossed in warm aromatic Berbere herbal butter (Niter Kibbeh) and drizzled with organic wild honey. Served with a side of fresh yogurt (Ergo).",
-      am: "በቤት ውስጥ የተጋገረ ቀጭን ቂጣ ተከትፎ በሚጣፈጥ ቅቤ፣ በበርበሬ እና በዱር ማር የተጠበሰ የቁርስ ምግብ ከእርጎ ጋር የቀረበ።",
-      om: "Daabboo salphaa (Kitta) dhaaba mi'aawaa, barbaree fi damma aadaa waliin waadame cireef kan dhihaatu."
+      en: 'Shredded flatbread (kita) pan-fried with spiced niter kibbeh butter, berbere, served with a drizzle of organic Ethiopian honey and fresh ayib cheese.',
+      am: 'የተቆራረሰ ቂጣ በበርበሬና በቅቤ ተጥብሶ በንጹህ ማርና በአይብ አጊጦ የሚቀርብ የቁርስ ምግብ።',
+      om: 'Kitaa ciccite barbaree fi kibbeh niter wajjin waadame, damma aadaa fi ayib haaraa wajjin dhihaata.'
     },
     allergens: {
-      en: ["Gluten (Wheat Flatbread)", "Dairy (Butter, Yogurt)"],
-      am: ["ግሉተን (የስንዴ ቂጣ)", "ወተት (ቅቤ፣ እርጎ)"],
-      om: ["Gluten", "Aannan (Dhaaba, Ergoo)"]
+      en: ['Wheat (Kita)', 'Dairy (Kibbeh, Ayib)'],
+      am: ['ስንዴ', 'ቅቤና አይብ'],
+      om: ['Qamadii', 'Kibbeh fi Ayib']
     },
     chefTip: {
-      en: "The quintessential Ethiopian comfort breakfast, paired best with a hot cup of spiced chai tea.",
-      am: "ከቅመም ሻይ ወይም ከጀበና ቡና ጋር የሚወሰድ ምርጥ የባህል ቁርስ።",
-      om: "Shaayii mi'eessituu ykn buna ho'aa waliin cireef baay'ee mi'aawa."
+      en: 'The classic Ethiopian breakfast of Champions! Perfect when paired with Jebena Coffee.',
+      am: 'ከጀበና ቡና ጋር የሚወሰድ ምርጥ ባህላዊ የቁርስ ምግብ።',
+      om: 'Ciree aadaa beekamaa! Buna jebenaa wajjin baay'ee deema.'
     },
     pairing: {
-      en: "Spiced Ethiopian Tea with Cinnamon",
-      am: "በቅመም እና ቀረፋ የተፈላ ሻይ",
-      om: "Shaayii Mi'eessituu fi Qanfactaa"
+      en: 'Jebena Buna (Ethiopian Coffee)',
+      am: 'የጀበና ቡና',
+      om: 'Buna Jebenaa'
     }
   },
   {
-    id: "asa-tibs-tilapia",
-    categoryId: "seafood",
-    priceETB: 890,
+    id: 'asa-tibs-fish',
+    categoryId: 'seafood',
+    priceETB: 780,
     rating: 4.7,
     reviewCount: 64,
     spiciness: 1,
     prepMinutes: 20,
-    calories: 520,
+    calories: 490,
     isPopular: false,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ["halal", "glutenFree", "nutFree"],
-    image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
+    dietary: ['halal', 'glutenFree', 'nutFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Crispy Ethiopian Asa Tibs (ዓሳ ጥብስ)",
-      am: "የዓሳ ጥብስ ከሚጥሚጣ እና ሎሚ ጋር",
-      om: "Qurxummii Waadamaa Asa Tibs"
+      en: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
+      am: 'የጣና ዓሳ ጥብስ በነጭ ሽንኩርትና በቃሪያ',
+      om: 'Tibsi Qurxummii Tana Addaa'
     },
     description: {
-      en: "Fresh Rift Valley Tilapia fillet seasoned with garlic, ginger, cumin, and lemon, fried to crispy golden perfection. Served with spicy Awaze dip, fresh lime, tomato salad, and Injera.",
-      am: "ትኩስ የሐይቅ ዓሳ በነጭ ሽንኩርት፣ በዝንጅብል እና በሎሚ ተሽቶ በወርቃማ መልክ የተጠበሰ ከሚጥሚጣ እና አዋዜ ጋር።",
-      om: "Qurxummii haaraya qullubbii adii, jinjibila fi lomii dhaan mi'eeffamee waadame saalaata waliin."
+      en: 'Crispy cubed freshwater tilapia fillet sautéed with onions, garlic, fresh rosemary, black pepper, and lemon juice, served with fresh salad and injera.',
+      am: 'ጥሩ የጣና ዓሳ በሽንኩርት፣ በነጭ ሽንኩርት፣ በሎሚና በቃሪያ ተጥብሶ የሚቀርብ።',
+      om: 'Qurxummii haroo Tana lallaafaan shunkurtii, qullubbii adii fi lomiin waadame injeraa wajjin dhihaata.'
     },
     allergens: {
-      en: ["Fish (Tilapia)"],
-      am: ["ዓሳ"],
-      om: ["Qurxummii"]
+      en: ['Fish (Tilapia)'],
+      am: ['ዓሳ'],
+      om: ['Qurxummii']
     },
     chefTip: {
-      en: "Squeeze generous lime over the crispy skin before taking your first bite.",
-      am: "የተጠበሰው ዓሳ ላይ ሎሚ በመጭመቅ ትኩሱን በአዋዜ አጠቅሰው ይመገቡት።",
-      om: "Lomii irratti dhangalaasuun awwaazee waliin nyaadhaa."
+      en: 'Squeeze extra fresh lime over the hot fish cubes for an electrifying zest.',
+      am: 'ትኩሱ ዓሳ ላይ ተጨማሪ የሎሚ ጭማቂ አፍስሰው ይመገቡ።',
+      om: 'Lomii haaraa gubbaa qurxummii oo'aa irratti cobsaa.'
     },
     pairing: {
-      en: "Cold Lemon Spritzer",
-      am: "የቀዘቀዘ የሎሚ መጠጥ",
-      om: "Dhugaatii Lomiin Qabanaawaa"
+      en: 'Chilled White Wine or Sparking Water',
+      am: 'ቀዝቃዛ ነጭ ወይን ወይም ጋዝ ያለው ውኃ',
+      om: 'Diini Adii Qabbanaawaa ykn Bishaan Gaazii'
     }
   },
   {
-    id: "gomen-be-siga-stew",
-    categoryId: "traditional-mains",
-    priceETB: 1050,
-    rating: 4.8,
-    reviewCount: 52,
-    spiciness: 1,
-    prepMinutes: 22,
-    calories: 610,
-    isPopular: false,
-    isChefSpecial: false,
-    isAvailable: true,
-    dietary: ["halal", "glutenFree"],
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
-    title: {
-      en: "Braised Gomen Be Siga (ጎመን በስጋ)",
-      am: "ጎመን በስጋ በኮረሪማ ቅቤ",
-      om: "Goomana Foon Loonii Waliin"
-    },
-    description: {
-      en: "Tender beef short ribs stewed with fresh collard greens, minced ginger, garlic, green chilies, and aromatic cardamom-infused herbal butter (Niter Kibbeh).",
-      am: "ለስላሳ የጎድን ስጋ ከጎመን፣ ዝንጅብል፣ ነጭ ሽንኩርት እና ኮረሪማ ቅቤ ጋር የተቀቀለ የባህል ወጥ።",
-      om: "Foon lallafaa goomana, jinjibila, qullubbii adii fi dhaabaa waliin bilchaate."
-    },
-    allergens: {
-      en: ["Clarified Butter (Niter Kibbeh)"],
-      am: ["አንጥር ቅቤ"],
-      om: ["Dhaaba Qulqullaa'e"]
-    },
-    chefTip: {
-      en: "Rich comfort food that balances green vegetable nutrition with rich beef flavor.",
-      am: "የጎመኑን ቫይታሚን ከስጋው ጣዕም ጋር አዋህዶ የያዘ በጣም የሚያረካ ወጥ።",
-      om: "Goomana fi foon mi'aawaa walitti makuun nyaata madaalawaa."
-    },
-    pairing: {
-      en: "Traditional Honey Wine (Tej)",
-      am: "ባህላዊ የማር ጠጅ",
-      om: "Tej Damma Aadaa"
-    }
-  },
-  {
-    id: "jebena-coffee-ceremony",
-    categoryId: "desserts-drinks",
+    id: 'jebena-coffee-ceremony',
+    categoryId: 'desserts-drinks',
     priceETB: 350,
     rating: 5.0,
-    reviewCount: 210,
+    reviewCount: 310,
     spiciness: 0,
-    prepMinutes: 15,
-    calories: 40,
+    prepMinutes: 20,
+    calories: 80,
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Jebena Coffee Ceremony (የጀበና ቡና)",
-      am: "የጀበና ቡና ስነ-ስርዓት ከፈንድሻ ጋር",
-      om: "Sirna Buna Jebenaa Aadaa Fundishaa Waliin"
+      en: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
+      am: 'ሙሉ የጀበና ቡና ስነ-ስርዓት በእጣንና በፖፕኮርን',
+      om: 'Sirna Buna Jebenaa Guutuu'
     },
     description: {
-      en: "Freshly pan-roasted organic Sidama/Yirgacheffe coffee beans roasted right in view, brewed in a traditional black clay Jebena pot. Served with fragrant frankincense smoke, roasted popcorn, and sacred rue herb (Tenadam).",
-      am: "በፊታችሁ የተቆላ የሲዳማ/ይርጋጨፌ ቡና በባህላዊ ጀበና ተፈትቶ ከዕጣን ጠረን፣ ከፈንድሻ እና ከጤናዳም ጋር የሚቀርብ የኢትዮጵያ ቡና ስነ-ስርዓት።",
-      om: "Buna Sidamaa fuula keessan irratti aara aadaa waliin jebenaan bilchaate, fundishaa fi tenadam waliin dhihaata."
+      en: 'Authentic 3-round Ethiopian coffee ceremony brewed in a traditional clay jebena pot, served with frankincense smoke, fresh popcorn, and traditional tenadam herbs.',
+      am: 'በጀበና የተፈሉ 3 ዙር ቡናዎች (አቦል፣ ቶና፣ በረካ) ከዕጣን፣ ከጤናዳም እና ከፖፕኮርን ጋር የሚቀርብ።',
+      om: 'Buna jebenaa aadaa marsaa 3 (Abol, Tona, Bereka) iitana, popcorn fi tenadam wajjin dhihaata.'
     },
     allergens: {
-      en: ["Caffeine"],
-      am: ["ካፌይን"],
-      om: ["Kafeyinii"]
+      en: ['None'],
+      am: ['የለም'],
+      om: ['Homaa']
     },
     chefTip: {
-      en: "Includes all 3 traditional coffee rounds: Abol (1st), Tona (2nd), and Baraka (3rd blessing).",
-      am: "3ቱን ባህላዊ ዙሮች ያካትታል፡ አቦል፣ ቶና፣ እና በረካ።",
-      om: "Marsaa 3 aadaa qaba: Abol, Tona, fi Baraka."
+      en: 'Includes 3 rounds of coffee: Abol (1st strong round), Tona (2nd round), and Bereka (3rd blessing round).',
+      am: '3ቱን ዙሮች (አቦል፣ ቶና፣ በረካ) ተራ በተራ ያጣጥሙ።',
+      om: 'Marsaa 3n bunaa: Abol, Tona fi Bereka dhandhamaa.'
     },
     pairing: {
-      en: "Fresh Salted Popcorn & Tenadam",
-      am: "ትኩስ ጨዋማ ፈንድሻ እና ጤናዳም",
-      om: "Fundishaa fi Baala Tenadam"
+      en: 'Fresh Roasted Popcorn & Tenadam Herbs',
+      am: 'ፈንድሻና ጤናዳም',
+      om: 'Popcorn fi Tenadam'
     }
   },
   {
-    id: "authentic-tej-bottle",
-    categoryId: "desserts-drinks",
-    priceETB: 480,
+    id: 'honey-tej-carafe',
+    categoryId: 'desserts-drinks',
+    priceETB: 450,
     rating: 4.9,
-    reviewCount: 88,
+    reviewCount: 175,
     spiciness: 0,
     prepMinutes: 5,
-    calories: 190,
+    calories: 210,
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
-    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
+    dietary: ['glutenFree', 'halal', 'nutFree'],
+    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
-      en: "Artisanal Ethiopian Honey Wine - Tej (ጠጅ)",
-      am: "የተጣራ የዱር ማር ጠጅ",
-      om: "Tej Damma Aadaa Itoophiyaa"
+      en: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',
+      am: 'የቤት ውስጥ ንጹህ የማር ጠጅ በብረሌ',
+      om: 'Daadhii Dammaa Aadaa (Tej)'
     },
     description: {
-      en: "Traditional Ethiopian honey wine slow-fermented with organic wild forest honey and Gesho (buckthorn) leaves. Served cold in a glass Berele flask.",
-      am: "በጌሾ እና በዱር ማር ተፈብሪኮ በጥንቃቄ የተጣራ ባህላዊ የማር ጠጅ በብርሌ የሚቀርብ።",
-      om: "Tej dammaa Gesho fi damma bosonaa irraa qophaa'e qabanaawaa bereleedhaan dhihaata."
+      en: 'Traditional home-brewed honey wine fermented with gesho hops in an authentic Berele flask, offering a rich sweet and aromatic flavor.',
+      am: 'በጌሾና በንጹህ ማር በቤት ውስጥ የተጠመቀ ባህላዊ የኢትዮጵያ ጠጅ በብረሌ የሚቀርብ።',
+      om: 'Daadhii dammaa aadaa geeshoo fi damma aadaatiin bokoke, berele keessatti dhihaata.'
     },
     allergens: {
-      en: ["Natural Honey Ferment"],
-      am: ["የተፈጥሮ ማር"],
-      om: ["Damma Uumamaa"]
+      en: ['Alcohol (Honey Wine)'],
+      am: ['አልኮል (ማር ጠጅ)'],
+      om: ['Alkoolii (Daadhii)']
     },
     chefTip: {
-      en: "Slightly sweet with a crisp herbal finish. Complements spicy Doro Wat and Kitfo perfectly.",
-      am: "ጣፋጭነቱ እና የጌሾው ጠረን ከአቃጣይ ምግቦች (ክትፎ፣ ዶሮ ወጥ) ጋር በጥሩ ሁኔታ ይስማማል።",
-      om: "Mi'aawaa fi urgaa gesho qabu nyaata mi'eessituu waliin baay'ee deema."
+      en: 'Served cold in a long-necked Berele glass. Pairs exquisitely with spicy meat mains.',
+      am: 'በቀዝቃዛ ብረሌ ተሞልቶ ይቀርባል። ከስጋ ምግቦች ጋር ምርጥ ጥምረት አለው።',
+      om: 'Berele qabbanaawaa keessatti dhihaata.'
     },
     pairing: {
-      en: "Royal Doro Wat / Special Kitfo",
-      am: "ንጉሳዊ ዶሮ ወጥ / ልዩ ክትፎ",
-      om: "Doro Wat / Kitfoo Addaa"
+      en: 'Special Kitfo or Sizzling Beef Tibs',
+      am: 'ልዩ ክትፎ ወይም የሸክላ ጥብስ',
+      om: 'Kitfoo Addaa ykn Tibsi Sheklaa'
     }
   }
 ];

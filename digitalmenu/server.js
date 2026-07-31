@@ -69,20 +69,20 @@ app.get('/api/restaurant', async (req, res) => {
     const restaurant = await prisma.restaurant.findFirst();
     if (!restaurant) {
       return res.json({
-        name: 'LUMIÈRE',
-        subtitle: 'Gourmet Digital Menu',
+        name: 'SELAM',
+        subtitle: 'Authentic Ethiopian Restaurant & Fine Dining',
         heroImage: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80',
         openHours: 'Open Today: 11:30 AM - 11:00 PM',
         address: 'Bole Road, Addis Ababa',
-        wifiName: 'LumiereGuest',
-        wifiPass: 'Lumiere2026'
+        wifiName: 'SelamGuest',
+        wifiPass: 'Selam2026'
       });
     }
     res.json(restaurant);
   } catch (err) {
     res.json({
-      name: 'LUMIÈRE',
-      subtitle: 'Gourmet Digital Menu',
+      name: 'SELAM',
+      subtitle: 'Authentic Ethiopian Restaurant & Fine Dining',
       openHours: 'Open Today: 11:30 AM - 11:00 PM',
       address: 'Bole Road, Addis Ababa'
     });
