@@ -533,16 +533,16 @@ function renderSelectionDrawer() {
   });
 }
 
-// Generate Universal Table QR Code pointing directly to the Menu URL
+// Generate Universal Table QR Code pointing directly to the /menu URL
 function renderUniversalQrCode() {
-  const universalUrl = window.location.href;
+  const universalUrl = window.location.origin + '/menu';
   
   elements.qrCanvasBox.innerHTML = `
     <div style="background: #ffffff; padding: 14px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
     </div>
     <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; word-break: break-all;">
-      📍 <span style="color: var(--accent-gold); font-weight: 600;">Menu URL:</span> ${universalUrl}
+      📍 <span style="color: var(--accent-gold); font-weight: 600;">Table QR Menu URL:</span> ${universalUrl}
     </p>
   `;
 }
@@ -637,8 +637,9 @@ function bindEvents() {
   // Copy Link Action
   if (elements.copyUrlBtn) {
     elements.copyUrlBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Menu URL copied to clipboard!');
+      const menuUrl = window.location.origin + '/menu';
+      navigator.clipboard.writeText(menuUrl);
+      alert('Table QR Menu URL copied to clipboard!');
     });
   }
 
@@ -651,14 +652,15 @@ function bindEvents() {
 
   // Share Menu
   elements.shareMenuBtn.addEventListener('click', () => {
+    const menuUrl = window.location.origin + '/menu';
     if (navigator.share) {
       navigator.share({
         title: 'Lumière Digital Menu',
         text: 'Explore our gourmet digital menu!',
-        url: window.location.href
+        url: menuUrl
       }).catch(() => {});
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(menuUrl);
       alert('Menu link copied to clipboard!');
     }
   });

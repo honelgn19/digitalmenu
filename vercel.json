@@ -16,6 +16,14 @@
       "dest": "digitalmenu/server.js"
     },
     {
+      "src": "/menu",
+      "dest": "digitalmenu/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "digitalmenu/login.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "digitalmenu/$1"
     }

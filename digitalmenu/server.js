@@ -31,6 +31,16 @@ function getLangEnum(lang) {
   return 'EN';
 }
 
+// Route: Root / serves Admin Login Page (login.html)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+// Route: /menu serves Customer Digital Menu (index.html)
+app.get('/menu', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // REST API ADMIN: Admin Login Authentication
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
@@ -362,9 +372,9 @@ app.post('/api/feedback', async (req, res) => {
   }
 });
 
-// Catch-all route to serve SPA
+// Catch-all route to serve Login Page for unmapped URLs
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 app.listen(PORT, () => {

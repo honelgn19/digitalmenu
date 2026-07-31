@@ -16,6 +16,14 @@
       "dest": "server.js"
     },
     {
+      "src": "/menu",
+      "dest": "index.html"
+    },
+    {
+      "src": "/",
+      "dest": "login.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "$1"
     }
