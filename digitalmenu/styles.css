@@ -639,29 +639,16 @@ h1, h2, h3, h4, .brand-title {
   gap: 3px;
 }
 
-/* Dish Detail Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
+/* Modals and Drawers - Hidden by default until .open is added */
+.modal-overlay, .drawer-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
-.modal-overlay.open {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-}
-
-.drawer-overlay.open {
+.modal-overlay.open, .drawer-overlay.open {
+  display: flex !important;
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
