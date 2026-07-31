@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "digitalmenu/index.html",
+      "src": "digitalmenu/**",
       "use": "@vercel/static"
     }
   ],
