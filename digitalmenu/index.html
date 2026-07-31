@@ -60,23 +60,28 @@
         </div>
       </div>
 
-      <!-- Header Controls: Language, Currency, QR Code, Theme & Wishlist -->
-      <div class="header-actions flex items-center gap-2.5">
+      <!-- Header Controls: Language, Currency, QR Code, Admin, Theme & Wishlist -->
+      <div class="header-actions flex items-center gap-2">
         
         <!-- QR Code Header Button -->
-        <button class="icon-btn w-10 h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" data-open-qr title="View Universal Table QR Code" aria-label="View QR Code">
+        <button class="icon-btn w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" data-open-qr title="View Universal Table QR Code" aria-label="View QR Code">
           📱
         </button>
 
+        <!-- Admin Portal Header Button -->
+        <a href="admin.html" class="icon-btn w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-amber-400/30 text-amber-400 hover:border-amber-400 hover:bg-amber-400/10 flex items-center justify-center transition-colors" title="Admin Menu Portal" aria-label="Admin Portal">
+          ⚙️
+        </a>
+
         <!-- Multi-Language Switcher (Instant EN, AM, OM) -->
-        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="langSelect" aria-label="Select Language">
+        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-2.5 sm:px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="langSelect" aria-label="Select Language">
           <option value="en">🇬🇧 English</option>
           <option value="am">🇪🇹 አማርኛ (Amharic)</option>
           <option value="om">🇪🇹 Afaan Oromoo</option>
         </select>
 
         <!-- Multi-Currency Switcher -->
-        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="currencySelect" aria-label="Select Currency">
+        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-2.5 sm:px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="currencySelect" aria-label="Select Currency">
           <option value="ETB">Br ETB</option>
           <option value="USD">$ USD</option>
           <option value="EUR">€ EUR</option>
@@ -84,12 +89,12 @@
         </select>
 
         <!-- Theme Toggle -->
-        <button class="icon-btn w-10 h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+        <button class="icon-btn w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           🌙
         </button>
 
         <!-- My Selection / Wishlist Drawer Button -->
-        <button class="icon-btn relative w-10 h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
+        <button class="icon-btn relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
           🔖
           <span class="badge-count absolute -top-1.5 -right-1.5 bg-amber-400 text-black font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md" id="selectionCountBadge" style="display: none;">0</span>
         </button>
@@ -113,9 +118,14 @@
           </div>
         </div>
 
-        <button class="bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/50 text-amber-300 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 backdrop-blur-md transition-all self-start sm:self-auto" data-open-qr>
-          📲 Universal Table QR
-        </button>
+        <div class="flex gap-2">
+          <button class="bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/50 text-amber-300 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all" data-open-qr>
+            📲 Universal Table QR
+          </button>
+          <a href="admin.html" class="bg-slate-900/80 hover:bg-slate-900 border border-white/20 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 backdrop-blur-md transition-all">
+            ⚙️ Admin Setup
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -235,8 +245,9 @@
         <span class="text-slate-600">|</span>
         <span class="text-xs text-slate-400">Gourmet Digital Platform</span>
       </div>
-      <div class="flex gap-3 text-xs">
+      <div class="flex flex-wrap justify-center gap-3 text-xs">
         <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" data-open-qr data-t="qrCodeTest">Universal Table QR Code</button>
+        <a href="admin.html" class="pill-btn bg-slate-900 border border-amber-400/30 px-4 py-1.5 rounded-full text-amber-400 hover:bg-amber-400/10">⚙️ Admin Setup Portal</a>
         <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
       </div>
       <p class="text-[11px] text-slate-500 mt-2">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>

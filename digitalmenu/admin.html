@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMIÈRE Admin | Menu Management & Food Creation</title>
+  <meta name="description" content="Admin Portal for Lumiere Digital Menu. Add new Ethiopian dishes, set availability, update prices, and manage menu items.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
+  
+  <!-- Tailwind CSS v3 Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#e6b763',
+              darkGold: '#b38020',
+              bgDark: '#0b0d12',
+              surfaceDark: '#131722'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Ethiopic', 'sans-serif'],
+            display: ['Outfit', 'Noto Sans Ethiopic', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0b0d12] text-slate-100 font-sans min-h-screen antialiased">
+
+  <!-- Admin Top Navigation -->
+  <header class="bg-[#121621]/90 border-b border-white/10 sticky top-0 z-50 backdrop-blur-md px-4 sm:px-8 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-lg text-white font-bold shadow-lg shadow-amber-500/20">⚙️</div>
+        <div>
+          <h1 class="font-display font-bold text-lg sm:text-xl text-amber-400">LUMIÈRE Admin Portal</h1>
+          <p class="text-xs text-slate-400">Menu Setup, Availability & Dish Addition</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html" target="_blank" class="bg-slate-900 border border-white/10 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors">
+          👁️ Customer View ↗
+        </a>
+        <button id="refreshAdminBtn" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1">
+          🔄 Sync Database
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8">
+
+    <!-- Admin Metrics Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-[#141824] border border-white/10 rounded-2xl p-5 shadow-lg">
+        <div class="text-xs text-slate-400 font-medium mb-1">Total Menu Items</div>
+        <div class="text-2xl font-bold font-display text-white" id="statTotal">--</div>
+        <div class="text-[11px] text-slate-500 mt-1">PostgreSQL Database Records</div>
+      </div>
+      <div class="bg-[#141824] border border-emerald-500/20 rounded-2xl p-5 shadow-lg">
+        <div class="text-xs text-emerald-400 font-medium mb-1">🟢 In Stock (Available)</div>
+        <div class="text-2xl font-bold font-display text-emerald-400" id="statInStock">--</div>
+        <div class="text-[11px] text-slate-500 mt-1">Visible on customer menu</div>
+      </div>
+      <div class="bg-[#141824] border border-rose-500/20 rounded-2xl p-5 shadow-lg">
+        <div class="text-xs text-rose-400 font-medium mb-1">🔴 Sold Out (Unavailable)</div>
+        <div class="text-2xl font-bold font-display text-rose-400" id="statSoldOut">--</div>
+        <div class="text-[11px] text-slate-500 mt-1">Hidden or tagged as Sold Out</div>
+      </div>
+      <div class="bg-[#141824] border border-amber-500/20 rounded-2xl p-5 shadow-lg">
+        <div class="text-xs text-amber-400 font-medium mb-1">📂 Food Categories</div>
+        <div class="text-2xl font-bold font-display text-amber-400" id="statCategories">--</div>
+        <div class="text-[11px] text-slate-500 mt-1">Starters, Mains, Drinks, etc.</div>
+      </div>
+    </div>
+
+    <!-- Admin Controls Bar -->
+    <div class="bg-[#141824] border border-white/10 rounded-2xl p-5 mb-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto flex-1">
+        <div class="relative w-full sm:w-72">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+          <input type="text" id="adminSearchInput" class="w-full bg-slate-900 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-slate-400 outline-none focus:border-amber-400" placeholder="Filter admin dishes...">
+        </div>
+
+        <select id="adminCategoryFilter" class="w-full sm:w-48 bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-amber-400">
+          <option value="all">All Categories</option>
+          <option value="starters">Starters & Breakfast</option>
+          <option value="traditional-mains">Traditional Meat Mains</option>
+          <option value="veggie-fasting">Fasting & Vegan</option>
+          <option value="seafood">Seafood</option>
+          <option value="desserts-drinks">Coffee & Drinks</option>
+        </select>
+
+        <select id="adminAvailabilityFilter" class="w-full sm:w-44 bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-amber-400">
+          <option value="all">All Statuses</option>
+          <option value="available">🟢 In Stock Only</option>
+          <option value="soldout">🔴 Sold Out Only</option>
+        </select>
+      </div>
+
+      <!-- Add New Food Button -->
+      <button id="openAddDishModalBtn" class="w-full md:w-auto bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold px-5 py-3 rounded-xl text-xs sm:text-sm shadow-lg shadow-amber-500/20 hover:scale-105 transition-transform flex items-center justify-center gap-2">
+        <span>➕</span> Add New Ethiopian Dish
+      </button>
+    </div>
+
+    <!-- Admin Dishes Table / Grid -->
+    <div class="bg-[#141824] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-5 border-b border-white/10 flex items-center justify-between">
+        <h2 class="font-display font-bold text-lg text-white">Manage Ethiopian Menu Items</h2>
+        <span class="text-xs text-slate-400" id="showingCount">Showing -- items</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/80 text-slate-400 uppercase tracking-wider text-[11px] border-b border-white/10">
+            <tr>
+              <th class="p-4">Dish</th>
+              <th class="p-4">Category</th>
+              <th class="p-4">Price (ETB)</th>
+              <th class="p-4">Dietary & Spiciness</th>
+              <th class="p-4">Availability</th>
+              <th class="p-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminDishTableBody" class="divide-y divide-white/5">
+            <!-- Dynamically Rendered Admin Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add New Ethiopian Dish Modal -->
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" id="addDishModal">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+      <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeAddDishModalBtn">✕</button>
+      
+      <h3 class="text-xl font-bold font-display text-amber-400 mb-1">➕ Add New Ethiopian Dish</h3>
+      <p class="text-xs text-slate-400 mb-6">Create a new menu record saved directly to PostgreSQL database.</p>
+
+      <form id="addDishForm" class="space-y-4">
+        <!-- Multi-language Titles -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Title (English) *</label>
+            <input type="text" id="titleEn" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500" placeholder="e.g. Special Gomen Tibs">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Title (አማርኛ) *</label>
+            <input type="text" id="titleAm" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500" placeholder="ምሳሌ፡ ልዩ ጎመን ጥብስ">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Title (Afaan Oromoo)</label>
+            <input type="text" id="titleOm" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500" placeholder="e.g. Tibsi Goomana Addaa">
+          </div>
+        </div>
+
+        <!-- Category & Price -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Category *</label>
+            <select id="dishCategory" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white">
+              <option value="traditional-mains">Traditional Meat Mains</option>
+              <option value="veggie-fasting">Fasting & Vegan</option>
+              <option value="starters">Starters & Breakfast</option>
+              <option value="seafood">Seafood</option>
+              <option value="desserts-drinks">Coffee & Drinks</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Price in ETB (Br) *</label>
+            <input type="number" id="dishPrice" required min="1" step="10" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white" placeholder="850">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Spiciness Level (0-3)</label>
+            <select id="dishSpiciness" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white">
+              <option value="0">0 - Mild / None</option>
+              <option value="1">1 - Low Spice 🌶️</option>
+              <option value="2">2 - Medium Spice 🌶️🌶️</option>
+              <option value="3">3 - Hot Berbere / Mitmita 🌶️🌶️🌶️</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image URL & Live Preview -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Database Image URL *</label>
+          <input type="url" id="dishImage" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white" placeholder="https://images.unsplash.com/photo-...">
+        </div>
+
+        <!-- Prep Time & Calories -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Prep Time (mins)</label>
+            <input type="number" id="dishPrepMinutes" value="15" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Calories (kcal)</label>
+            <input type="number" id="dishCalories" value="500" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white">
+          </div>
+        </div>
+
+        <!-- Dietary Checkboxes -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-2">Dietary Badges</label>
+          <div class="flex flex-wrap gap-3 text-xs text-slate-300">
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="vegan" class="dietary-check"> 🌱 Vegan</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="vegetarian" class="dietary-check"> 🥗 Vegetarian</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="halal" class="dietary-check" checked> 🥩 Halal</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="glutenFree" class="dietary-check" checked> 🌾 Gluten-Free</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="nutFree" class="dietary-check" checked> 🥜 Nut-Free</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" id="checkChefSpecial" class="accent-amber-400"> ⭐ Chef Signature</label>
+          </div>
+        </div>
+
+        <!-- Descriptions -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Description (English) *</label>
+          <textarea id="descEn" required rows="2" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white resize-none" placeholder="Detailed culinary description..."></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Description (አማርኛ)</label>
+          <textarea id="descAm" rows="2" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white resize-none" placeholder="የምግቡ ማብራሪያ..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-3">
+          <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:scale-[1.01] transition-transform">
+            💾 Save Dish to PostgreSQL Database
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    let adminState = {
+      items: [],
+      categories: [],
+      filterCategory: 'all',
+      filterAvailability: 'all',
+      searchQuery: ''
+    };
+
+    async function loadAdminData() {
+      try {
+        const res = await fetch('/api/admin/menu');
+        const data = await res.json();
+        if (data.items) {
+          adminState.items = data.items;
+          adminState.categories = data.categories || [];
+          
+          if (data.stats) {
+            document.getElementById('statTotal').textContent = data.stats.totalItems;
+            document.getElementById('statInStock').textContent = data.stats.inStockItems;
+            document.getElementById('statSoldOut').textContent = data.stats.soldOutItems;
+            document.getElementById('statCategories').textContent = data.stats.totalCategories;
+          }
+
+          renderAdminTable();
+        }
+      } catch (err) {
+        console.error('Admin fetch error:', err);
+      }
+    }
+
+    function renderAdminTable() {
+      const tbody = document.getElementById('adminDishTableBody');
+      const showingCount = document.getElementById('showingCount');
+
+      let filtered = adminState.items.filter(item => {
+        // Category filter
+        const itemCatSlug = item.category ? item.category.slug : item.categoryId;
+        if (adminState.filterCategory !== 'all' && itemCatSlug !== adminState.filterCategory) {
+          return false;
+        }
+
+        // Availability filter
+        if (adminState.filterAvailability === 'available' && item.isAvailable === false) return false;
+        if (adminState.filterAvailability === 'soldout' && item.isAvailable !== false) return false;
+
+        // Search query
+        if (adminState.searchQuery.trim() !== '') {
+          const query = adminState.searchQuery.toLowerCase();
+          const titleEn = (item.translations?.find(t => t.language === 'EN')?.title || item.title?.en || item.title || '').toLowerCase();
+          const titleAm = (item.translations?.find(t => t.language === 'AM')?.title || item.title?.am || '').toLowerCase();
+          return titleEn.includes(query) || titleAm.includes(query);
+        }
+
+        return true;
+      });
+
+      showingCount.textContent = `Showing ${filtered.length} of ${adminState.items.length} items`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="p-8 text-center text-slate-500">
+              No dishes found matching your filters.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => {
+        const transEn = item.translations?.find(t => t.language === 'EN') || {};
+        const transAm = item.translations?.find(t => t.language === 'AM') || {};
+        const titleEn = transEn.title || item.title?.en || item.title || 'Untitled';
+        const titleAm = transAm.title || item.title?.am || '';
+        const isAvailable = item.isAvailable !== false;
+        const image = item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80';
+        const categoryName = item.category ? item.category.slug : item.categoryId;
+
+        return `
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="p-4 flex items-center gap-3">
+              <img src="${image}" alt="${titleEn}" class="w-12 h-12 rounded-xl object-cover border border-white/10">
+              <div>
+                <div class="font-semibold text-white text-xs sm:text-sm">${titleEn}</div>
+                <div class="text-[11px] text-amber-400/80 font-ethiopic">${titleAm}</div>
+              </div>
+            </td>
+            <td class="p-4 capitalize text-slate-400 font-medium">${categoryName}</td>
+            <td class="p-4 font-bold text-amber-400 text-sm">${item.priceETB} Br</td>
+            <td class="p-4 text-xs text-slate-400">
+              <span>🌶️ Level ${item.spiciness || 0}</span>
+            </td>
+            <td class="p-4">
+              <button class="toggle-availability-btn px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 transition-all ${isAvailable ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'}" data-id="${item.id}" data-status="${isAvailable}">
+                ${isAvailable ? '🟢 In Stock' : '🔴 Sold Out'}
+              </button>
+            </td>
+            <td class="p-4 text-right">
+              <button class="delete-dish-btn px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 border border-rose-500/40 rounded-lg text-xs font-semibold transition-colors" data-id="${item.id}">
+                🗑️ Delete
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Bind toggle & delete handlers
+      tbody.querySelectorAll('.toggle-availability-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          const currentStatus = btn.getAttribute('data-status') === 'true';
+          const newStatus = !currentStatus;
+
+          try {
+            await fetch(`/api/menu/${id}/availability`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ isAvailable: newStatus })
+            });
+            await loadAdminData();
+          } catch (err) {
+            console.error('Availability toggle failed:', err);
+          }
+        });
+      });
+
+      tbody.querySelectorAll('.delete-dish-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          if (confirm('Are you sure you want to delete this dish from the database?')) {
+            try {
+              await fetch(`/api/menu/${id}`, { method: 'DELETE' });
+              await loadAdminData();
+            } catch (err) {
+              console.error('Delete dish failed:', err);
+            }
+          }
+        });
+      });
+    }
+
+    // Bind Controls
+    document.getElementById('adminSearchInput').addEventListener('input', (e) => {
+      adminState.searchQuery = e.target.value;
+      renderAdminTable();
+    });
+
+    document.getElementById('adminCategoryFilter').addEventListener('change', (e) => {
+      adminState.filterCategory = e.target.value;
+      renderAdminTable();
+    });
+
+    document.getElementById('adminAvailabilityFilter').addEventListener('change', (e) => {
+      adminState.filterAvailability = e.target.value;
+      renderAdminTable();
+    });
+
+    document.getElementById('refreshAdminBtn').addEventListener('click', loadAdminData);
+
+    // Add Dish Modal logic
+    const modal = document.getElementById('addDishModal');
+    document.getElementById('openAddDishModalBtn').addEventListener('click', () => {
+      modal.classList.add('open');
+    });
+
+    document.getElementById('closeAddDishModalBtn').addEventListener('click', () => {
+      modal.classList.remove('open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+
+    // Submit Add Dish Form
+    document.getElementById('addDishForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const dietaryTags = Array.from(document.querySelectorAll('.dietary-check:checked')).map(c => c.value);
+
+      const payload = {
+        categoryId: document.getElementById('dishCategory').value,
+        priceETB: Number(document.getElementById('dishPrice').value),
+        spiciness: Number(document.getElementById('dishSpiciness').value),
+        prepMinutes: Number(document.getElementById('dishPrepMinutes').value),
+        calories: Number(document.getElementById('dishCalories').value),
+        isChefSpecial: document.getElementById('checkChefSpecial').checked,
+        dietaryTags,
+        image: document.getElementById('dishImage').value,
+        titleEn: document.getElementById('titleEn').value,
+        titleAm: document.getElementById('titleAm').value,
+        titleOm: document.getElementById('titleOm').value,
+        descEn: document.getElementById('descEn').value,
+        descAm: document.getElementById('descAm').value
+      };
+
+      try {
+        const res = await fetch('/api/menu', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alert('✅ New Ethiopian Dish successfully saved to PostgreSQL database!');
+          modal.classList.remove('open');
+          document.getElementById('addDishForm').reset();
+          await loadAdminData();
+        }
+      } catch (err) {
+        alert('Failed to save dish: ' + err.message);
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadAdminData);
+  </script>
+</body>
+</html>

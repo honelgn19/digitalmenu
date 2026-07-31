@@ -59,6 +59,7 @@ model MenuItem {
   calories      Int                   @default(400)
   isPopular     Boolean               @default(false)
   isChefSpecial Boolean               @default(false)
+  isAvailable   Boolean               @default(true) // Dynamic stock/availability flag
   dietaryTags   String[]              // ["vegan", "halal", "glutenFree", etc.]
   image         String
   category      Category              @relation(fields: [categoryId], references: [id])

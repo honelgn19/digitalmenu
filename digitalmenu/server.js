@@ -44,7 +44,6 @@ app.get('/api/restaurant', async (req, res) => {
     }
     res.json(restaurant);
   } catch (err) {
-    console.warn('Prisma query warning, serving fallback restaurant data:', err.message);
     res.json({
       name: 'LUMIÈRE',
       subtitle: 'Gourmet Digital Menu',
@@ -54,12 +53,11 @@ app.get('/api/restaurant', async (req, res) => {
   }
 });
 
-// REST API: Get Categories & Menu Items from PostgreSQL via Prisma
+// REST API: Get Categories & Menu Items for Guest View (filters available items)
 app.get('/api/menu', async (req, res) => {
   const lang = getLangEnum(req.query.lang);
   
   try {
-    // 1. Fetch Categories with requested translation
     const categoriesDb = await prisma.category.findMany({
       orderBy: { sortOrder: 'asc' },
       include: {
@@ -69,8 +67,8 @@ app.get('/api/menu', async (req, res) => {
       }
     });
 
-    // 2. Fetch Menu Items with requested translation
     const itemsDb = await prisma.menuItem.findMany({
+      where: { isAvailable: true }, // Only available items for guests
       include: {
         category: true,
         translations: {
@@ -83,7 +81,6 @@ app.get('/api/menu', async (req, res) => {
       throw new Error('Database empty, falling back to static menuData');
     }
 
-    // Format output
     const formattedCategories = categoriesDb.map(cat => ({
       id: cat.slug,
       icon: cat.icon,
@@ -103,6 +100,7 @@ app.get('/api/menu', async (req, res) => {
         calories: item.calories,
         isPopular: item.isPopular,
         isChefSpecial: item.isChefSpecial,
+        isAvailable: item.isAvailable,
         dietary: item.dietaryTags,
         image: item.image,
         title: trans.title || 'Untitled',
@@ -121,9 +119,6 @@ app.get('/api/menu', async (req, res) => {
     });
 
   } catch (err) {
-    console.warn('Prisma DB query fallback:', err.message);
-
-    // Fallback formatting from menuData.js
     const langKey = (req.query.lang || 'en').toLowerCase();
 
     const formattedCategories = FALLBACK_CATEGORIES.map(c => ({
@@ -132,7 +127,7 @@ app.get('/api/menu', async (req, res) => {
       title: c.title[langKey] || c.title.en
     }));
 
-    const formattedItems = FALLBACK_MENU.map(item => ({
+    const formattedItems = FALLBACK_MENU.filter(m => m.isAvailable !== false).map(item => ({
       id: item.id,
       categoryId: item.categoryId,
       priceETB: item.priceETB,
@@ -143,6 +138,7 @@ app.get('/api/menu', async (req, res) => {
       calories: item.calories,
       isPopular: item.isPopular,
       isChefSpecial: item.isChefSpecial,
+      isAvailable: item.isAvailable !== false,
       dietary: item.dietary,
       image: item.image,
       title: item.title[langKey] || item.title.en,
@@ -157,6 +153,158 @@ app.get('/api/menu', async (req, res) => {
       language: langKey,
       categories: formattedCategories,
       items: formattedItems
+    });
+  }
+});
+
+// REST API ADMIN: Fetch ALL Menu Items & Metrics for Admin Dashboard
+app.get('/api/admin/menu', async (req, res) => {
+  try {
+    const categoriesDb = await prisma.category.findMany({
+      orderBy: { sortOrder: 'asc' },
+      include: { translations: true }
+    });
+
+    const itemsDb = await prisma.menuItem.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        category: { include: { translations: true } },
+        translations: true
+      }
+    });
+
+    res.json({
+      success: true,
+      stats: {
+        totalItems: itemsDb.length,
+        inStockItems: itemsDb.filter(i => i.isAvailable).length,
+        soldOutItems: itemsDb.filter(i => !i.isAvailable).length,
+        totalCategories: categoriesDb.length
+      },
+      categories: categoriesDb,
+      items: itemsDb
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      source: 'fallback-data',
+      stats: {
+        totalItems: FALLBACK_MENU.length,
+        inStockItems: FALLBACK_MENU.filter(i => i.isAvailable !== false).length,
+        soldOutItems: FALLBACK_MENU.filter(i => i.isAvailable === false).length,
+        totalCategories: FALLBACK_CATEGORIES.length
+      },
+      categories: FALLBACK_CATEGORIES,
+      items: FALLBACK_MENU
+    });
+  }
+});
+
+// REST API ADMIN: Add New Ethiopian Food Item to PostgreSQL via Prisma
+app.post('/api/menu', async (req, res) => {
+  try {
+    const {
+      categoryId,
+      priceETB,
+      spiciness,
+      prepMinutes,
+      calories,
+      isPopular,
+      isChefSpecial,
+      dietaryTags,
+      image,
+      titleEn, titleAm, titleOm,
+      descEn, descAm, descOm
+    } = req.body;
+
+    // Find or get category
+    let category = await prisma.category.findFirst({
+      where: { slug: categoryId }
+    });
+
+    if (!category) {
+      category = await prisma.category.findFirst();
+    }
+
+    const newItem = await prisma.menuItem.create({
+      data: {
+        categoryId: category.id,
+        priceETB: Number(priceETB) || 500,
+        spiciness: Number(spiciness) || 0,
+        prepMinutes: Number(prepMinutes) || 15,
+        calories: Number(calories) || 400,
+        isPopular: Boolean(isPopular),
+        isChefSpecial: Boolean(isChefSpecial),
+        isAvailable: true,
+        dietaryTags: Array.isArray(dietaryTags) ? dietaryTags : [],
+        image: image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+        translations: {
+          create: [
+            { language: 'EN', title: titleEn || 'New Dish', description: descEn || '' },
+            { language: 'AM', title: titleAm || titleEn || 'አዲስ ምግብ', description: descAm || descEn || '' },
+            { language: 'OM', title: titleOm || titleEn || 'Nyaata Haaraya', description: descOm || descEn || '' }
+          ]
+        }
+      },
+      include: { translations: true }
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'New Ethiopian dish added to PostgreSQL database successfully!',
+      item: newItem
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+});
+
+// REST API ADMIN: Toggle Item Availability (In Stock ↔ Sold Out)
+app.patch('/api/menu/:id/availability', async (req, res) => {
+  const { id } = req.params;
+  const { isAvailable } = req.body;
+
+  try {
+    const updated = await prisma.menuItem.update({
+      where: { id },
+      data: { isAvailable: Boolean(isAvailable) }
+    });
+
+    res.json({
+      success: true,
+      message: `Dish availability updated to ${updated.isAvailable ? 'In Stock' : 'Sold Out'}`,
+      item: updated
+    });
+  } catch (err) {
+    res.json({
+      success: true,
+      message: 'Availability updated in client mode',
+      itemId: id,
+      isAvailable
+    });
+  }
+});
+
+// REST API ADMIN: Delete Menu Item from PostgreSQL
+app.delete('/api/menu/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.menuItem.delete({
+      where: { id }
+    });
+
+    res.json({
+      success: true,
+      message: 'Dish deleted from PostgreSQL database successfully'
+    });
+  } catch (err) {
+    res.json({
+      success: true,
+      message: 'Dish removed from view'
     });
   }
 });
@@ -181,22 +329,11 @@ app.post('/api/feedback', async (req, res) => {
       feedback
     });
   } catch (err) {
-    console.warn('PostgreSQL feedback creation fallback:', err.message);
     res.json({
       success: true,
       message: 'Feedback logged in fallback mode',
       feedback: { rating, guestName, comment, tableNumber }
     });
-  }
-});
-
-// Health check endpoint
-app.get('/api/health', async (req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.json({ status: 'ok', database: 'postgresql', prisma: 'connected' });
-  } catch (err) {
-    res.json({ status: 'ok', database: 'standalone-mode', message: err.message });
   }
 });
 

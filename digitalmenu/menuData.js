@@ -28,6 +28,8 @@ export const TRANSLATIONS = {
     yourName: "Your Name (Optional)",
     yourComment: "Share your thoughts on the taste & presentation...",
     printQr: "Print QR Code",
+    soldOut: "Sold Out",
+    inStock: "In Stock",
     filters: {
       vegan: "🌱 Vegan",
       vegetarian: "🥗 Vegetarian",
@@ -72,6 +74,8 @@ export const TRANSLATIONS = {
     yourName: "ስምዎ (በምርጫ)",
     yourComment: "ስለ ምግቡ ጣዕም እና አቀራረብ አስተያየትዎን ያጋሩ...",
     printQr: "QR ኮዱን አትም",
+    soldOut: "ተሸጦ ያለቀ",
+    inStock: "አለ",
     filters: {
       vegan: "🌱 ቪጋን",
       vegetarian: "🥗 ቬጀቴሪያን",
@@ -116,6 +120,8 @@ export const TRANSLATIONS = {
     yourName: "Maqaa Keessan (Filannoodhaan)",
     yourComment: "Mi'aa fi haala dhiyeessa nyaataa irratti yaada keessan qooddaa...",
     printQr: "Maxxansaa QR Code",
+    soldOut: "Dhumate",
+    inStock: "Jira",
     filters: {
       vegan: "🌱 Viigaan",
       vegetarian: "🥗 Vejiteeriyaan",
@@ -200,6 +206,7 @@ export const MENU_ITEMS = [
     calories: 720,
     isPopular: true,
     isChefSpecial: true,
+    isAvailable: true,
     dietary: ["halal", "glutenFree"],
     image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -239,6 +246,7 @@ export const MENU_ITEMS = [
     calories: 680,
     isPopular: true,
     isChefSpecial: true,
+    isAvailable: true,
     dietary: ["halal", "glutenFree"],
     image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -278,6 +286,7 @@ export const MENU_ITEMS = [
     calories: 640,
     isPopular: true,
     isChefSpecial: false,
+    isAvailable: true,
     dietary: ["halal", "glutenFree"],
     image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -317,6 +326,7 @@ export const MENU_ITEMS = [
     calories: 510,
     isPopular: true,
     isChefSpecial: true,
+    isAvailable: true,
     dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -356,6 +366,7 @@ export const MENU_ITEMS = [
     calories: 440,
     isPopular: true,
     isChefSpecial: false,
+    isAvailable: true,
     dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
     image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -395,6 +406,7 @@ export const MENU_ITEMS = [
     calories: 580,
     isPopular: true,
     isChefSpecial: false,
+    isAvailable: true,
     dietary: ["vegetarian", "halal"],
     image: "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -434,6 +446,7 @@ export const MENU_ITEMS = [
     calories: 520,
     isPopular: false,
     isChefSpecial: true,
+    isAvailable: true,
     dietary: ["halal", "glutenFree", "nutFree"],
     image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -473,6 +486,7 @@ export const MENU_ITEMS = [
     calories: 610,
     isPopular: false,
     isChefSpecial: false,
+    isAvailable: true,
     dietary: ["halal", "glutenFree"],
     image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -512,6 +526,7 @@ export const MENU_ITEMS = [
     calories: 40,
     isPopular: true,
     isChefSpecial: true,
+    isAvailable: true,
     dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
     image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
     title: {
@@ -551,6 +566,7 @@ export const MENU_ITEMS = [
     calories: 190,
     isPopular: true,
     isChefSpecial: false,
+    isAvailable: true,
     dietary: ["vegan", "vegetarian", "halal", "glutenFree", "nutFree"],
     image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
     title: {
