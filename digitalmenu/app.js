@@ -47,21 +47,30 @@ const elements = {
   feedbackForm: document.getElementById('feedbackForm')
 };
 
+// Modal Helper Functions (Ensures inline style.display overrides HTML defaults)
+function showModal(el) {
+  if (!el) return;
+  el.style.display = 'flex';
+  el.classList.add('open');
+}
+
+function hideModal(el) {
+  if (!el) return;
+  el.style.display = 'none';
+  el.classList.remove('open');
+}
+
 // Initialize Application
 async function init() {
   document.documentElement.setAttribute('data-theme', state.theme);
   
-  // Set initial control values
-  elements.langSelect.value = state.currentLang;
-  elements.currencySelect.value = state.currentCurrency;
+  if (elements.langSelect) elements.langSelect.value = state.currentLang;
+  if (elements.currencySelect) elements.currencySelect.value = state.currentCurrency;
 
-  // Render static translated strings
+  // Apply Static Translations
   applyTranslations();
 
-  // Bind Event Listeners
-  bindEvents();
-
-  // Load menu data from PostgreSQL API
+  // Load Menu Items safely
   await loadMenuData();
 
   // Render Dynamic Components
@@ -69,39 +78,44 @@ async function init() {
   renderDietaryFilters();
   renderMenuGrid();
   updateSelectionCount();
+
+  // Bind Event Listeners
+  bindEvents();
 }
 
-// Fetch Menu Data from PostgreSQL API or fallback to static file
+// Fetch Menu Data from PostgreSQL API or fallback safely
 async function loadMenuData() {
   try {
     const res = await fetch(`/api/menu?lang=${state.currentLang}&currency=${state.currentCurrency}`);
     if (res.ok) {
       const data = await res.json();
-      if (data.categories && data.items) {
-        state.categories = data.categories.map(c => ({
-          id: c.id,
-          icon: c.icon,
-          title: { [state.currentLang]: c.title }
-        }));
+      if (data && data.items && Array.isArray(data.items) && data.items.length > 0) {
+        state.categories = (data.categories && data.categories.length > 0) 
+          ? data.categories.map(c => ({
+              id: c.id,
+              icon: c.icon || '🍽️',
+              title: typeof c.title === 'string' ? { [state.currentLang]: c.title, en: c.title } : (c.title || { en: c.id })
+            }))
+          : FALLBACK_CATEGORIES;
 
         state.menuItems = data.items.map(item => ({
           id: item.id,
           categoryId: item.categoryId,
-          priceETB: item.priceETB,
-          rating: item.rating,
-          reviewCount: item.reviewCount,
-          spiciness: item.spiciness,
-          prepMinutes: item.prepMinutes,
-          calories: item.calories,
-          isPopular: item.isPopular,
-          isChefSpecial: item.isChefSpecial,
-          dietary: item.dietary,
-          image: item.image,
-          title: { [state.currentLang]: item.title },
-          description: { [state.currentLang]: item.description },
-          allergens: { [state.currentLang]: item.allergens },
-          chefTip: item.chefTip ? { [state.currentLang]: item.chefTip } : null,
-          pairing: item.pairing ? { [state.currentLang]: item.pairing } : null
+          priceETB: item.priceETB || 500,
+          rating: item.rating || 4.8,
+          reviewCount: item.reviewCount || 50,
+          spiciness: item.spiciness || 0,
+          prepMinutes: item.prepMinutes || 15,
+          calories: item.calories || 400,
+          isPopular: Boolean(item.isPopular),
+          isChefSpecial: Boolean(item.isChefSpecial),
+          dietary: Array.isArray(item.dietary) ? item.dietary : (Array.isArray(item.dietaryTags) ? item.dietaryTags : []),
+          image: item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          title: typeof item.title === 'string' ? { [state.currentLang]: item.title, en: item.title } : (item.title || { en: 'Ethiopian Dish' }),
+          description: typeof item.description === 'string' ? { [state.currentLang]: item.description, en: item.description } : (item.description || { en: '' }),
+          allergens: item.allergens || [],
+          chefTip: item.chefTip || null,
+          pairing: item.pairing || null
         }));
 
         state.dataSource = data.source;
@@ -109,37 +123,36 @@ async function loadMenuData() {
       }
     }
   } catch (err) {
-    console.log('Using local client dataset');
+    console.warn('API fetch error, using fallback dataset:', err);
   }
 
-  // Fallback to static menuData.js
+  // Safe Fallback
   state.categories = FALLBACK_CATEGORIES;
   state.menuItems = FALLBACK_MENU;
   state.dataSource = 'fallback-data';
 }
 
-// Translate Page Static & Dynamic Texts
+// Translate Static Page Elements
 function applyTranslations() {
   const t = TRANSLATIONS[state.currentLang] || TRANSLATIONS.en;
 
-  // Apply Amharic specific typography styling if selected
   if (state.currentLang === 'am') {
     document.body.classList.add('ethiopic-text');
   } else {
     document.body.classList.remove('ethiopic-text');
   }
 
-  // Update Data Translatable Elements
   document.querySelectorAll('[data-t]').forEach(el => {
     const key = el.getAttribute('data-t');
     if (t[key]) el.textContent = t[key];
   });
 
-  // Update Search Placeholder
-  elements.searchInput.placeholder = t.searchPlaceholder;
+  if (elements.searchInput) {
+    elements.searchInput.placeholder = t.searchPlaceholder;
+  }
 }
 
-// Formats Price based on current Currency Rate & Symbol
+// Format Price for Selected Currency
 function formatPrice(priceETB) {
   const currencyInfo = CURRENCY_RATES[state.currentCurrency] || CURRENCY_RATES.ETB;
   const converted = (priceETB * currencyInfo.rate).toFixed(
@@ -164,7 +177,7 @@ function renderCategoryNav() {
   `;
 
   state.categories.forEach(cat => {
-    const catTitle = typeof cat.title === 'string' ? cat.title : (cat.title[state.currentLang] || cat.title.en);
+    const catTitle = typeof cat.title === 'string' ? cat.title : (cat.title[state.currentLang] || cat.title.en || cat.id);
     html += `
       <button class="cat-tab ${state.activeCategory === cat.id ? 'active' : ''}" data-cat="${cat.id}">
         ${cat.icon} ${catTitle}
@@ -172,27 +185,27 @@ function renderCategoryNav() {
     `;
   });
 
-  elements.categoryNav.innerHTML = html;
+  if (elements.categoryNav) {
+    elements.categoryNav.innerHTML = html;
 
-  // Tab click handler
-  elements.categoryNav.querySelectorAll('.cat-tab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const catId = btn.getAttribute('data-cat');
-      state.activeCategory = catId;
-      renderCategoryNav();
-      renderMenuGrid();
-      
-      // Smooth scroll to section if specific
-      if (catId !== 'all') {
-        const sec = document.getElementById(`sec-${catId}`);
-        if (sec) {
-          const yOffset = -120;
-          const y = sec.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
+    elements.categoryNav.querySelectorAll('.cat-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const catId = btn.getAttribute('data-cat');
+        state.activeCategory = catId;
+        renderCategoryNav();
+        renderMenuGrid();
+        
+        if (catId !== 'all') {
+          const sec = document.getElementById(`sec-${catId}`);
+          if (sec) {
+            const yOffset = -120;
+            const y = sec.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
         }
-      }
+      });
     });
-  });
+  }
 }
 
 // Render Dietary Pills
@@ -210,40 +223,39 @@ function renderDietaryFilters() {
     `;
   });
 
-  elements.filterPills.innerHTML = html;
+  if (elements.filterPills) {
+    elements.filterPills.innerHTML = html;
 
-  elements.filterPills.querySelectorAll('.pill-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-      if (state.activeFilters.has(filter)) {
-        state.activeFilters.delete(filter);
-      } else {
-        state.activeFilters.add(filter);
-      }
-      renderDietaryFilters();
-      renderMenuGrid();
+    elements.filterPills.querySelectorAll('.pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        if (state.activeFilters.has(filter)) {
+          state.activeFilters.delete(filter);
+        } else {
+          state.activeFilters.add(filter);
+        }
+        renderDietaryFilters();
+        renderMenuGrid();
+      });
     });
-  });
+  }
 }
 
-// Filter Menu Items based on category, search query & active dietary tags
+// Filter Menu Items
 function getFilteredItems() {
   return state.menuItems.filter(item => {
-    // Category Filter
     if (state.activeCategory !== 'all' && item.categoryId !== state.activeCategory) {
       return false;
     }
 
-    // Dietary Filters
     for (let f of state.activeFilters) {
       if (f === 'spicy') {
         if (item.spiciness === 0) return false;
       } else {
-        if (!item.dietary.includes(f)) return false;
+        if (!item.dietary || !item.dietary.includes(f)) return false;
       }
     }
 
-    // Search Query Filter
     if (state.searchQuery.trim() !== '') {
       const query = state.searchQuery.toLowerCase();
       const title = (typeof item.title === 'string' ? item.title : (item.title[state.currentLang] || item.title.en || '')).toLowerCase();
@@ -255,22 +267,23 @@ function getFilteredItems() {
   });
 }
 
-// Render Menu Grid Grouped by Category (Mobile Optimized)
+// Render Menu Grid Grouped by Category
 function renderMenuGrid() {
+  if (!elements.menuContainer) return;
+  
   const filtered = getFilteredItems();
   
   if (filtered.length === 0) {
     elements.menuContainer.innerHTML = `
       <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
         <div style="font-size: 3rem; margin-bottom: 10px;">🔍</div>
-        <h3>No dishes match your search or filters</h3>
+        <h3 style="color: var(--text-main);">No Ethiopian dishes match your search or filters</h3>
         <p style="font-size: 0.9rem; margin-top: 5px;">Try clearing filters or adjusting your search term.</p>
       </div>
     `;
     return;
   }
 
-  // Group items by Category
   const categoriesToRender = state.activeCategory === 'all' 
     ? state.categories 
     : state.categories.filter(c => c.id === state.activeCategory);
@@ -281,15 +294,15 @@ function renderMenuGrid() {
     const catItems = filtered.filter(item => item.categoryId === cat.id);
     if (catItems.length === 0) return;
 
-    const catTitle = typeof cat.title === 'string' ? cat.title : (cat.title[state.currentLang] || cat.title.en);
+    const catTitle = typeof cat.title === 'string' ? cat.title : (cat.title[state.currentLang] || cat.title.en || cat.id);
 
     containerHtml += `
-      <section class="category-section" id="sec-${cat.id}">
-        <div class="category-header">
-          <span class="category-icon">${cat.icon}</span>
-          <h2 class="category-title">${catTitle}</h2>
+      <section class="category-section mb-8" id="sec-${cat.id}">
+        <div class="category-header flex items-center gap-2 mb-4 border-b border-white/10 pb-2">
+          <span class="text-xl">${cat.icon}</span>
+          <h2 class="font-display font-bold text-lg text-amber-400">${catTitle}</h2>
         </div>
-        <div class="menu-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           ${catItems.map(item => createDishCardHtml(item)).join('')}
         </div>
       </section>
@@ -298,7 +311,6 @@ function renderMenuGrid() {
 
   elements.menuContainer.innerHTML = containerHtml;
 
-  // Attach card click & bookmark click handlers
   elements.menuContainer.querySelectorAll('.dish-card').forEach(card => {
     const itemId = card.getAttribute('data-id');
 
@@ -317,21 +329,21 @@ function renderMenuGrid() {
   });
 }
 
-// Helper: Generate Dish Card HTML (Mobile Optimized)
+// Generate Dish Card HTML
 function createDishCardHtml(item) {
-  const title = typeof item.title === 'string' ? item.title : (item.title[state.currentLang] || item.title.en);
-  const desc = typeof item.description === 'string' ? item.description : (item.description[state.currentLang] || item.description.en);
+  const title = typeof item.title === 'string' ? item.title : (item.title[state.currentLang] || item.title.en || 'Ethiopian Dish');
+  const desc = typeof item.description === 'string' ? item.description : (item.description[state.currentLang] || item.description.en || '');
   const priceFormatted = formatPrice(item.priceETB);
   const isBookmarked = state.mySelection.has(item.id);
 
   let badgeHtml = '';
   if (item.isChefSpecial) {
-    badgeHtml = `<span class="badge-chip">Chef Signature</span>`;
+    badgeHtml = `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-md text-[10px] font-bold">Chef Signature</span>`;
   } else if (item.isPopular) {
-    badgeHtml = `<span class="badge-chip">Popular</span>`;
+    badgeHtml = `<span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 px-2 py-0.5 rounded-md text-[10px] font-bold">Popular</span>`;
   }
 
-  const dietaryIcons = item.dietary.map(d => {
+  const dietaryIcons = (item.dietary || []).map(d => {
     if (d === 'vegan') return '🌱';
     if (d === 'vegetarian') return '🥗';
     if (d === 'glutenFree') return '🌾';
@@ -340,32 +352,34 @@ function createDishCardHtml(item) {
   }).join(' ');
 
   return `
-    <div class="dish-card" data-id="${item.id}">
-      <div class="dish-img-wrapper">
-        <img src="${item.image}" alt="${title}" class="dish-img" loading="lazy" />
-        <div class="dish-badge-row">
-          <div>${badgeHtml}</div>
-          <button class="fav-bookmark-btn ${isBookmarked ? 'active' : ''}" title="Save to My Selection">
+    <div class="dish-card bg-[#141824] border border-white/10 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between cursor-pointer hover:border-amber-400/40 transition-all" data-id="${item.id}">
+      <div class="relative h-44 w-full overflow-hidden bg-slate-900">
+        <img src="${item.image}" alt="${title}" class="w-full h-full object-cover" loading="lazy" />
+        <div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
+          <div class="pointer-events-auto">${badgeHtml}</div>
+          <button class="fav-bookmark-btn pointer-events-auto w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center text-xs ${isBookmarked ? 'bg-amber-500 text-black' : ''}" title="Save to My Selection">
             ${isBookmarked ? '🔖' : '📑'}
           </button>
         </div>
       </div>
-      <div class="dish-info">
-        <div class="dish-header-row">
-          <h3 class="dish-name">${title}</h3>
-          <span class="dish-price">${priceFormatted}</span>
+      <div class="p-4 flex-1 flex flex-col justify-between gap-2">
+        <div>
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <h3 class="font-display font-bold text-sm sm:text-base text-white leading-snug">${title}</h3>
+            <span class="font-bold text-amber-400 text-sm sm:text-base whitespace-nowrap">${priceFormatted}</span>
+          </div>
+          <p class="text-xs text-slate-400 line-clamp-2">${desc}</p>
         </div>
-        <p class="dish-desc">${desc}</p>
-        <div class="dish-footer-meta">
-          <span class="rating-star">★ ${item.rating} (${item.reviewCount})</span>
-          <span class="tags-inline">${dietaryIcons}</span>
+        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-white/5">
+          <span class="text-amber-400 font-semibold">★ ${item.rating} (${item.reviewCount})</span>
+          <span>${dietaryIcons}</span>
         </div>
       </div>
     </div>
   `;
 }
 
-// Toggle Wishlist / My Selection
+// Toggle Wishlist
 function toggleWishlist(id) {
   if (state.mySelection.has(id)) {
     state.mySelection.delete(id);
@@ -379,7 +393,7 @@ function toggleWishlist(id) {
   renderSelectionDrawer();
 }
 
-// Update Wishlist Counter Badges (Desktop & Mobile)
+// Update Wishlist Badges
 function updateSelectionCount() {
   const count = state.mySelection.size;
   if (elements.selectionCountBadge) {
@@ -392,7 +406,7 @@ function updateSelectionCount() {
   }
 }
 
-// Dish Detail Mobile Modal
+// Open Dish Detail Modal
 function openDishModal(id) {
   const item = state.menuItems.find(m => m.id === id);
   if (!item) return;
@@ -414,61 +428,58 @@ function openDishModal(id) {
   const isBookmarked = state.mySelection.has(item.id);
 
   elements.modalContent.innerHTML = `
-    <img src="${item.image}" alt="${title}" class="modal-hero-img" />
-    <div class="modal-body">
-      <h2 class="modal-title">${title}</h2>
-      <div class="modal-price-row">
-        <span class="modal-price">${priceFormatted}</span>
-        <button class="fav-bookmark-btn ${isBookmarked ? 'active' : ''}" id="modalFavBtn" style="width: 40px; height: 40px;">
+    <img src="${item.image}" alt="${title}" class="w-full h-56 object-cover" />
+    <div class="p-5">
+      <h2 class="text-xl font-bold font-display text-white mb-2">${title}</h2>
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xl font-bold text-amber-400">${priceFormatted}</span>
+        <button class="fav-bookmark-btn w-9 h-9 rounded-full bg-slate-800 border border-white/10 text-white flex items-center justify-center ${isBookmarked ? 'bg-amber-500 text-black' : ''}" id="modalFavBtn">
           ${isBookmarked ? '🔖' : '📑'}
         </button>
       </div>
 
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">${desc}</p>
+      <p class="text-xs text-slate-300 mb-5 leading-relaxed">${desc}</p>
 
-      <div class="modal-meta-grid">
+      <div class="grid grid-cols-3 gap-2 bg-slate-900/80 p-3 rounded-xl border border-white/10 text-center mb-4 text-xs">
         <div>
-          <div style="color: var(--text-subtle);">${t.prepTime}</div>
-          <div class="modal-meta-val">⏱️ ${item.prepMinutes} mins</div>
+          <div class="text-[10px] text-slate-500">${t.prepTime}</div>
+          <div class="font-bold text-white mt-0.5">⏱️ ${item.prepMinutes}m</div>
         </div>
         <div>
-          <div style="color: var(--text-subtle);">${t.calories}</div>
-          <div class="modal-meta-val">🔥 ${item.calories} kcal</div>
+          <div class="text-[10px] text-slate-500">${t.calories}</div>
+          <div class="font-bold text-white mt-0.5">🔥 ${item.calories}k</div>
         </div>
         <div>
-          <div style="color: var(--text-subtle);">Rating</div>
-          <div class="modal-meta-val">★ ${item.rating} / 5</div>
+          <div class="text-[10px] text-slate-500">Rating</div>
+          <div class="font-bold text-amber-400 mt-0.5">★ ${item.rating}</div>
         </div>
       </div>
 
-      <div class="section-block">
-        <div class="block-heading">${t.allergens}</div>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">${allergens}</p>
+      <div class="mb-4">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">${t.allergens}</div>
+        <p class="text-xs text-slate-300">${allergens}</p>
       </div>
 
       ${chefTip ? `
-        <div class="section-block">
-          <div class="block-heading">${t.chefTip}</div>
-          <p style="font-size: 0.9rem; color: var(--accent-gold); font-style: italic;">"${chefTip}"</p>
+        <div class="mb-4 bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl text-xs text-amber-300">
+          <div class="font-bold mb-0.5">💡 ${t.chefTip}</div>
+          <div>"${chefTip}"</div>
         </div>
       ` : ''}
 
       ${pairing ? `
-        <div class="section-block">
-          <div class="block-heading">${t.recommendedPairing}</div>
-          <div class="pairing-box">
-            <span style="font-size: 1.4rem;">🍷</span>
-            <div>
-              <div style="font-weight: 600; color: var(--text-main);">${pairing}</div>
-              <div style="font-size: 0.8rem; color: var(--text-muted);">Pairs exceptionally well with this dish</div>
-            </div>
+        <div class="bg-slate-900 p-3 rounded-xl border border-white/10 flex items-center gap-3 text-xs">
+          <span class="text-xl">🍷</span>
+          <div>
+            <div class="font-bold text-white">${pairing}</div>
+            <div class="text-[10px] text-slate-400">Recommended drink pairing</div>
           </div>
         </div>
       ` : ''}
     </div>
   `;
 
-  elements.dishModalOverlay.classList.add('open');
+  showModal(elements.dishModalOverlay);
 
   const modalFavBtn = document.getElementById('modalFavBtn');
   if (modalFavBtn) {
@@ -479,23 +490,23 @@ function openDishModal(id) {
   }
 }
 
-// Selection Drawer Rendering
+// Render Selection Drawer
 function renderSelectionDrawer() {
   const t = TRANSLATIONS[state.currentLang] || TRANSLATIONS.en;
-  
+  if (!elements.drawerItemsList) return;
+
   if (state.mySelection.size === 0) {
     elements.drawerItemsList.innerHTML = `
-      <div style="text-align: center; padding: 40px 10px; color: var(--text-muted);">
-        <div style="font-size: 2.5rem; margin-bottom: 10px;">📑</div>
-        <h4 style="color: var(--text-main);">${t.selectionEmpty}</h4>
-        <p style="font-size: 0.85rem; margin-top: 5px;">${t.selectionSubhead}</p>
+      <div class="text-center py-10 text-slate-400">
+        <div class="text-3xl mb-2">📑</div>
+        <h4 class="font-bold text-white text-sm">${t.selectionEmpty}</h4>
+        <p class="text-xs mt-1 text-slate-500">${t.selectionSubhead}</p>
       </div>
     `;
     return;
   }
 
   const selectedItems = state.menuItems.filter(m => state.mySelection.has(m.id));
-  
   let html = '';
   let totalETB = 0;
 
@@ -505,21 +516,21 @@ function renderSelectionDrawer() {
     const priceFormatted = formatPrice(item.priceETB);
 
     html += `
-      <div class="drawer-item-card">
-        <img src="${item.image}" class="drawer-item-img" alt="${title}" />
-        <div class="drawer-item-info">
-          <div style="font-weight: 600; font-size: 0.95rem;">${title}</div>
-          <div style="color: var(--accent-gold); font-weight: 700; font-size: 0.9rem;">${priceFormatted}</div>
+      <div class="flex items-center gap-3 p-2.5 bg-slate-900/80 border border-white/10 rounded-xl">
+        <img src="${item.image}" class="w-12 h-12 rounded-lg object-cover" alt="${title}" />
+        <div class="flex-1">
+          <div class="font-semibold text-xs text-white">${title}</div>
+          <div class="font-bold text-amber-400 text-xs">${priceFormatted}</div>
         </div>
-        <button class="remove-btn" data-remove="${item.id}" title="Remove">✕</button>
+        <button class="text-slate-400 hover:text-rose-400 px-2 py-1 text-xs" data-remove="${item.id}" title="Remove">✕</button>
       </div>
     `;
   });
 
   html += `
-    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-subtle); display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700;">
-      <span>Total Estimated:</span>
-      <span style="color: var(--accent-gold);">${formatPrice(totalETB)}</span>
+    <div class="mt-3 pt-3 border-t border-dashed border-white/10 flex justify-between font-bold text-sm">
+      <span class="text-slate-300">Total Estimated:</span>
+      <span class="text-amber-400">${formatPrice(totalETB)}</span>
     </div>
   `;
 
@@ -533,16 +544,17 @@ function renderSelectionDrawer() {
   });
 }
 
-// Generate Universal Table QR Code pointing directly to the /menu URL
+// Generate Universal Table QR Code
 function renderUniversalQrCode() {
   const universalUrl = window.location.origin + '/menu';
-  
+  if (!elements.qrCanvasBox) return;
+
   elements.qrCanvasBox.innerHTML = `
-    <div style="background: #ffffff; padding: 14px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
+    <div class="bg-white p-3.5 rounded-xl inline-block shadow-xl">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" class="block mx-auto w-44 h-44" />
     </div>
-    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; word-break: break-all;">
-      📍 <span style="color: var(--accent-gold); font-weight: 600;">Table QR Menu URL:</span> ${universalUrl}
+    <p class="text-xs text-slate-400 mt-3 break-all">
+      📍 <span class="text-amber-400 font-semibold">Table QR Menu URL:</span> ${universalUrl}
     </p>
   `;
 }
@@ -550,89 +562,109 @@ function renderUniversalQrCode() {
 // Bind Event Handlers
 function bindEvents() {
   // Theme Toggle
-  elements.themeToggleBtn.addEventListener('click', () => {
-    state.theme = state.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', state.theme);
-    localStorage.setItem('lumiere_theme', state.theme);
-    elements.themeToggleBtn.textContent = state.theme === 'dark' ? '🌙' : '☀️';
-  });
+  if (elements.themeToggleBtn) {
+    elements.themeToggleBtn.addEventListener('click', () => {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', state.theme);
+      localStorage.setItem('lumiere_theme', state.theme);
+      elements.themeToggleBtn.textContent = state.theme === 'dark' ? '🌙' : '☀️';
+    });
+  }
 
   // Language Switcher
-  elements.langSelect.addEventListener('change', async (e) => {
-    state.currentLang = e.target.value;
-    localStorage.setItem('lumiere_lang', state.currentLang);
-    applyTranslations();
-    await loadMenuData();
-    renderCategoryNav();
-    renderDietaryFilters();
-    renderMenuGrid();
-    renderSelectionDrawer();
-  });
+  if (elements.langSelect) {
+    elements.langSelect.addEventListener('change', async (e) => {
+      state.currentLang = e.target.value;
+      localStorage.setItem('lumiere_lang', state.currentLang);
+      applyTranslations();
+      await loadMenuData();
+      renderCategoryNav();
+      renderDietaryFilters();
+      renderMenuGrid();
+      renderSelectionDrawer();
+    });
+  }
 
   // Currency Switcher
-  elements.currencySelect.addEventListener('change', (e) => {
-    state.currentCurrency = e.target.value;
-    localStorage.setItem('lumiere_currency', state.currentCurrency);
-    renderMenuGrid();
-    renderSelectionDrawer();
-  });
+  if (elements.currencySelect) {
+    elements.currencySelect.addEventListener('change', (e) => {
+      state.currentCurrency = e.target.value;
+      localStorage.setItem('lumiere_currency', state.currentCurrency);
+      renderMenuGrid();
+      renderSelectionDrawer();
+    });
+  }
 
   // Live Search Input
-  elements.searchInput.addEventListener('input', (e) => {
-    state.searchQuery = e.target.value;
-    renderMenuGrid();
-  });
+  if (elements.searchInput) {
+    elements.searchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value;
+      renderMenuGrid();
+    });
+  }
 
-  // Drawer Controls (Desktop & Mobile buttons)
+  // Drawer Controls
   const openDrawerHandler = () => {
     renderSelectionDrawer();
-    elements.selectionDrawerOverlay.classList.add('open');
+    showModal(elements.selectionDrawerOverlay);
   };
 
   if (elements.openSelectionBtn) elements.openSelectionBtn.addEventListener('click', openDrawerHandler);
   if (elements.openSelectionBtnMobile) elements.openSelectionBtnMobile.addEventListener('click', openDrawerHandler);
 
-  elements.closeSelectionBtn.addEventListener('click', () => {
-    elements.selectionDrawerOverlay.classList.remove('open');
-  });
+  if (elements.closeSelectionBtn) {
+    elements.closeSelectionBtn.addEventListener('click', () => {
+      hideModal(elements.selectionDrawerOverlay);
+    });
+  }
 
-  elements.clearSelectionBtn.addEventListener('click', () => {
-    state.mySelection.clear();
-    localStorage.removeItem('lumiere_selection');
-    updateSelectionCount();
-    renderMenuGrid();
-    renderSelectionDrawer();
-  });
+  if (elements.clearSelectionBtn) {
+    elements.clearSelectionBtn.addEventListener('click', () => {
+      state.mySelection.clear();
+      localStorage.removeItem('lumiere_selection');
+      updateSelectionCount();
+      renderMenuGrid();
+      renderSelectionDrawer();
+    });
+  }
 
   // Modal Closures
-  elements.closeDishModalBtn.addEventListener('click', () => {
-    elements.dishModalOverlay.classList.remove('open');
-  });
+  if (elements.closeDishModalBtn) {
+    elements.closeDishModalBtn.addEventListener('click', () => {
+      hideModal(elements.dishModalOverlay);
+    });
+  }
 
-  elements.dishModalOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.dishModalOverlay) {
-      elements.dishModalOverlay.classList.remove('open');
-    }
-  });
+  if (elements.dishModalOverlay) {
+    elements.dishModalOverlay.addEventListener('click', (e) => {
+      if (e.target === elements.dishModalOverlay) {
+        hideModal(elements.dishModalOverlay);
+      }
+    });
+  }
 
   // Attach QR Modal Triggers to ALL [data-open-qr] elements
   document.querySelectorAll('[data-open-qr]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       renderUniversalQrCode();
-      elements.qrModalOverlay.classList.add('open');
+      showModal(elements.qrModalOverlay);
     });
   });
 
-  elements.closeQrBtn.addEventListener('click', () => {
-    elements.qrModalOverlay.classList.remove('open');
-  });
+  if (elements.closeQrBtn) {
+    elements.closeQrBtn.addEventListener('click', () => {
+      hideModal(elements.qrModalOverlay);
+    });
+  }
 
-  elements.qrModalOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.qrModalOverlay) {
-      elements.qrModalOverlay.classList.remove('open');
-    }
-  });
+  if (elements.qrModalOverlay) {
+    elements.qrModalOverlay.addEventListener('click', (e) => {
+      if (e.target === elements.qrModalOverlay) {
+        hideModal(elements.qrModalOverlay);
+      }
+    });
+  }
 
   // Copy Link Action
   if (elements.copyUrlBtn) {
@@ -650,63 +682,69 @@ function bindEvents() {
     });
   }
 
-  // Share Menu
-  elements.shareMenuBtn.addEventListener('click', () => {
-    const menuUrl = window.location.origin + '/menu';
-    if (navigator.share) {
-      navigator.share({
-        title: 'Lumière Digital Menu',
-        text: 'Explore our gourmet digital menu!',
-        url: menuUrl
-      }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(menuUrl);
-      alert('Menu link copied to clipboard!');
-    }
-  });
+  // Share Menu Action
+  if (elements.shareMenuBtn) {
+    elements.shareMenuBtn.addEventListener('click', () => {
+      const menuUrl = window.location.origin + '/menu';
+      if (navigator.share) {
+        navigator.share({
+          title: 'Selam Restaurant Digital Menu',
+          text: 'Explore Selam Restaurant authentic Ethiopian digital menu!',
+          url: menuUrl
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(menuUrl);
+        alert('Menu link copied to clipboard!');
+      }
+    });
+  }
 
-  // Feedback Modal
-  elements.openFeedbackBtn.addEventListener('click', () => {
-    elements.feedbackModalOverlay.classList.add('open');
-  });
+  // Feedback Modal Actions
+  if (elements.openFeedbackBtn) {
+    elements.openFeedbackBtn.addEventListener('click', () => {
+      showModal(elements.feedbackModalOverlay);
+    });
+  }
 
-  elements.closeFeedbackBtn.addEventListener('click', () => {
-    elements.feedbackModalOverlay.classList.remove('open');
-  });
+  if (elements.closeFeedbackBtn) {
+    elements.closeFeedbackBtn.addEventListener('click', () => {
+      hideModal(elements.feedbackModalOverlay);
+    });
+  }
 
-  elements.feedbackModalOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.feedbackModalOverlay) {
-      elements.feedbackModalOverlay.classList.remove('open');
-    }
-  });
+  if (elements.feedbackModalOverlay) {
+    elements.feedbackModalOverlay.addEventListener('click', (e) => {
+      if (e.target === elements.feedbackModalOverlay) {
+        hideModal(elements.feedbackModalOverlay);
+      }
+    });
+  }
 
-  // Submit Feedback via API
-  elements.feedbackForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const t = TRANSLATIONS[state.currentLang] || TRANSLATIONS.en;
-    
-    const inputs = elements.feedbackForm.querySelectorAll('input, textarea');
-    const guestName = inputs[0]?.value || 'Anonymous Guest';
-    const comment = inputs[1]?.value || '';
+  // Submit Feedback Action
+  if (elements.feedbackForm) {
+    elements.feedbackForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const t = TRANSLATIONS[state.currentLang] || TRANSLATIONS.en;
+      
+      const inputs = elements.feedbackForm.querySelectorAll('input, textarea');
+      const guestName = inputs[0]?.value || 'Anonymous Guest';
+      const comment = inputs[1]?.value || '';
 
-    try {
-      await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          rating: 5,
-          guestName,
-          comment
-        })
-      });
-    } catch (err) {
-      console.log('Feedback logged client-side');
-    }
+      try {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rating: 5, guestName, comment })
+        });
+      } catch (err) {
+        console.log('Feedback logged client-side');
+      }
 
-    alert(t.feedbackSuccess);
-    elements.feedbackModalOverlay.classList.remove('open');
-    elements.feedbackForm.reset();
-  });
+      alert(t.feedbackSuccess);
+      hideModal(elements.feedbackModalOverlay);
+      elements.feedbackForm.reset();
+    });
+  }
 }
 
 // Run Application on Load
