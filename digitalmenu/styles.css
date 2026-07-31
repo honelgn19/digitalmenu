@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------
- * LUMIÈRE DIGITAL MENU - MOBILE-FIRST LUXURY DESIGN SYSTEM
+ * LUMIÈRE & SELAM DIGITAL MENU - MOBILE-FIRST LUXURY DESIGN SYSTEM
  * ------------------------------------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Ethiopic:wght@300;400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
@@ -71,7 +71,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 15px; /* Mobile optimal base font size */
+  font-size: 15px;
 }
 
 body {
@@ -81,7 +81,7 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 70px; /* Space for mobile floating bar */
+  padding-bottom: 70px;
 }
 
 /* Ethiopic Amharic Typography */
@@ -92,12 +92,77 @@ body {
 
 /* Mobile Touch Buttons */
 button, select, input, textarea, a {
-  min-height: 44px; /* Apple & Android touch target standard */
+  min-height: 44px;
 }
 
 button:active, .dish-card:active {
-  transform: scale(0.98) !important;
+  transform: scale(0.96) !important;
   transition: transform 0.1s ease;
+}
+
+/* Category Navigation Pill Buttons - Highly Prominent & Interactive */
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background-color: rgba(18, 22, 33, 0.9);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.cat-tab:hover {
+  border-color: rgba(230, 183, 99, 0.5);
+  color: var(--text-main);
+  background-color: rgba(30, 36, 50, 0.95);
+  transform: translateY(-1px);
+}
+
+/* Active Selected Category Button */
+.cat-tab.active {
+  background: linear-gradient(135deg, #e6b763 0%, #b38020 100%) !important;
+  color: #000000 !important;
+  border-color: #fce7f3 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 6px 20px rgba(230, 183, 99, 0.35) !important;
+  transform: scale(1.03) !important;
+}
+
+/* Dietary Filter Pills */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background-color: rgba(18, 22, 33, 0.8);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+  border-color: rgba(230, 183, 99, 0.4);
+  color: var(--text-main);
+}
+
+.pill-btn.active {
+  background-color: rgba(230, 183, 99, 0.2) !important;
+  color: var(--accent-gold) !important;
+  border-color: var(--accent-gold) !important;
+  font-weight: 700 !important;
 }
 
 /* Hide scrollbars for swipeable rows */

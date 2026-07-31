@@ -109,7 +109,7 @@
     </div>
   </section>
 
-  <!-- Mobile Search Bar & Filters -->
+  <!-- Mobile Search Bar & Dietary Filters -->
   <div class="max-w-7xl mx-auto px-3.5 sm:px-6 my-4 flex flex-col gap-3">
     <!-- Live Search -->
     <div class="relative w-full">
@@ -123,10 +123,16 @@
     </div>
   </div>
 
-  <!-- Sticky Swipeable Category Navigation Tabs -->
-  <nav class="sticky top-[58px] z-40 bg-[#121621]/90 backdrop-blur-md border-b border-white/10 py-2">
-    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 flex gap-2 overflow-x-auto scrollbar-none" id="categoryNav">
-      <!-- Dynamically Rendered Swipeable Category Tabs -->
+  <!-- Sticky Swipeable Category Navigation Bar -->
+  <nav class="sticky top-[58px] z-40 bg-[#121621]/95 backdrop-blur-md border-y border-white/10 py-2.5 shadow-xl">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6">
+      <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mb-1.5 px-0.5">
+        <span class="flex items-center gap-1 text-amber-400/90 uppercase tracking-wider"><span>📂</span> Food Categories (Tap to Filter)</span>
+        <span class="text-[10px] text-slate-400 flex items-center gap-0.5">👉 Swipe</span>
+      </div>
+      <div class="flex gap-2.5 overflow-x-auto scrollbar-none py-0.5" id="categoryNav">
+        <!-- Dynamically Rendered Pill Buttons -->
+      </div>
     </div>
   </nav>
 
