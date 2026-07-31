@@ -2,10 +2,15 @@
 <html lang="en" data-theme="dark" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUMIÈRE | Gourmet Digital Menu & Culinary Showcase</title>
-  <meta name="description" content="Experience Lumière's interactive digital menu built with Tailwind CSS. Browse gourmet starters, chef signatures, and craft drinks in English, Amharic, or Oromo.">
-  <meta name="keywords" content="digital menu, Tailwind CSS menu, QR restaurant menu, Lumiere dining, Ethiopian cuisine, Amharic menu, Oromo menu">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LUMIÈRE | Authentic Ethiopian Digital Menu</title>
+  <meta name="description" content="Mobile-first Ethiopian digital menu for Lumière Fine Dining. Browse gourmet starters, traditional mains, fasting dishes, and coffee ceremony.">
+  <meta name="keywords" content="digital menu, mobile menu, QR restaurant menu, Lumiere dining, Ethiopian cuisine, Amharic menu, Oromo menu">
+  
+  <!-- Mobile Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0b0d12">
   
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
@@ -24,7 +29,7 @@
               bgDark: '#0b0d12',
               surfaceDark: '#131722',
               cardDark: 'rgba(22, 27, 38, 0.75)',
-              glassDark: 'rgba(18, 22, 33, 0.8)'
+              glassDark: 'rgba(18, 22, 33, 0.88)'
             }
           },
           fontFamily: {
@@ -36,47 +41,42 @@
     }
   </script>
 
-  <!-- Custom Design Tokens & Ethiopic Font Styles -->
+  <!-- Custom Mobile-First Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#0b0d12] text-slate-100 font-sans min-h-screen antialiased transition-colors duration-300">
+<body class="bg-[#0b0d12] text-slate-100 font-sans min-h-screen antialiased select-none pb-20">
 
-  <!-- Universal Table Announcement Bar -->
-  <div class="table-bar bg-gradient-to-r from-indigo-950 via-purple-950 to-indigo-950 text-amber-400 py-2 px-4 text-xs sm:text-sm font-semibold flex justify-center items-center gap-2 border-b border-white/10 cursor-pointer" data-open-qr id="tableNoticeBar">
-    <span class="flex items-center gap-1.5">✨ <span data-t="tableNotice">Universal Restaurant Table Menu</span></span>
-    <span class="table-badge-chip bg-amber-400/20 border border-amber-400/40 text-amber-300 px-3 py-0.5 rounded-full text-xs hover:bg-amber-400/40 transition-colors">Scan & Explore QR 📲</span>
+  <!-- Mobile Top Announcement Bar -->
+  <div class="table-bar bg-gradient-to-r from-indigo-950 via-purple-950 to-indigo-950 text-amber-400 py-2 px-3 text-xs font-semibold flex justify-between items-center border-b border-white/10" data-open-qr id="tableNoticeBar">
+    <span class="flex items-center gap-1 text-[11px] sm:text-xs">✨ <span data-t="tableNotice">Universal Restaurant Table Menu</span></span>
+    <span class="bg-amber-400/20 border border-amber-400/40 text-amber-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold">Scan & Explore 📲</span>
   </div>
 
-  <!-- Main Navigation Header (Customer Only) -->
-  <header class="navbar sticky top-0 z-50 bg-[#121621]/80 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3.5">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+  <!-- Mobile Sticky Header -->
+  <header class="navbar sticky top-0 z-50 bg-[#121621]/90 backdrop-blur-md border-b border-white/10 px-3.5 sm:px-6 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
       
       <!-- Brand Logo -->
-      <div class="brand-wrapper flex items-center gap-3 cursor-pointer group" id="brandLogoBtn">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-xl text-white shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">✨</div>
+      <div class="brand-wrapper flex items-center gap-2.5 cursor-pointer" id="brandLogoBtn">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-700 flex items-center justify-center text-lg text-white font-bold shadow-md shadow-amber-500/20">✨</div>
         <div class="flex flex-col">
-          <span class="brand-name font-display text-xl font-bold tracking-tight text-amber-400" data-t="brandName">LUMIÈRE</span>
-          <span class="brand-subtitle text-[11px] text-slate-400 uppercase tracking-widest" data-t="brandSubtitle">Gourmet Digital Menu</span>
+          <span class="brand-name font-display text-lg sm:text-xl font-bold tracking-tight text-amber-400 leading-tight" data-t="brandName">LUMIÈRE</span>
+          <span class="brand-subtitle text-[9px] sm:text-[10px] text-slate-400 uppercase tracking-wider" data-t="brandSubtitle">Gourmet Digital Menu</span>
         </div>
       </div>
 
-      <!-- Header Controls: Language, Currency, QR Code, Theme & Wishlist -->
-      <div class="header-actions flex items-center gap-2.5">
+      <!-- Mobile Top Controls: Lang, Currency & Theme -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
         
-        <!-- QR Code Header Button -->
-        <button class="icon-btn w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" data-open-qr title="View Universal Table QR Code" aria-label="View QR Code">
-          📱
-        </button>
-
-        <!-- Multi-Language Switcher (Instant EN, AM, OM) -->
-        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-2.5 sm:px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="langSelect" aria-label="Select Language">
-          <option value="en">🇬🇧 English</option>
-          <option value="am">🇪🇹 አማርኛ (Amharic)</option>
-          <option value="om">🇪🇹 Afaan Oromoo</option>
+        <!-- Language Switcher -->
+        <select class="bg-slate-900/90 text-slate-200 border border-white/10 rounded-lg text-xs font-medium px-2 py-1.5 outline-none focus:border-amber-400" id="langSelect" aria-label="Select Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="am">🇪🇹 አማ</option>
+          <option value="om">🇪🇹 OM</option>
         </select>
 
-        <!-- Multi-Currency Switcher -->
-        <select class="control-select bg-slate-900/80 text-slate-200 border border-white/10 rounded-lg text-xs sm:text-sm font-medium px-2.5 sm:px-3 py-2 outline-none focus:border-amber-400 transition-colors" id="currencySelect" aria-label="Select Currency">
+        <!-- Currency Switcher -->
+        <select class="bg-slate-900/90 text-slate-200 border border-white/10 rounded-lg text-xs font-medium px-2 py-1.5 outline-none focus:border-amber-400" id="currencySelect" aria-label="Select Currency">
           <option value="ETB">Br ETB</option>
           <option value="USD">$ USD</option>
           <option value="EUR">€ EUR</option>
@@ -84,162 +84,158 @@
         </select>
 
         <!-- Theme Toggle -->
-        <button class="icon-btn w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
+        <button class="w-9 h-9 rounded-lg bg-slate-900/90 border border-white/10 text-slate-200 flex items-center justify-center text-sm" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle Theme">
           🌙
-        </button>
-
-        <!-- My Selection / Wishlist Drawer Button -->
-        <button class="icon-btn relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-slate-900/80 border border-white/10 text-slate-200 hover:border-amber-400 flex items-center justify-center transition-colors" id="openSelectionBtn" title="My Selection" aria-label="Open My Selection">
-          🔖
-          <span class="badge-count absolute -top-1.5 -right-1.5 bg-amber-400 text-black font-extrabold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md" id="selectionCountBadge" style="display: none;">0</span>
         </button>
 
       </div>
     </div>
   </header>
 
-  <!-- Hero Banner Section -->
-  <section class="hero-section max-w-7xl mx-auto px-4 sm:px-8 mt-5 mb-3">
-    <div class="hero-card relative h-64 sm:h-72 rounded-2xl overflow-hidden flex items-end p-6 sm:p-8 border border-white/10 shadow-2xl">
-      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80" alt="Lumiere Dining Experience" class="hero-bg-img absolute inset-0 w-full h-full object-cover brightness-75 contrast-110 hover:scale-105 transition-transform duration-700">
-      <div class="hero-overlay absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-      <div class="hero-content relative z-10 w-full flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <h1 class="hero-title text-2xl sm:text-4xl font-display font-extrabold text-white mb-2 drop-shadow-md" data-t="generalWelcome">Welcome to Lumière Fine Dining</h1>
-          <div class="hero-meta flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300">
-            <span class="meta-item flex items-center gap-2"><span class="status-dot w-2 h-2 rounded-full bg-emerald-400 shadow-md shadow-emerald-400"></span> <span data-t="openHours">Open Today: 11:30 AM - 11:00 PM</span></span>
-            <span class="meta-item">📍 Bole Road, Addis Ababa</span>
-            <span class="meta-item">📶 WiFi: LumiereGuest (Pass: Lumiere2026)</span>
-          </div>
+  <!-- Mobile Hero Section -->
+  <section class="max-w-7xl mx-auto px-3.5 sm:px-6 mt-3.5 mb-3">
+    <div class="relative h-44 sm:h-56 rounded-2xl overflow-hidden flex items-end p-4 sm:p-6 border border-white/10 shadow-xl">
+      <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Lumiere Dining Experience" class="absolute inset-0 w-full h-full object-cover brightness-75 contrast-110">
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+      
+      <div class="relative z-10 w-full flex flex-col gap-1">
+        <h1 class="text-xl sm:text-3xl font-display font-bold text-white drop-shadow-md leading-tight" data-t="generalWelcome">Welcome to Lumière Fine Dining</h1>
+        <div class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-slate-300">
+          <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400"></span> <span data-t="openHours">Open Today: 11:30 AM - 11:00 PM</span></span>
+          <span>•</span>
+          <span>📍 Bole Road, Addis Ababa</span>
         </div>
-
-        <button class="bg-amber-400/20 hover:bg-amber-400/30 border border-amber-400/50 text-amber-300 px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 backdrop-blur-md transition-all self-start sm:self-auto" data-open-qr>
-          📲 Universal Table QR
-        </button>
       </div>
     </div>
   </section>
 
-  <!-- Search & Dietary Filter Controls -->
-  <div class="controls-wrapper max-w-7xl mx-auto px-4 sm:px-8 my-6 flex flex-col gap-4">
-    <!-- Live Search Bar -->
-    <div class="search-box relative w-full">
-      <span class="search-icon absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">🔍</span>
-      <input type="text" id="searchInput" class="search-input w-full bg-slate-900/70 border border-white/10 rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-400 outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 backdrop-blur-md transition-all" placeholder="Search dishes, ingredients, drinks..." aria-label="Search dishes">
+  <!-- Mobile Search Bar & Filters -->
+  <div class="max-w-7xl mx-auto px-3.5 sm:px-6 my-4 flex flex-col gap-3">
+    <!-- Live Search -->
+    <div class="relative w-full">
+      <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base">🔍</span>
+      <input type="text" id="searchInput" class="w-full bg-slate-900/80 border border-white/10 rounded-xl py-3 pl-10 pr-3.5 text-xs sm:text-sm text-white placeholder-slate-400 outline-none focus:border-amber-400 backdrop-blur-md" placeholder="Search Ethiopian stews, tibs, coffee..." aria-label="Search dishes">
     </div>
 
-    <!-- Dietary Filters Row -->
-    <div class="filter-pills flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="filterPills">
+    <!-- Swipeable Dietary Filters -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="filterPills">
       <!-- Dynamically Rendered Pills -->
     </div>
   </div>
 
-  <!-- Sticky Category Navigation -->
-  <nav class="sticky-cat-nav sticky top-[69px] z-40 bg-[#121621]/80 backdrop-blur-md border-b border-white/10 py-2.5">
-    <div class="cat-container max-w-7xl mx-auto px-4 sm:px-8 flex gap-2 overflow-x-auto scrollbar-none" id="categoryNav">
-      <!-- Dynamically Rendered Category Tabs -->
+  <!-- Sticky Swipeable Category Navigation Tabs -->
+  <nav class="sticky top-[58px] z-40 bg-[#121621]/90 backdrop-blur-md border-b border-white/10 py-2">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 flex gap-2 overflow-x-auto scrollbar-none" id="categoryNav">
+      <!-- Dynamically Rendered Swipeable Category Tabs -->
     </div>
   </nav>
 
-  <!-- Main Menu Grid Container -->
-  <main class="main-content max-w-7xl mx-auto px-4 sm:px-8 mt-8 mb-20" id="menuContainer">
-    <!-- Dynamically Rendered Menu Sections -->
+  <!-- Main Mobile Menu Grid (1-Column Mobile Optimized Layout) -->
+  <main class="max-w-7xl mx-auto px-3.5 sm:px-6 mt-5 mb-24" id="menuContainer">
+    <!-- Dynamically Rendered Dish Cards -->
   </main>
 
-  <!-- Dish Detail Backdrop Modal -->
-  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-4" id="dishModalOverlay" style="display: none;">
-    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      <button class="modal-close-btn absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600 transition-colors" id="closeDishModalBtn" aria-label="Close Modal">✕</button>
+  <!-- Floating Mobile Quick Action Bar -->
+  <div class="fixed bottom-3 left-3 right-3 z-30 sm:hidden bg-slate-900/95 border border-amber-400/30 rounded-2xl p-2 shadow-2xl backdrop-blur-md flex items-center justify-between gap-2">
+    <button class="flex-1 py-2.5 px-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-transform" id="openSelectionBtnMobile">
+      <span>🔖</span> <span data-t="mySelection">My Selection</span>
+      <span class="bg-black text-amber-400 font-extrabold text-[10px] w-4 h-4 rounded-full flex items-center justify-center" id="mobileSelectionCount">0</span>
+    </button>
+    <button class="py-2.5 px-3 bg-slate-800 border border-white/10 text-slate-200 font-bold rounded-xl text-xs flex items-center justify-center gap-1 active:scale-95 transition-transform" data-open-qr>
+      <span>📱</span> QR
+    </button>
+  </div>
+
+  <!-- Dish Detail Mobile Modal / Bottom Sheet -->
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-3 sm:p-4" id="dishModalOverlay" style="display: none;">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+      <button class="modal-close-btn absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeDishModalBtn" aria-label="Close Modal">✕</button>
       <div id="modalContent">
         <!-- Dynamically Populated Dish Content -->
       </div>
     </div>
   </div>
 
-  <!-- My Selection / Wishlist Drawer -->
+  <!-- My Selection / Wishlist Mobile Bottom Drawer -->
   <div class="drawer-overlay fixed inset-0 z-40 bg-black/60 backdrop-blur-sm" id="selectionDrawerOverlay" style="display: none;">
-    <div class="drawer-panel fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#141824] border-l border-white/10 shadow-2xl flex flex-col">
-      <div class="drawer-header p-5 border-b border-white/10 flex items-center justify-between">
-        <h3 class="text-lg font-bold flex items-center gap-2 text-amber-400">
+    <div class="drawer-panel fixed bottom-0 left-0 right-0 sm:top-0 sm:right-0 sm:left-auto w-full sm:max-w-md bg-[#141824] border-t sm:border-l border-white/10 rounded-t-2xl sm:rounded-none shadow-2xl flex flex-col max-h-[85vh] sm:max-h-full">
+      <div class="drawer-header p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-bold flex items-center gap-2 text-amber-400">
           <span>🔖</span> <span data-t="mySelection">My Selection</span>
         </h3>
-        <button class="icon-btn w-9 h-9 rounded-lg bg-slate-900 border border-white/10 text-slate-300 flex items-center justify-center hover:text-white" id="closeSelectionBtn" aria-label="Close Drawer">✕</button>
+        <button class="w-8 h-8 rounded-lg bg-slate-900 border border-white/10 text-slate-300 flex items-center justify-center" id="closeSelectionBtn" aria-label="Close Drawer">✕</button>
       </div>
 
-      <div class="drawer-body p-5 flex-1 overflow-y-auto flex flex-col gap-3" id="drawerItemsList">
+      <div class="drawer-body p-4 flex-1 overflow-y-auto flex flex-col gap-3" id="drawerItemsList">
         <!-- Wishlist items listed here -->
       </div>
 
-      <div class="drawer-footer p-5 border-t border-white/10 bg-slate-900/60">
-        <div class="flex gap-2.5 mb-3">
-          <button class="pill-btn flex-1 py-2.5 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700" id="clearSelectionBtn" data-t="clearAll">Clear Selection</button>
-          <button class="pill-btn flex-1 py-2.5 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold hover:bg-slate-700" id="shareMenuBtn" data-t="shareMenu">Share Menu</button>
+      <div class="drawer-footer p-4 border-t border-white/10 bg-slate-900/80">
+        <div class="flex gap-2 mb-3">
+          <button class="pill-btn flex-1 py-2 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold" id="clearSelectionBtn" data-t="clearAll">Clear Selection</button>
+          <button class="pill-btn flex-1 py-2 text-center bg-slate-800 text-slate-300 rounded-lg text-xs font-semibold" id="shareMenuBtn" data-t="shareMenu">Share Menu</button>
         </div>
-        <button class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3.5 rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:scale-[1.01] transition-transform" id="openFeedbackBtn" data-t="leaveFeedback">Give Feedback</button>
+        <button class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3 rounded-xl text-xs sm:text-sm shadow-md" id="openFeedbackBtn" data-t="leaveFeedback">Give Feedback</button>
       </div>
     </div>
   </div>
 
   <!-- Universal Restaurant Table QR Code Modal -->
-  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-4" id="qrModalOverlay" style="display: none;">
-    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-md p-6 text-center shadow-2xl relative">
-      <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-3 sm:p-4" id="qrModalOverlay" style="display: none;">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-md p-5 text-center shadow-2xl relative">
+      <button class="modal-close-btn absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeQrBtn" aria-label="Close QR Modal">✕</button>
       <div class="modal-body text-center">
-        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="qrCodeTest">Universal Table QR Code</h3>
-        <p class="text-xs text-slate-400 mb-4" data-t="qrSubtitle">Print or display this single QR code on all restaurant tables.</p>
+        <h3 class="text-lg font-bold mb-1 text-amber-400" data-t="qrCodeTest">Universal Table QR Code</h3>
+        <p class="text-[11px] text-slate-400 mb-3" data-t="qrSubtitle">Print or display this single QR code on all restaurant tables.</p>
         
-        <div class="qr-preview-box p-4 bg-slate-900/80 rounded-xl border border-white/10" id="qrCanvasBox">
+        <div class="qr-preview-box p-3 bg-slate-900/80 rounded-xl border border-white/10" id="qrCanvasBox">
           <!-- Dynamically Generated Universal QR Code -->
         </div>
 
-        <div class="mt-4 flex gap-2">
-          <button class="primary-btn flex-1 py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold rounded-xl text-sm shadow-md" id="printQrBtn" data-t="printQr">Print QR Code</button>
-          <button class="pill-btn py-3 px-4 bg-slate-800 text-slate-200 rounded-xl text-xs font-semibold hover:bg-slate-700" id="copyUrlBtn">Copy Link 📋</button>
+        <div class="mt-3 flex gap-2">
+          <button class="primary-btn flex-1 py-2.5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold rounded-xl text-xs shadow-md" id="printQrBtn" data-t="printQr">Print QR Code</button>
+          <button class="pill-btn py-2.5 px-3 bg-slate-800 text-slate-200 rounded-xl text-xs font-semibold" id="copyUrlBtn">Copy Link 📋</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Customer Feedback & Review Modal -->
-  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-4" id="feedbackModalOverlay" style="display: none;">
-    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
-      <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeFeedbackBtn" aria-label="Close Feedback Modal">✕</button>
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-3 sm:p-4" id="feedbackModalOverlay" style="display: none;">
+    <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-md p-5 shadow-2xl relative">
+      <button class="modal-close-btn absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeFeedbackBtn" aria-label="Close Feedback Modal">✕</button>
       <div class="modal-body">
-        <h3 class="text-xl font-bold mb-1 text-amber-400" data-t="rateDish">Rate your experience</h3>
-        <p class="text-xs text-slate-400 mb-5">Help us perfect our culinary offerings and service</p>
+        <h3 class="text-lg font-bold mb-1 text-amber-400" data-t="rateDish">Rate your experience</h3>
+        <p class="text-[11px] text-slate-400 mb-4">Help us perfect our culinary offerings and service</p>
         
         <form id="feedbackForm">
-          <div class="flex justify-center gap-1 text-2xl mb-4 cursor-pointer">
+          <div class="flex justify-center gap-1 text-xl mb-3 cursor-pointer">
             <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
           </div>
 
           <div class="mb-3">
-            <input type="text" class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400" placeholder="Your Name (Optional)" data-t-placeholder="yourName">
+            <input type="text" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400" placeholder="Your Name (Optional)" data-t-placeholder="yourName">
           </div>
 
-          <div class="mb-5">
-            <textarea class="search-input w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-400 resize-none" rows="4" placeholder="Share your thoughts on the taste & presentation..." data-t-placeholder="yourComment"></textarea>
+          <div class="mb-4">
+            <textarea class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 resize-none" rows="3" placeholder="Share your thoughts on the taste & presentation..." data-t-placeholder="yourComment"></textarea>
           </div>
 
-          <button type="submit" class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3.5 rounded-xl text-sm shadow-md" data-t="submitFeedback">Submit Review</button>
+          <button type="submit" class="primary-btn w-full bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold py-3 rounded-xl text-xs shadow-md" data-t="submitFeedback">Submit Review</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Footer Section (Customer Only) -->
-  <footer class="border-t border-white/10 bg-slate-950 py-8 px-4 text-center mt-16">
-    <div class="max-w-7xl mx-auto flex flex-col items-center gap-3">
+  <!-- Mobile Minimal Footer -->
+  <footer class="border-t border-white/10 bg-slate-950 py-6 px-4 text-center mt-12 mb-12 sm:mb-0">
+    <div class="max-w-7xl mx-auto flex flex-col items-center gap-2">
       <div class="flex items-center gap-2">
-        <span class="text-lg font-bold text-amber-400">✨ LUMIÈRE</span>
+        <span class="text-base font-bold text-amber-400">✨ LUMIÈRE</span>
         <span class="text-slate-600">|</span>
-        <span class="text-xs text-slate-400">Gourmet Digital Platform</span>
+        <span class="text-[11px] text-slate-400">Mobile-First Digital Menu</span>
       </div>
-      <div class="flex flex-wrap justify-center gap-3 text-xs">
-        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" data-open-qr data-t="qrCodeTest">Universal Table QR Code</button>
-        <button class="pill-btn bg-slate-900 border border-white/10 px-4 py-1.5 rounded-full text-slate-300 hover:text-white" onclick="window.scrollTo({top:0, behavior:'smooth'})">⬆ Back to Top</button>
-      </div>
-      <p class="text-[11px] text-slate-500 mt-2">&copy; 2026 Lumière Digital Menu Platform. Built for extraordinary dining experiences.</p>
+      <p class="text-[10px] text-slate-500">&copy; 2026 Lumière Digital Menu Platform. Built for mobile smartphone dining experiences.</p>
     </div>
   </footer>
 

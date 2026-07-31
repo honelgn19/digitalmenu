@@ -25,7 +25,9 @@ const elements = {
   categoryNav: document.getElementById('categoryNav'),
   menuContainer: document.getElementById('menuContainer'),
   selectionCountBadge: document.getElementById('selectionCountBadge'),
+  mobileSelectionCount: document.getElementById('mobileSelectionCount'),
   openSelectionBtn: document.getElementById('openSelectionBtn'),
+  openSelectionBtnMobile: document.getElementById('openSelectionBtnMobile'),
   selectionDrawerOverlay: document.getElementById('selectionDrawerOverlay'),
   closeSelectionBtn: document.getElementById('closeSelectionBtn'),
   drawerItemsList: document.getElementById('drawerItemsList'),
@@ -184,7 +186,7 @@ function renderCategoryNav() {
       if (catId !== 'all') {
         const sec = document.getElementById(`sec-${catId}`);
         if (sec) {
-          const yOffset = -140;
+          const yOffset = -120;
           const y = sec.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
@@ -253,7 +255,7 @@ function getFilteredItems() {
   });
 }
 
-// Render Menu Grid Grouped by Category
+// Render Menu Grid Grouped by Category (Mobile Optimized)
 function renderMenuGrid() {
   const filtered = getFilteredItems();
   
@@ -315,7 +317,7 @@ function renderMenuGrid() {
   });
 }
 
-// Helper: Generate Dish Card HTML
+// Helper: Generate Dish Card HTML (Mobile Optimized)
 function createDishCardHtml(item) {
   const title = typeof item.title === 'string' ? item.title : (item.title[state.currentLang] || item.title.en);
   const desc = typeof item.description === 'string' ? item.description : (item.description[state.currentLang] || item.description.en);
@@ -377,14 +379,20 @@ function toggleWishlist(id) {
   renderSelectionDrawer();
 }
 
-// Update Wishlist Counter Badge
+// Update Wishlist Counter Badges (Desktop & Mobile)
 function updateSelectionCount() {
   const count = state.mySelection.size;
-  elements.selectionCountBadge.textContent = count;
-  elements.selectionCountBadge.style.display = count > 0 ? 'flex' : 'none';
+  if (elements.selectionCountBadge) {
+    elements.selectionCountBadge.textContent = count;
+    elements.selectionCountBadge.style.display = count > 0 ? 'flex' : 'none';
+  }
+
+  if (elements.mobileSelectionCount) {
+    elements.mobileSelectionCount.textContent = count;
+  }
 }
 
-// Dish Modal
+// Dish Detail Mobile Modal
 function openDishModal(id) {
   const item = state.menuItems.find(m => m.id === id);
   if (!item) return;
@@ -530,10 +538,10 @@ function renderUniversalQrCode() {
   const universalUrl = window.location.href;
   
   elements.qrCanvasBox.innerHTML = `
-    <div style="background: #ffffff; padding: 16px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
+    <div style="background: #ffffff; padding: 14px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
     </div>
-    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; word-break: break-all;">
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 10px; word-break: break-all;">
       📍 <span style="color: var(--accent-gold); font-weight: 600;">Menu URL:</span> ${universalUrl}
     </p>
   `;
@@ -575,11 +583,14 @@ function bindEvents() {
     renderMenuGrid();
   });
 
-  // Drawer Controls
-  elements.openSelectionBtn.addEventListener('click', () => {
+  // Drawer Controls (Desktop & Mobile buttons)
+  const openDrawerHandler = () => {
     renderSelectionDrawer();
     elements.selectionDrawerOverlay.classList.add('open');
-  });
+  };
+
+  if (elements.openSelectionBtn) elements.openSelectionBtn.addEventListener('click', openDrawerHandler);
+  if (elements.openSelectionBtnMobile) elements.openSelectionBtnMobile.addEventListener('click', openDrawerHandler);
 
   elements.closeSelectionBtn.addEventListener('click', () => {
     elements.selectionDrawerOverlay.classList.remove('open');
@@ -604,7 +615,7 @@ function bindEvents() {
     }
   });
 
-  // Attach QR Modal Triggers to ALL [data-open-qr] elements across header, banner, announcement & footer
+  // Attach QR Modal Triggers to ALL [data-open-qr] elements
   document.querySelectorAll('[data-open-qr]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
