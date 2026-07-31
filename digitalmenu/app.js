@@ -33,11 +33,11 @@ const elements = {
   dishModalOverlay: document.getElementById('dishModalOverlay'),
   closeDishModalBtn: document.getElementById('closeDishModalBtn'),
   modalContent: document.getElementById('modalContent'),
-  openQrBtn: document.getElementById('openQrBtn'),
   qrModalOverlay: document.getElementById('qrModalOverlay'),
   closeQrBtn: document.getElementById('closeQrBtn'),
   qrCanvasBox: document.getElementById('qrCanvasBox'),
   printQrBtn: document.getElementById('printQrBtn'),
+  copyUrlBtn: document.getElementById('copyUrlBtn'),
   shareMenuBtn: document.getElementById('shareMenuBtn'),
   openFeedbackBtn: document.getElementById('openFeedbackBtn'),
   feedbackModalOverlay: document.getElementById('feedbackModalOverlay'),
@@ -527,14 +527,14 @@ function renderSelectionDrawer() {
 
 // Generate Universal Table QR Code pointing directly to the Menu URL
 function renderUniversalQrCode() {
-  const universalUrl = `${window.location.origin}${window.location.pathname}`;
+  const universalUrl = window.location.href;
   
   elements.qrCanvasBox.innerHTML = `
     <div style="background: #ffffff; padding: 16px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(universalUrl)}" alt="Universal Restaurant Table QR Code" style="display: block; margin: 0 auto;" />
     </div>
     <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 12px; word-break: break-all;">
-      📍 <span style="color: var(--accent-gold); font-weight: 600;">Scan URL:</span> ${universalUrl}
+      📍 <span style="color: var(--accent-gold); font-weight: 600;">Menu URL:</span> ${universalUrl}
     </p>
   `;
 }
@@ -604,20 +604,39 @@ function bindEvents() {
     }
   });
 
-  // Universal QR Modal Trigger
-  elements.openQrBtn.addEventListener('click', () => {
-    renderUniversalQrCode();
-    elements.qrModalOverlay.classList.add('open');
+  // Attach QR Modal Triggers to ALL [data-open-qr] elements across header, banner, announcement & footer
+  document.querySelectorAll('[data-open-qr]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      renderUniversalQrCode();
+      elements.qrModalOverlay.classList.add('open');
+    });
   });
 
   elements.closeQrBtn.addEventListener('click', () => {
     elements.qrModalOverlay.classList.remove('open');
   });
 
-  // Print QR Code Action
-  elements.printQrBtn.addEventListener('click', () => {
-    window.print();
+  elements.qrModalOverlay.addEventListener('click', (e) => {
+    if (e.target === elements.qrModalOverlay) {
+      elements.qrModalOverlay.classList.remove('open');
+    }
   });
+
+  // Copy Link Action
+  if (elements.copyUrlBtn) {
+    elements.copyUrlBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Menu URL copied to clipboard!');
+    });
+  }
+
+  // Print QR Code Action
+  if (elements.printQrBtn) {
+    elements.printQrBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 
   // Share Menu
   elements.shareMenuBtn.addEventListener('click', () => {
@@ -640,6 +659,12 @@ function bindEvents() {
 
   elements.closeFeedbackBtn.addEventListener('click', () => {
     elements.feedbackModalOverlay.classList.remove('open');
+  });
+
+  elements.feedbackModalOverlay.addEventListener('click', (e) => {
+    if (e.target === elements.feedbackModalOverlay) {
+      elements.feedbackModalOverlay.classList.remove('open');
+    }
   });
 
   // Submit Feedback via API

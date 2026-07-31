@@ -656,8 +656,15 @@ h1, h2, h3, h4, .brand-title {
 }
 
 .modal-overlay.open {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.drawer-overlay.open {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .modal-card {
