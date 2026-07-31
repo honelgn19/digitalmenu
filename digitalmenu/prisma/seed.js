@@ -74,11 +74,26 @@ async function main() {
     }
   });
 
+  const catSeafood = await prisma.category.create({
+    data: {
+      slug: 'seafood',
+      icon: '🐟',
+      sortOrder: 4,
+      translations: {
+        create: [
+          { language: 'EN', title: 'Fish & Seafood' },
+          { language: 'AM', title: 'የዓሳ ምግቦች' },
+          { language: 'OM', title: 'Nyaata Qurxummii' }
+        ]
+      }
+    }
+  });
+
   const catDrinks = await prisma.category.create({
     data: {
       slug: 'desserts-drinks',
       icon: '☕',
-      sortOrder: 4,
+      sortOrder: 5,
       translations: {
         create: [
           { language: 'EN', title: 'Coffee Ceremony & Drinks' },
@@ -91,7 +106,7 @@ async function main() {
 
   console.log('✅ Created Categories');
 
-  // 4. Create Menu Items
+  // 4. Create Menu Items with Unique Dish Images
   await prisma.menuItem.create({
     data: {
       categoryId: catMains.id,
@@ -105,7 +120,7 @@ async function main() {
       isChefSpecial: true,
       isAvailable: true,
       dietaryTags: ['halal'],
-      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
       translations: {
         create: [
           {
@@ -184,6 +199,51 @@ async function main() {
 
   await prisma.menuItem.create({
     data: {
+      categoryId: catMains.id,
+      priceETB: 850,
+      rating: 4.9,
+      reviewCount: 96,
+      spiciness: 2,
+      prepMinutes: 18,
+      calories: 610,
+      isPopular: true,
+      isChefSpecial: false,
+      isAvailable: true,
+      dietaryTags: ['halal'],
+      image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
+      translations: {
+        create: [
+          {
+            language: 'EN',
+            title: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
+            description: 'Sautéed tender beef tenderloin cubes cooked on a traditional clay burner with sliced red onions, garlic, fresh rosemary, and green jalapeño peppers.',
+            allergens: ['Beef', 'Gluten (Injera)'],
+            chefTip: 'Poured hot on a sizzling clay burner with charcoal beneath.',
+            pairing: 'Habesha Cold Beer'
+          },
+          {
+            language: 'AM',
+            title: 'የሸክላ የበሬ ጥብስ በቃሪያና በሽንኩርት',
+            description: 'በሸክላ ላይ በደመቀ እሳት የተጠበሰ የበሬ ስጋ በሽንኩርት፣ በነጭ ሽንኩርትና በቃሪያ ተራይቶ የሚቀርብ።',
+            allergens: ['የበሬ ስጋ', 'እንጀራ'],
+            chefTip: 'በሸክላው ፍም እሳት ላይ ትኩሱን ተመገቡ።',
+            pairing: 'ሐበሻ ቀዝቃዛ ቢራ'
+          },
+          {
+            language: 'OM',
+            title: 'Tibsi Foon Loonii Sheklaa',
+            description: 'Foon loonii lallaafaan sheklaa aadaa irratti shunkurtii diimaa, qullubbii adii fi qorii jalapeño wajjin waadame.',
+            allergens: ['Foon Loonii', 'Injeraa'],
+            chefTip: 'Gubbaa sheklaa oo\'aa irratti dhihaata.',
+            pairing: 'Biraa Qabbanaawaa Habesha'
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.menuItem.create({
+    data: {
       categoryId: catVeggie.id,
       priceETB: 720,
       rating: 5.0,
@@ -195,7 +255,7 @@ async function main() {
       isChefSpecial: true,
       isAvailable: true,
       dietaryTags: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
       translations: {
         create: [
           {
@@ -229,6 +289,141 @@ async function main() {
 
   await prisma.menuItem.create({
     data: {
+      categoryId: catVeggie.id,
+      priceETB: 580,
+      rating: 4.8,
+      reviewCount: 165,
+      spiciness: 2,
+      prepMinutes: 15,
+      calories: 450,
+      isPopular: true,
+      isChefSpecial: false,
+      isAvailable: true,
+      dietaryTags: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
+      translations: {
+        create: [
+          {
+            language: 'EN',
+            title: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
+            description: 'Rich, bubbling chickpea flour stew spiced with berbere, garlic, and herbs, served bubbling hot in an authentic clay pot with teff injera.',
+            allergens: ['Chickpea Flour'],
+            chefTip: 'Add a touch of spiced niter kibbeh or olive oil for extra richness.',
+            pairing: 'Traditional Spiced Black Tea'
+          },
+          {
+            language: 'AM',
+            title: 'በትኩስ የሸክላ ድስት የሚፈካ የትጋቢኖ ሽሮ',
+            description: 'በሽንብራ ዱቄትና በበርበሬ ተክክሎ በሸክላ ድስት ውስጥ እየተከተከተ ትኩሱን የሚቀርብ ጣፋጭ ሽሮ።',
+            allergens: ['የሽንብራ ዱቄት'],
+            chefTip: 'የለሰለሰ ቅቤ ወይም የወይራ ዘይት በመጨመር ጣዕሙን ያጎልብቱ።',
+            pairing: 'የቅመም ሻይ'
+          },
+          {
+            language: 'OM',
+            title: 'Shiroo Tegabinoo Sheklaa',
+            description: 'Shiroo shamburaa barbaree fi qullubbii adii wajjin danfe, sheklaa aadaa keessatti injeraa teffii wajjin dhihaata.',
+            allergens: ['Daakuu Shamburaa'],
+            chefTip: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi\'aa dabala.',
+            pairing: 'Shaayee Qorichaa Aadaa'
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.menuItem.create({
+    data: {
+      categoryId: catStarters.id,
+      priceETB: 520,
+      rating: 4.9,
+      reviewCount: 88,
+      spiciness: 1,
+      prepMinutes: 15,
+      calories: 580,
+      isPopular: true,
+      isChefSpecial: false,
+      isAvailable: true,
+      dietaryTags: ['vegetarian', 'halal'],
+      image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80',
+      translations: {
+        create: [
+          {
+            language: 'EN',
+            title: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
+            description: 'Shredded flatbread (kita) pan-fried with spiced niter kibbeh butter, berbere, served with a drizzle of organic Ethiopian honey and fresh ayib cheese.',
+            allergens: ['Wheat (Kita)', 'Dairy (Kibbeh, Ayib)'],
+            chefTip: 'The classic Ethiopian breakfast of Champions!',
+            pairing: 'Jebena Buna (Ethiopian Coffee)'
+          },
+          {
+            language: 'AM',
+            title: 'ልዩ ጨጨብሳ በማርና በአይብ',
+            description: 'የተቆራረሰ ቂጣ በበርበሬና በቅቤ ተጥብሶ በንጹህ ማርና በአይብ አጊጦ የሚቀርብ የቁርስ ምግብ።',
+            allergens: ['ስንዴ', 'ቅቤና አይብ'],
+            chefTip: 'ከጀበና ቡና ጋር የሚወሰድ ምርጥ ባህላዊ የቁርስ ምግብ።',
+            pairing: 'የጀበና ቡና'
+          },
+          {
+            language: 'OM',
+            title: 'Chechebsaa Addaa (Kitaa Firfir)',
+            description: 'Kitaa ciccite barbaree fi kibbeh niter wajjin waadame, damma aadaa fi ayib haaraa wajjin dhihaata.',
+            allergens: ['Qamadii', 'Kibbeh fi Ayib'],
+            chefTip: 'Ciree aadaa beekamaa!',
+            pairing: 'Buna Jebenaa'
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.menuItem.create({
+    data: {
+      categoryId: catSeafood.id,
+      priceETB: 780,
+      rating: 4.7,
+      reviewCount: 64,
+      spiciness: 1,
+      prepMinutes: 20,
+      calories: 490,
+      isPopular: false,
+      isChefSpecial: true,
+      isAvailable: true,
+      dietaryTags: ['halal', 'glutenFree', 'nutFree'],
+      image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
+      translations: {
+        create: [
+          {
+            language: 'EN',
+            title: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
+            description: 'Crispy cubed freshwater tilapia fillet sautéed with onions, garlic, fresh rosemary, black pepper, and lemon juice.',
+            allergens: ['Fish (Tilapia)'],
+            chefTip: 'Squeeze extra fresh lime over the hot fish cubes.',
+            pairing: 'Chilled White Wine or Sparking Water'
+          },
+          {
+            language: 'AM',
+            title: 'የጣና ዓሳ ጥብስ በነጭ ሽንኩርትና በቃሪያ',
+            description: 'ጥሩ የጣና ዓሳ በሽንኩርት፣ በነጭ ሽንኩርት፣ በሎሚና በቃሪያ ተጥብሶ የሚቀርብ።',
+            allergens: ['ዓሳ'],
+            chefTip: 'ትኩሱ ዓሳ ላይ ተጨማሪ የሎሚ ጭማቂ አፍስሰው ይመገቡ።',
+            pairing: 'ቀዝቃዛ ነጭ ወይን ወይም ጋዝ ያለው ውኃ'
+          },
+          {
+            language: 'OM',
+            title: 'Tibsi Qurxummii Tana Addaa',
+            description: 'Qurxummii haroo Tana lallaafaan shunkurtii, qullubbii adii fi lomiin waadame.',
+            allergens: ['Qurxummii'],
+            chefTip: 'Lomii haaraa gubbaa qurxummii oo\'aa irratti cobsaa.',
+            pairing: 'Diini Adii Qabbanaawaa ykn Bishaan Gaazii'
+          }
+        ]
+      }
+    }
+  });
+
+  await prisma.menuItem.create({
+    data: {
       categoryId: catDrinks.id,
       priceETB: 350,
       rating: 5.0,
@@ -240,7 +435,7 @@ async function main() {
       isChefSpecial: true,
       isAvailable: true,
       dietaryTags: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
       translations: {
         create: [
           {
@@ -248,7 +443,7 @@ async function main() {
             title: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
             description: 'Authentic 3-round Ethiopian coffee ceremony brewed in a traditional clay jebena pot, served with frankincense smoke and fresh popcorn.',
             allergens: ['None'],
-            chefTip: 'Includes 3 rounds of coffee: Abol (1st round), Tona (2nd round), and Bereka (3rd round).',
+            chefTip: 'Includes 3 rounds of coffee: Abol, Tona, and Bereka.',
             pairing: 'Fresh Roasted Popcorn & Tenadam Herbs'
           },
           {
@@ -272,7 +467,52 @@ async function main() {
     }
   });
 
-  console.log('✅ Created Menu Items with Multi-Language Translations for Selam Restaurant');
+  await prisma.menuItem.create({
+    data: {
+      categoryId: catDrinks.id,
+      priceETB: 450,
+      rating: 4.9,
+      reviewCount: 175,
+      spiciness: 0,
+      prepMinutes: 5,
+      calories: 210,
+      isPopular: true,
+      isChefSpecial: false,
+      isAvailable: true,
+      dietaryTags: ['glutenFree', 'halal', 'nutFree'],
+      image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+      translations: {
+        create: [
+          {
+            language: 'EN',
+            title: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',
+            description: 'Traditional home-brewed honey wine fermented with gesho hops in an authentic Berele flask.',
+            allergens: ['Alcohol (Honey Wine)'],
+            chefTip: 'Served cold in a long-necked Berele glass.',
+            pairing: 'Special Kitfo or Sizzling Beef Tibs'
+          },
+          {
+            language: 'AM',
+            title: 'የቤት ውስጥ ንጹህ የማር ጠጅ በብረሌ',
+            description: 'በጌሾና በንጹህ ማር በቤት ውስጥ የተጠመቀ ባህላዊ የኢትዮጵያ ጠጅ በብረሌ የሚቀርብ።',
+            allergens: ['አልኮል (ማር ጠጅ)'],
+            chefTip: 'በቀዝቃዛ ብረሌ ተሞልቶ ይቀርባል።',
+            pairing: 'ልዩ ክትፎ ወይም የሸክላ ጥብስ'
+          },
+          {
+            language: 'OM',
+            title: 'Daadhii Dammaa Aadaa (Tej)',
+            description: 'Daadhii dammaa aadaa geeshoo fi damma aadaatiin bokoke, berele keessatti dhihaata.',
+            allergens: ['Alkoolii (Daadhii)'],
+            chefTip: 'Berele qabbanaawaa keessatti dhihaata.',
+            pairing: 'Kitfoo Addaa ykn Tibsi Sheklaa'
+          }
+        ]
+      }
+    }
+  });
+
+  console.log('✅ Created Menu Items with Unique Dish Images for Selam Restaurant');
   console.log('🎉 Seeding finished successfully!');
 }
 

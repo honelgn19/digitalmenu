@@ -175,7 +175,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Royal Doro Wat (ልዩ ዶሮ ወጥ)',
       am: 'ልዩ የዶሮ ወጥ በአይብና በእንቁላል',
@@ -255,7 +255,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
       am: 'የሸክላ የበሬ ጥብስ በቃሪያና በሽንኩርት',
@@ -295,7 +295,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Grand Yetsom Beyaynetu (ልዩ የጾም በያይነቱ)',
       am: 'ልዩ የጾም በያይነቱ ከሽንብራ፣ ምስርና አትክልት ጋር',
@@ -335,7 +335,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
       am: 'በትኩስ የሸክላ ድስት የሚፈካ የትጋቢኖ ሽሮ',
@@ -375,7 +375,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['vegetarian', 'halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
       am: 'ልዩ ጨጨብሳ በማርና በአይብ',
@@ -415,7 +415,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['halal', 'glutenFree', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
       am: 'የጣና ዓሳ ጥብስ በነጭ ሽንኩርትና በቃሪያ',
@@ -455,7 +455,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
       am: 'ሙሉ የጀበና ቡና ስነ-ስርዓት በእጣንና በፖፕኮርን',
@@ -495,7 +495,7 @@ export const FALLBACK_MENU = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',
       am: 'የቤት ውስጥ ንጹህ የማር ጠጅ በብረሌ',
@@ -584,26 +584,22 @@ function hideModal(el) {
   el.classList.remove('open');
 }
 
-// Initialize Application (Runs IMMEDIATELY)
+// Initialize Application
 function init() {
   document.documentElement.setAttribute('data-theme', state.theme);
   
   if (elements.langSelect) elements.langSelect.value = state.currentLang;
   if (elements.currencySelect) elements.currencySelect.value = state.currentCurrency;
 
-  // 1. Apply Static Translations
   applyTranslations();
 
-  // 2. Render initial menu grid IMMEDIATELY (0ms latency!)
   renderCategoryNav();
   renderDietaryFilters();
   renderMenuGrid();
   updateSelectionCount();
 
-  // 3. Bind ALL event listeners IMMEDIATELY
   bindEvents();
 
-  // 4. Background sync with backend API if available
   loadMenuData().then(() => {
     renderCategoryNav();
     renderDietaryFilters();
@@ -1090,7 +1086,6 @@ function renderUniversalQrCode() {
 
 // Bind Event Handlers
 function bindEvents() {
-  // Theme Toggle
   if (elements.themeToggleBtn) {
     elements.themeToggleBtn.addEventListener('click', () => {
       state.theme = state.theme === 'dark' ? 'light' : 'dark';
@@ -1100,7 +1095,6 @@ function bindEvents() {
     });
   }
 
-  // Language Switcher
   if (elements.langSelect) {
     elements.langSelect.addEventListener('change', async (e) => {
       state.currentLang = e.target.value;
@@ -1114,7 +1108,6 @@ function bindEvents() {
     });
   }
 
-  // Currency Switcher
   if (elements.currencySelect) {
     elements.currencySelect.addEventListener('change', (e) => {
       state.currentCurrency = e.target.value;
@@ -1124,7 +1117,6 @@ function bindEvents() {
     });
   }
 
-  // Live Search Input
   if (elements.searchInput) {
     elements.searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value;
@@ -1132,7 +1124,6 @@ function bindEvents() {
     });
   }
 
-  // Drawer Controls
   const openDrawerHandler = () => {
     renderSelectionDrawer();
     showModal(elements.selectionDrawerOverlay);
@@ -1157,7 +1148,6 @@ function bindEvents() {
     });
   }
 
-  // Modal Closures
   if (elements.closeDishModalBtn) {
     elements.closeDishModalBtn.addEventListener('click', () => {
       hideModal(elements.dishModalOverlay);
@@ -1172,7 +1162,6 @@ function bindEvents() {
     });
   }
 
-  // Attach QR Modal Triggers to ALL [data-open-qr] elements
   document.querySelectorAll('[data-open-qr]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1195,7 +1184,6 @@ function bindEvents() {
     });
   }
 
-  // Copy Link Action
   if (elements.copyUrlBtn) {
     elements.copyUrlBtn.addEventListener('click', () => {
       const menuUrl = window.location.origin + '/menu';
@@ -1204,14 +1192,12 @@ function bindEvents() {
     });
   }
 
-  // Print QR Code Action
   if (elements.printQrBtn) {
     elements.printQrBtn.addEventListener('click', () => {
       window.print();
     });
   }
 
-  // Share Menu Action
   if (elements.shareMenuBtn) {
     elements.shareMenuBtn.addEventListener('click', () => {
       const menuUrl = window.location.origin + '/menu';
@@ -1228,7 +1214,6 @@ function bindEvents() {
     });
   }
 
-  // Feedback Modal Actions
   if (elements.openFeedbackBtn) {
     elements.openFeedbackBtn.addEventListener('click', () => {
       showModal(elements.feedbackModalOverlay);
@@ -1249,7 +1234,6 @@ function bindEvents() {
     });
   }
 
-  // Submit Feedback Action
   if (elements.feedbackForm) {
     elements.feedbackForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1276,7 +1260,6 @@ function bindEvents() {
   }
 }
 
-// Guarantee execution regardless of document loading state
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

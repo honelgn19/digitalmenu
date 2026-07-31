@@ -128,7 +128,7 @@ export const TRANSLATIONS = {
       glutenFree: '🌾 Gluten-Free',
       halal: '🥩 Halaal',
       nutFree: '🥜 Nut-Free',
-      spicy: '🌶️ Mi'aawaa'
+      spicy: '🌶️ Mi\'aawaa'
     }
   }
 };
@@ -175,7 +175,7 @@ export const MENU_ITEMS = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Royal Doro Wat (ልዩ ዶሮ ወጥ)',
       am: 'ልዩ የዶሮ ወጥ በአይብና በእንቁላል',
@@ -194,7 +194,7 @@ export const MENU_ITEMS = [
     chefTip: {
       en: 'Best enjoyed by pairing each bite of spicy doro wat with cool house-made ayib cottage cheese.',
       am: 'የዶሮ ወጡን ቃሪያ ከለሰለሰው አይብ ጋር አጣጥመው ይመገቡ።',
-      om: 'Mi'aawina barbaree ayib qabbanaawaa wajjin makanii nyaachuun mi'aa addaa kenne.'
+      om: 'Mi\'aawina barbaree ayib qabbanaawaa wajjin makanii nyaachuun mi\'aa addaa kenne.'
     },
     pairing: {
       en: 'House Tej (Traditional Ethiopian Honey Wine)',
@@ -255,7 +255,7 @@ export const MENU_ITEMS = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
       am: 'የሸክላ የበሬ ጥብስ በቃሪያና በሽንኩርት',
@@ -274,7 +274,7 @@ export const MENU_ITEMS = [
     chefTip: {
       en: 'Poured hot on a sizzling clay burner with charcoal beneath to keep every piece tender.',
       am: 'በሸክላው ፍም እሳት ላይ ትኩሱን ተመገቡ።',
-      om: 'Gubbaa sheklaa oo'aa irratti dhihaata.'
+      om: 'Gubbaa sheklaa oo\'aa irratti dhihaata.'
     },
     pairing: {
       en: 'Habesha Cold Beer',
@@ -295,7 +295,7 @@ export const MENU_ITEMS = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Grand Yetsom Beyaynetu (ልዩ የጾም በያይነቱ)',
       am: 'ልዩ የጾም በያይነቱ ከሽንብራ፣ ምስርና አትክልት ጋር',
@@ -335,7 +335,7 @@ export const MENU_ITEMS = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
       am: 'በትኩስ የሸክላ ድስት የሚፈካ የትጋቢኖ ሽሮ',
@@ -354,7 +354,7 @@ export const MENU_ITEMS = [
     chefTip: {
       en: 'Add a touch of spiced niter kibbeh or olive oil for extra richness.',
       am: 'የለሰለሰ ቅቤ ወይም የወይራ ዘይት በመጨመር ጣዕሙን ያጎልብቱ።',
-      om: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi'aa dabala.'
+      om: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi\'aa dabala.'
     },
     pairing: {
       en: 'Traditional Spiced Black Tea',
@@ -375,7 +375,7 @@ export const MENU_ITEMS = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['vegetarian', 'halal'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
       am: 'ልዩ ጨጨብሳ በማርና በአይብ',
@@ -394,7 +394,7 @@ export const MENU_ITEMS = [
     chefTip: {
       en: 'The classic Ethiopian breakfast of Champions! Perfect when paired with Jebena Coffee.',
       am: 'ከጀበና ቡና ጋር የሚወሰድ ምርጥ ባህላዊ የቁርስ ምግብ።',
-      om: 'Ciree aadaa beekamaa! Buna jebenaa wajjin baay'ee deema.'
+      om: 'Ciree aadaa beekamaa! Buna jebenaa wajjin baay\'ee deema.'
     },
     pairing: {
       en: 'Jebena Buna (Ethiopian Coffee)',
@@ -415,7 +415,7 @@ export const MENU_ITEMS = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['halal', 'glutenFree', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
       am: 'የጣና ዓሳ ጥብስ በነጭ ሽንኩርትና በቃሪያ',
@@ -434,7 +434,7 @@ export const MENU_ITEMS = [
     chefTip: {
       en: 'Squeeze extra fresh lime over the hot fish cubes for an electrifying zest.',
       am: 'ትኩሱ ዓሳ ላይ ተጨማሪ የሎሚ ጭማቂ አፍስሰው ይመገቡ።',
-      om: 'Lomii haaraa gubbaa qurxummii oo'aa irratti cobsaa.'
+      om: 'Lomii haaraa gubbaa qurxummii oo\'aa irratti cobsaa.'
     },
     pairing: {
       en: 'Chilled White Wine or Sparking Water',
@@ -455,7 +455,7 @@ export const MENU_ITEMS = [
     isChefSpecial: true,
     isAvailable: true,
     dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
       am: 'ሙሉ የጀበና ቡና ስነ-ስርዓት በእጣንና በፖፕኮርን',
@@ -495,7 +495,7 @@ export const MENU_ITEMS = [
     isChefSpecial: false,
     isAvailable: true,
     dietary: ['glutenFree', 'halal', 'nutFree'],
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',
       am: 'የቤት ውስጥ ንጹህ የማር ጠጅ በብረሌ',
