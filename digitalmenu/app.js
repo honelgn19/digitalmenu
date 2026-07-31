@@ -47,7 +47,7 @@ const elements = {
   feedbackForm: document.getElementById('feedbackForm')
 };
 
-// Modal Helper Functions (Ensures inline style.display overrides HTML defaults)
+// Modal Helper Functions (Forces inline style.display override)
 function showModal(el) {
   if (!el) return;
   el.style.display = 'flex';
@@ -60,27 +60,33 @@ function hideModal(el) {
   el.classList.remove('open');
 }
 
-// Initialize Application
-async function init() {
+// Initialize Application (Instant non-blocking rendering)
+function init() {
   document.documentElement.setAttribute('data-theme', state.theme);
   
   if (elements.langSelect) elements.langSelect.value = state.currentLang;
   if (elements.currencySelect) elements.currencySelect.value = state.currentCurrency;
 
-  // Apply Static Translations
+  // 1. Apply Static Translations immediately
   applyTranslations();
 
-  // Load Menu Items safely
-  await loadMenuData();
-
-  // Render Dynamic Components
+  // 2. Render initial menu grid IMMEDIATELY from local data (0ms delay)
   renderCategoryNav();
   renderDietaryFilters();
   renderMenuGrid();
   updateSelectionCount();
 
-  // Bind Event Listeners
+  // 3. Bind ALL event listeners IMMEDIATELY (Buttons work instantly!)
   bindEvents();
+
+  // 4. Fetch updated menu data from server in background without blocking UI
+  loadMenuData().then(() => {
+    renderCategoryNav();
+    renderDietaryFilters();
+    renderMenuGrid();
+  }).catch(err => {
+    console.log('Using static menu dataset');
+  });
 }
 
 // Fetch Menu Data from PostgreSQL API or fallback safely
