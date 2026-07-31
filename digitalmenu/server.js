@@ -63,6 +63,32 @@ app.post('/api/admin/login', (req, res) => {
   });
 });
 
+// REST API AI: Today's Special & Culinary AI Recommender
+app.post('/api/ai/recommend', (req, res) => {
+  const { preference, userQuery } = req.body;
+
+  let recommendedItem = FALLBACK_MENU.find(m => m.isChefSpecial) || FALLBACK_MENU[0];
+  let aiReason = 'Chef Selam signature recommendation based on authentic Ethiopian dining tradition.';
+
+  if (preference === 'spicyMeat') {
+    recommendedItem = FALLBACK_MENU.find(m => m.id === 'doro-wat-special') || FALLBACK_MENU[0];
+    aiReason = 'Slow-simmered chicken in rich berbere chili, organic egg, and house-made ayib cheese.';
+  } else if (preference === 'veganFasting') {
+    recommendedItem = FALLBACK_MENU.find(m => m.id === 'beyaynetu-grand-platter') || FALLBACK_MENU[3];
+    aiReason = '100% Vegan feast featuring Shiro, Misir, Kik, Gomen, and beetroot salad.';
+  } else if (preference === 'coffeeDrink') {
+    recommendedItem = FALLBACK_MENU.find(m => m.id === 'jebena-coffee-ceremony') || FALLBACK_MENU[7];
+    aiReason = 'Traditional 3-round Ethiopian Jebena Coffee Ceremony served with frankincense smoke & popcorn.';
+  }
+
+  res.json({
+    success: true,
+    recommendation: recommendedItem,
+    aiReason: aiReason,
+    pairing: recommendedItem.pairing ? recommendedItem.pairing.en : 'Honey Tej'
+  });
+});
+
 // REST API: Get Restaurant Info
 app.get('/api/restaurant', async (req, res) => {
   try {

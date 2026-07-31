@@ -17,6 +17,7 @@
   --accent-gold-glow: rgba(230, 183, 99, 0.25);
   --accent-emerald: #10b981;
   --accent-ruby: #f43f5e;
+  --accent-purple: #a855f7;
   
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
@@ -100,7 +101,7 @@ button:active, .dish-card:active {
   transition: transform 0.1s ease;
 }
 
-/* Category Navigation Pill Buttons - Highly Prominent & Interactive */
+/* Category Navigation Pill Buttons */
 .cat-tab {
   display: inline-flex;
   align-items: center;
@@ -126,7 +127,6 @@ button:active, .dish-card:active {
   transform: translateY(-1px);
 }
 
-/* Active Selected Category Button */
 .cat-tab.active {
   background: linear-gradient(135deg, #e6b763 0%, #b38020 100%) !important;
   color: #000000 !important;
@@ -134,6 +134,20 @@ button:active, .dish-card:active {
   font-weight: 800 !important;
   box-shadow: 0 6px 20px rgba(230, 183, 99, 0.35) !important;
   transform: scale(1.03) !important;
+}
+
+/* AI Craving Chips */
+.ai-chip {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-chip.active {
+  background-color: rgba(168, 85, 247, 0.25) !important;
+  color: #d8b4fe !important;
+  border-color: #a855f7 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
 }
 
 /* Dietary Filter Pills */

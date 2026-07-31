@@ -568,7 +568,17 @@ const elements = {
   openFeedbackBtn: document.getElementById('openFeedbackBtn'),
   feedbackModalOverlay: document.getElementById('feedbackModalOverlay'),
   closeFeedbackBtn: document.getElementById('closeFeedbackBtn'),
-  feedbackForm: document.getElementById('feedbackForm')
+  feedbackForm: document.getElementById('feedbackForm'),
+  // AI Elements
+  openAiRecommendBtn: document.getElementById('openAiRecommendBtn'),
+  heroAiBtn: document.getElementById('heroAiBtn'),
+  mobileAiBtn: document.getElementById('mobileAiBtn'),
+  aiRecommendModalOverlay: document.getElementById('aiRecommendModalOverlay'),
+  closeAiModalBtn: document.getElementById('closeAiModalBtn'),
+  aiTodaysSpecialCard: document.getElementById('aiTodaysSpecialCard'),
+  aiCravingChips: document.getElementById('aiCravingChips'),
+  aiPromptForm: document.getElementById('aiPromptForm'),
+  aiQueryInput: document.getElementById('aiQueryInput')
 };
 
 // Modal Helpers
@@ -688,6 +698,101 @@ function formatPrice(priceETB) {
     return `${currencyInfo.symbol}${converted}`;
   } else {
     return `${converted} ${currencyInfo.symbol}`;
+  }
+}
+
+// AI Recommendation Engine
+function renderAiRecommendation(cravingKey = 'todaySpecial', userQuery = '') {
+  if (!elements.aiTodaysSpecialCard) return;
+
+  let targetItem;
+  let aiReason = '';
+
+  if (userQuery.trim() !== '') {
+    const q = userQuery.toLowerCase();
+    targetItem = state.menuItems.find(m => {
+      const t = (typeof m.title === 'string' ? m.title : (m.title[state.currentLang] || m.title.en)).toLowerCase();
+      const d = (typeof m.description === 'string' ? m.description : (m.description[state.currentLang] || m.description.en)).toLowerCase();
+      return t.includes(q) || d.includes(q);
+    });
+
+    if (!targetItem) {
+      if (q.includes('mild') || q.includes('kid')) {
+        targetItem = state.menuItems.find(m => m.id === 'beyaynetu-grand-platter' || m.id === 'chechebsa-special');
+        aiReason = 'Selected for zero spiciness, high nutritional value, and crowd-pleasing taste.';
+      } else if (q.includes('spicy') || q.includes('hot')) {
+        targetItem = state.menuItems.find(m => m.id === 'doro-wat-special');
+        aiReason = 'Rich berbere spice with organic egg and ayib cottage cheese to balance the heat.';
+      } else {
+        targetItem = state.menuItems.find(m => m.isChefSpecial) || state.menuItems[0];
+        aiReason = 'Top-rated Ethiopian culinary masterpiece selected based on your query.';
+      }
+    } else {
+      aiReason = `Matches your personal craving for "${userQuery}".`;
+    }
+  } else {
+    const hour = new Date().getHours();
+
+    if (cravingKey === 'todaySpecial') {
+      if (hour < 11) {
+        targetItem = state.menuItems.find(m => m.id === 'chechebsa-special') || state.menuItems[0];
+        aiReason = 'Morning Specialty: Pan-fried flatbread with niter kibbeh, organic honey, and fresh ayib.';
+      } else {
+        targetItem = state.menuItems.find(m => m.id === 'doro-wat-special') || state.menuItems[0];
+        aiReason = "Chef Selam's Today's Special: Royal Doro Wat slow-simmered in berbere spice with organic egg and house ayib.";
+      }
+    } else if (cravingKey === 'spicyMeat') {
+      targetItem = state.menuItems.find(m => m.id === 'beef-tibs-sizzling' || m.id === 'special-kitfo');
+      aiReason = 'Sizzling hot beef tenderloin cooked on traditional clay burner with jalapeños and rosemary.';
+    } else if (cravingKey === 'veganFasting') {
+      targetItem = state.menuItems.find(m => m.id === 'beyaynetu-grand-platter' || m.id === 'shiro-tegabino');
+      aiReason = '100% Vegan & Fasting friendly: Vibrant array of Shiro, Misir, Kik, Gomen, and beetroot.';
+    } else if (cravingKey === 'coffeeDrink') {
+      targetItem = state.menuItems.find(m => m.id === 'jebena-coffee-ceremony' || m.id === 'honey-tej-carafe');
+      aiReason = 'Authentic 3-round Ethiopian Jebena Coffee Ceremony served with frankincense smoke and popcorn.';
+    }
+  }
+
+  if (!targetItem) targetItem = state.menuItems[0];
+
+  const title = typeof targetItem.title === 'string' ? targetItem.title : (targetItem.title[state.currentLang] || targetItem.title.en);
+  const desc = typeof targetItem.description === 'string' ? targetItem.description : (targetItem.description[state.currentLang] || targetItem.description.en);
+  const priceFormatted = formatPrice(targetItem.priceETB);
+  const pairing = targetItem.pairing ? (typeof targetItem.pairing === 'string' ? targetItem.pairing : (targetItem.pairing[state.currentLang] || targetItem.pairing.en)) : 'House Honey Tej';
+  const isBookmarked = state.mySelection.has(targetItem.id);
+
+  elements.aiTodaysSpecialCard.innerHTML = `
+    <div class="flex items-center justify-between text-[11px] font-bold text-amber-400 mb-2">
+      <span class="flex items-center gap-1.5">🌟 Chef Selam's AI Pick</span>
+      <span class="bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded-full">★ ${targetItem.rating} Rating</span>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3 items-center">
+      <img src="${targetItem.image}" alt="${title}" class="w-full sm:w-28 h-28 object-cover rounded-xl border border-white/10" />
+      <div class="flex-1">
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <h3 class="font-bold text-white text-base leading-tight">${title}</h3>
+          <span class="font-bold text-amber-400 text-sm whitespace-nowrap">${priceFormatted}</span>
+        </div>
+        <p class="text-xs text-slate-300 line-clamp-2 mb-2">${desc}</p>
+        <div class="text-[11px] text-purple-300 bg-purple-950/50 p-2 rounded-lg border border-purple-500/30 mb-3">
+          <span class="font-bold">🤖 Why AI Recommends:</span> ${aiReason}
+        </div>
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[10px] text-slate-400">🍷 Pair with: <strong class="text-slate-200">${pairing}</strong></span>
+          <button class="bg-gradient-to-r from-amber-400 to-amber-600 text-black font-extrabold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1 shadow-md hover:scale-105 transition-transform" id="aiAddSelectionBtn" data-id="${targetItem.id}">
+            <span>${isBookmarked ? '🔖' : '➕'}</span> ${isBookmarked ? 'Saved' : 'Add to Selection'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const addBtn = document.getElementById('aiAddSelectionBtn');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      toggleWishlist(targetItem.id);
+      renderAiRecommendation(cravingKey, userQuery);
+    });
   }
 }
 
@@ -1124,6 +1229,51 @@ function bindEvents() {
     });
   }
 
+  // AI Modal Triggers
+  const openAiModalHandler = () => {
+    renderAiRecommendation('todaySpecial');
+    showModal(elements.aiRecommendModalOverlay);
+  };
+
+  if (elements.openAiRecommendBtn) elements.openAiRecommendBtn.addEventListener('click', openAiModalHandler);
+  if (elements.heroAiBtn) elements.heroAiBtn.addEventListener('click', openAiModalHandler);
+  if (elements.mobileAiBtn) elements.mobileAiBtn.addEventListener('click', openAiModalHandler);
+
+  if (elements.closeAiModalBtn) {
+    elements.closeAiModalBtn.addEventListener('click', () => {
+      hideModal(elements.aiRecommendModalOverlay);
+    });
+  }
+
+  if (elements.aiRecommendModalOverlay) {
+    elements.aiRecommendModalOverlay.addEventListener('click', (e) => {
+      if (e.target === elements.aiRecommendModalOverlay) {
+        hideModal(elements.aiRecommendModalOverlay);
+      }
+    });
+  }
+
+  // AI Craving Chips
+  if (elements.aiCravingChips) {
+    elements.aiCravingChips.querySelectorAll('.ai-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        elements.aiCravingChips.querySelectorAll('.ai-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const cravingKey = chip.getAttribute('data-craving');
+        renderAiRecommendation(cravingKey);
+      });
+    });
+  }
+
+  // AI Natural Language Form
+  if (elements.aiPromptForm) {
+    elements.aiPromptForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const queryText = elements.aiQueryInput?.value || '';
+      renderAiRecommendation('customQuery', queryText);
+    });
+  }
+
   const openDrawerHandler = () => {
     renderSelectionDrawer();
     showModal(elements.selectionDrawerOverlay);
@@ -1204,7 +1354,7 @@ function bindEvents() {
       if (navigator.share) {
         navigator.share({
           title: 'Selam Restaurant Digital Menu',
-          text: 'Explore Selam Restaurant authentic Ethiopian digital menu!',
+          text: 'Explore Selam Restaurant authentic Ethiopian digital menu with AI recommendations!',
           url: menuUrl
         }).catch(() => {});
       } else {
