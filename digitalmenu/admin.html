@@ -48,11 +48,14 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <a href="index.html" target="_blank" class="bg-slate-900 border border-white/10 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors">
+        <a href="index.html" target="_blank" class="bg-slate-900 border border-white/10 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors">
           👁️ Customer View ↗
         </a>
-        <button id="refreshAdminBtn" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1">
+        <button id="refreshAdminBtn" class="bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1">
           🔄 Sync Database
+        </button>
+        <button id="adminLogoutBtn" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1 transition-colors">
+          🔒 Logout
         </button>
       </div>
     </div>
@@ -142,7 +145,7 @@
   </main>
 
   <!-- Add New Ethiopian Dish Modal -->
-  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" id="addDishModal">
+  <div class="modal-overlay fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-4" id="addDishModal" style="display: none;">
     <div class="modal-card bg-[#141824] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
       <button class="modal-close-btn absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-rose-600" id="closeAddDishModalBtn">✕</button>
       
@@ -245,6 +248,21 @@
   </div>
 
   <script type="module">
+    // Authentication Protection Check
+    const token = localStorage.getItem('lumiere_admin_token') || sessionStorage.getItem('lumiere_admin_token');
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+
+    // Logout Handler
+    document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('lumiere_admin_token');
+      localStorage.removeItem('lumiere_admin_user');
+      sessionStorage.removeItem('lumiere_admin_token');
+      sessionStorage.removeItem('lumiere_admin_user');
+      window.location.href = 'login.html';
+    });
+
     let adminState = {
       items: [],
       categories: [],

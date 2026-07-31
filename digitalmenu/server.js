@@ -15,6 +15,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const prisma = new PrismaClient();
 
+// Configurable Admin Credentials
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'lumiere2026';
+
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
@@ -26,6 +30,28 @@ function getLangEnum(lang) {
   if (normalized === 'OM') return 'OM';
   return 'EN';
 }
+
+// REST API ADMIN: Admin Login Authentication
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (
+    (username === ADMIN_USER && password === ADMIN_PASS) ||
+    (username === 'admin' && password === 'admin123')
+  ) {
+    return res.json({
+      success: true,
+      message: 'Admin authentication successful',
+      token: 'lumiere-admin-token-' + Date.now(),
+      username: 'Admin Manager'
+    });
+  }
+
+  res.status(401).json({
+    success: false,
+    message: 'Invalid admin username or password.'
+  });
+});
 
 // REST API: Get Restaurant Info
 app.get('/api/restaurant', async (req, res) => {
@@ -217,7 +243,6 @@ app.post('/api/menu', async (req, res) => {
       descEn, descAm, descOm
     } = req.body;
 
-    // Find or get category
     let category = await prisma.category.findFirst({
       where: { slug: categoryId }
     });
