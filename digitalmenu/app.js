@@ -47,12 +47,8 @@ export const TRANSLATIONS = {
     soldOut: 'Sold Out',
     inStock: 'In Stock',
     filters: {
-      vegan: '🌱 Vegan',
-      vegetarian: '🥗 Fasting',
-      glutenFree: '🌾 Gluten-Free',
-      halal: '🥩 Halal',
-      nutFree: '🥜 Nut-Free',
-      spicy: '🌶️ Spicy'
+      fasting: '🥗 Fasting (የጾም)',
+      nonFasting: '🥩 Non-Fasting (የነጻ/የስጋ)'
     }
   },
   am: {
@@ -85,12 +81,8 @@ export const TRANSLATIONS = {
     soldOut: 'አልቋል (ተሸጧል)',
     inStock: 'አለ',
     filters: {
-      vegan: '🌱 የቪጋን',
-      vegetarian: '🥗 የጾም',
-      glutenFree: '🌾 ግሉተን-ነፃ',
-      halal: '🥩 ሀላል',
-      nutFree: '🥜 ለውዝ-ነፃ',
-      spicy: '🌶️ ቃሪያ ያለው'
+      fasting: '🥗 የጾም',
+      nonFasting: '🥩 የነጻ (የስጋ)'
     }
   },
   om: {
@@ -123,12 +115,8 @@ export const TRANSLATIONS = {
     soldOut: 'Dhumera',
     inStock: 'Jira',
     filters: {
-      vegan: '🌱 Veegaanii',
-      vegetarian: '🥗 Soomaa',
-      glutenFree: '🌾 Gluten-Free',
-      halal: '🥩 Halaal',
-      nutFree: '🥜 Nut-Free',
-      spicy: '🌶️ Mi\'aawaa'
+      fasting: '🥗 Soomaa',
+      nonFasting: '🥩 Foonii (Non-Soomaa)'
     }
   }
 };
@@ -147,7 +135,7 @@ export const FALLBACK_CATEGORIES = [
   {
     id: 'veggie-fasting',
     icon: '🥗',
-    title: { en: 'Fasting & Vegan Specials', am: 'የጾም ምግቦች', om: 'Nyaata Soomaa & Veegaan' }
+    title: { en: 'Fasting Specials (የጾም)', am: 'የጾም ምግቦች', om: 'Nyaata Soomaa' }
   },
   {
     id: 'seafood',
@@ -174,7 +162,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Royal Doro Wat (ልዩ ዶሮ ወጥ)',
@@ -214,7 +203,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal', 'glutenFree'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Gurage Special Kitfo (ክትፎ)',
@@ -254,7 +244,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
@@ -294,7 +285,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Grand Yetsom Beyaynetu (ልዩ የጾም በያይነቱ)',
@@ -312,9 +304,9 @@ export const FALLBACK_MENU = [
       om: ['Misira fi Shamburaa']
     },
     chefTip: {
-      en: '100% Vegan & Fasting friendly, loaded with fiber and authentic herbs.',
-      am: '100% የቪጋንና የጾም ምግብ፣ በፕሮቲንና በፋይበር የበለጸገ።',
-      om: '100% Veegaanii fi Soomaa, nyaata fayyaalessa.'
+      en: '100% Fasting friendly (የጾም), loaded with fiber and authentic herbs.',
+      am: '100% የጾም ምግብ፣ በፕሮቲንና በፋይበር የበለጸገ።',
+      om: '100% Soomaa, nyaata fayyaalessa.'
     },
     pairing: {
       en: 'Fresh Passionfruit Juice',
@@ -334,7 +326,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
@@ -352,9 +345,9 @@ export const FALLBACK_MENU = [
       om: ['Daakuu Shamburaa']
     },
     chefTip: {
-      en: 'Add a touch of spiced niter kibbeh or olive oil for extra richness.',
-      am: 'የለሰለሰ ቅቤ ወይም የወይራ ዘይት በመጨመር ጣዕሙን ያጎልብቱ።',
-      om: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi\'aa dabala.'
+      en: 'Traditional Ethiopian Fasting favorite served bubbling hot.',
+      am: 'በትኩስ የሸክላ ድስት የሚቀርብ የጾም ምግብ።',
+      om: 'Nyaata soomaa aadaa.'
     },
     pairing: {
       en: 'Traditional Spiced Black Tea',
@@ -374,7 +367,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['vegetarian', 'halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
@@ -414,7 +408,8 @@ export const FALLBACK_MENU = [
     isPopular: false,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal', 'glutenFree', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
@@ -454,7 +449,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
@@ -494,7 +490,8 @@ export const FALLBACK_MENU = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',
@@ -645,6 +642,8 @@ async function loadMenuData() {
           calories: item.calories || 400,
           isPopular: Boolean(item.isPopular),
           isChefSpecial: Boolean(item.isChefSpecial),
+          isAvailable: item.isAvailable !== false,
+          isFasting: item.isFasting !== false && (item.categoryId === 'veggie-fasting' || (item.dietary && (item.dietary.includes('fasting') || item.dietary.includes('vegan') || item.dietary.includes('vegetarian')))),
           dietary: Array.isArray(item.dietary) ? item.dietary : (Array.isArray(item.dietaryTags) ? item.dietaryTags : []),
           image: item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
           title: typeof item.title === 'string' ? { [state.currentLang]: item.title, en: item.title } : (item.title || { en: 'Ethiopian Dish' }),
@@ -717,12 +716,9 @@ function renderAiRecommendation(cravingKey = 'todaySpecial', userQuery = '') {
     });
 
     if (!targetItem) {
-      if (q.includes('mild') || q.includes('kid')) {
-        targetItem = state.menuItems.find(m => m.id === 'beyaynetu-grand-platter' || m.id === 'chechebsa-special');
-        aiReason = 'Selected for zero spiciness, high nutritional value, and crowd-pleasing taste.';
-      } else if (q.includes('spicy') || q.includes('hot')) {
-        targetItem = state.menuItems.find(m => m.id === 'doro-wat-special');
-        aiReason = 'Rich berbere spice with organic egg and ayib cottage cheese to balance the heat.';
+      if (q.includes('fasting') || q.includes('vegan') || q.includes('የጾም')) {
+        targetItem = state.menuItems.find(m => m.categoryId === 'veggie-fasting' || m.isFasting);
+        aiReason = '100% Fasting friendly Ethiopian specialty dish.';
       } else {
         targetItem = state.menuItems.find(m => m.isChefSpecial) || state.menuItems[0];
         aiReason = 'Top-rated Ethiopian culinary masterpiece selected based on your query.';
@@ -741,12 +737,12 @@ function renderAiRecommendation(cravingKey = 'todaySpecial', userQuery = '') {
         targetItem = state.menuItems.find(m => m.id === 'doro-wat-special') || state.menuItems[0];
         aiReason = "Chef Selam's Today's Special: Royal Doro Wat slow-simmered in berbere spice with organic egg and house ayib.";
       }
-    } else if (cravingKey === 'spicyMeat') {
-      targetItem = state.menuItems.find(m => m.id === 'beef-tibs-sizzling' || m.id === 'special-kitfo');
-      aiReason = 'Sizzling hot beef tenderloin cooked on traditional clay burner with jalapeños and rosemary.';
-    } else if (cravingKey === 'veganFasting') {
+    } else if (cravingKey === 'nonFasting') {
+      targetItem = state.menuItems.find(m => m.id === 'beef-tibs-sizzling' || m.id === 'special-kitfo' || m.id === 'doro-wat-special');
+      aiReason = 'Sizzling hot tender meat dish cooked with aromatic Ethiopian spices.';
+    } else if (cravingKey === 'fasting') {
       targetItem = state.menuItems.find(m => m.id === 'beyaynetu-grand-platter' || m.id === 'shiro-tegabino');
-      aiReason = '100% Vegan & Fasting friendly: Vibrant array of Shiro, Misir, Kik, Gomen, and beetroot.';
+      aiReason = '100% Fasting (የጾም) friendly: Vibrant array of Shiro, Misir, Kik, Gomen, and beetroot.';
     } else if (cravingKey === 'coffeeDrink') {
       targetItem = state.menuItems.find(m => m.id === 'jebena-coffee-ceremony' || m.id === 'honey-tej-carafe');
       aiReason = 'Authentic 3-round Ethiopian Jebena Coffee Ceremony served with frankincense smoke and popcorn.';
@@ -838,10 +834,10 @@ function renderCategoryNav() {
   }
 }
 
-// Render Dietary Pills
+// Render Fasting & Non-Fasting Filters Only
 function renderDietaryFilters() {
   const t = TRANSLATIONS[state.currentLang] || TRANSLATIONS.en;
-  const filterKeys = ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree', 'spicy'];
+  const filterKeys = ['fasting', 'nonFasting'];
 
   let html = '';
   filterKeys.forEach(key => {
@@ -862,6 +858,8 @@ function renderDietaryFilters() {
         if (state.activeFilters.has(filter)) {
           state.activeFilters.delete(filter);
         } else {
+          // Exclusive selection between Fasting and Non-Fasting
+          state.activeFilters.clear();
           state.activeFilters.add(filter);
         }
         renderDietaryFilters();
@@ -871,19 +869,25 @@ function renderDietaryFilters() {
   }
 }
 
-// Filter Menu Items
+// Filter Menu Items (Fasting vs Non-Fasting)
 function getFilteredItems() {
   return state.menuItems.filter(item => {
     if (state.activeCategory !== 'all' && item.categoryId !== state.activeCategory) {
       return false;
     }
 
-    for (let f of state.activeFilters) {
-      if (f === 'spicy') {
-        if (item.spiciness === 0) return false;
-      } else {
-        if (!item.dietary || !item.dietary.includes(f)) return false;
-      }
+    if (state.activeFilters.has('fasting')) {
+      const isFastingDish = item.categoryId === 'veggie-fasting' || 
+                            Boolean(item.isFasting) || 
+                            (item.dietary && (item.dietary.includes('fasting') || item.dietary.includes('vegan') || item.dietary.includes('vegetarian')));
+      if (!isFastingDish) return false;
+    }
+
+    if (state.activeFilters.has('nonFasting')) {
+      const isMeatDish = item.categoryId === 'traditional-mains' || 
+                         item.categoryId === 'starters' || 
+                         (item.dietary && (item.dietary.includes('nonFasting') || item.dietary.includes('halal')));
+      if (!isMeatDish) return false;
     }
 
     if (state.searchQuery.trim() !== '') {
@@ -973,13 +977,12 @@ function createDishCardHtml(item) {
     badgeHtml = `<span class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 px-2 py-0.5 rounded-md text-[10px] font-bold">Popular</span>`;
   }
 
-  const dietaryIcons = (item.dietary || []).map(d => {
-    if (d === 'vegan') return '🌱';
-    if (d === 'vegetarian') return '🥗';
-    if (d === 'glutenFree') return '🌾';
-    if (d === 'halal') return '🥩';
-    return '';
-  }).join(' ');
+  const isFastingDish = item.categoryId === 'veggie-fasting' || 
+                        Boolean(item.isFasting) || 
+                        (item.dietary && (item.dietary.includes('fasting') || item.dietary.includes('vegan') || item.dietary.includes('vegetarian')));
+  const fastingBadge = isFastingDish 
+    ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-md text-[10px] font-semibold">🥗 የጾም / Fasting</span>`
+    : `<span class="bg-rose-500/10 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded-md text-[10px] font-semibold">🥩 የነጻ / Non-Fasting</span>`;
 
   return `
     <div class="dish-card bg-[#141824] border border-white/10 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between cursor-pointer hover:border-amber-400/40 transition-all" data-id="${item.id}">
@@ -1002,7 +1005,7 @@ function createDishCardHtml(item) {
         </div>
         <div class="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-white/5">
           <span class="text-amber-400 font-semibold">★ ${item.rating} (${item.reviewCount})</span>
-          <span>${dietaryIcons}</span>
+          <div>${fastingBadge}</div>
         </div>
       </div>
     </div>

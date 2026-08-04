@@ -47,12 +47,8 @@ export const TRANSLATIONS = {
     soldOut: 'Sold Out',
     inStock: 'In Stock',
     filters: {
-      vegan: '🌱 Vegan',
-      vegetarian: '🥗 Fasting',
-      glutenFree: '🌾 Gluten-Free',
-      halal: '🥩 Halal',
-      nutFree: '🥜 Nut-Free',
-      spicy: '🌶️ Spicy'
+      fasting: '🥗 Fasting (የጾም)',
+      nonFasting: '🥩 Non-Fasting (የነጻ/የስጋ)'
     }
   },
   am: {
@@ -85,12 +81,8 @@ export const TRANSLATIONS = {
     soldOut: 'አልቋል (ተሸጧል)',
     inStock: 'አለ',
     filters: {
-      vegan: '🌱 የቪጋን',
-      vegetarian: '🥗 የጾም',
-      glutenFree: '🌾 ግሉተን-ነፃ',
-      halal: '🥩 ሀላል',
-      nutFree: '🥜 ለውዝ-ነፃ',
-      spicy: '🌶️ ቃሪያ ያለው'
+      fasting: '🥗 የጾም',
+      nonFasting: '🥩 የነጻ (የስጋ)'
     }
   },
   om: {
@@ -123,12 +115,8 @@ export const TRANSLATIONS = {
     soldOut: 'Dhumera',
     inStock: 'Jira',
     filters: {
-      vegan: '🌱 Veegaanii',
-      vegetarian: '🥗 Soomaa',
-      glutenFree: '🌾 Gluten-Free',
-      halal: '🥩 Halaal',
-      nutFree: '🥜 Nut-Free',
-      spicy: '🌶️ Mi\'aawaa'
+      fasting: '🥗 Soomaa',
+      nonFasting: '🥩 Foonii (Non-Soomaa)'
     }
   }
 };
@@ -147,7 +135,7 @@ export const CATEGORIES = [
   {
     id: 'veggie-fasting',
     icon: '🥗',
-    title: { en: 'Fasting & Vegan Specials', am: 'የጾም ምግቦች', om: 'Nyaata Soomaa & Veegaan' }
+    title: { en: 'Fasting Specials (የጾም)', am: 'የጾም ምግቦች', om: 'Nyaata Soomaa' }
   },
   {
     id: 'seafood',
@@ -174,7 +162,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Royal Doro Wat (ልዩ ዶሮ ወጥ)',
@@ -214,7 +203,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal', 'glutenFree'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Gurage Special Kitfo (ክትፎ)',
@@ -254,7 +244,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Sizzling Beef Shekla Tibs (ሽክላ ጥብስ)',
@@ -294,7 +285,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Grand Yetsom Beyaynetu (ልዩ የጾም በያይነቱ)',
@@ -312,9 +304,9 @@ export const MENU_ITEMS = [
       om: ['Misira fi Shamburaa']
     },
     chefTip: {
-      en: '100% Vegan & Fasting friendly, loaded with fiber and authentic herbs.',
-      am: '100% የቪጋንና የጾም ምግብ፣ በፕሮቲንና በፋይበር የበለጸገ።',
-      om: '100% Veegaanii fi Soomaa, nyaata fayyaalessa.'
+      en: '100% Fasting friendly (የጾም), loaded with fiber and authentic herbs.',
+      am: '100% የጾም ምግብ፣ በፕሮቲንና በፋይበር የበለጸገ።',
+      om: '100% Soomaa, nyaata fayyaalessa.'
     },
     pairing: {
       en: 'Fresh Passionfruit Juice',
@@ -334,7 +326,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Clay Pot Shiro Tegabino (ተጋቢኖ ሽሮ)',
@@ -352,9 +345,9 @@ export const MENU_ITEMS = [
       om: ['Daakuu Shamburaa']
     },
     chefTip: {
-      en: 'Add a touch of spiced niter kibbeh or olive oil for extra richness.',
-      am: 'የለሰለሰ ቅቤ ወይም የወይራ ዘይት በመጨመር ጣዕሙን ያጎልብቱ።',
-      om: 'Zeyitii uumaa ykn Kibbeh itti dabaluun mi\'aa dabala.'
+      en: 'Traditional Ethiopian Fasting favorite served bubbling hot.',
+      am: 'በትኩስ የሸክላ ድስት የሚቀርብ የጾም ምግብ።',
+      om: 'Nyaata soomaa aadaa.'
     },
     pairing: {
       en: 'Traditional Spiced Black Tea',
@@ -374,7 +367,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['vegetarian', 'halal'],
+    isFasting: false,
+    dietary: ['nonFasting'],
     image: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Special Chechebsa / Kita Firfir (ጨጨብሳ)',
@@ -414,7 +408,8 @@ export const MENU_ITEMS = [
     isPopular: false,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['halal', 'glutenFree', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Lake Tana Asa Tibs (የዓሳ ጥብስ)',
@@ -454,7 +449,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: true,
     isAvailable: true,
-    dietary: ['vegan', 'vegetarian', 'glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Full Ethiopian Coffee Ceremony (የጀበና ቡና ስነ-ስርዓት)',
@@ -494,7 +490,8 @@ export const MENU_ITEMS = [
     isPopular: true,
     isChefSpecial: false,
     isAvailable: true,
-    dietary: ['glutenFree', 'halal', 'nutFree'],
+    isFasting: true,
+    dietary: ['fasting'],
     image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
     title: {
       en: 'Authentic Ethiopian Honey Tej (የቤት ማር ጠጅ)',

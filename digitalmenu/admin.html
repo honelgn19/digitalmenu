@@ -103,7 +103,7 @@
         <select id="adminCategoryFilter" class="bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white outline-none focus:border-amber-400">
           <option value="all">All Categories</option>
           <option value="traditional-mains">Traditional Meat Mains</option>
-          <option value="veggie-fasting">Fasting & Vegan</option>
+          <option value="veggie-fasting">Fasting Specials (የጾም)</option>
           <option value="starters">Starters & Breakfast</option>
           <option value="seafood">Seafood</option>
           <option value="desserts-drinks">Coffee & Drinks</option>
@@ -137,7 +137,7 @@
               <th class="p-4">Dish Title</th>
               <th class="p-4">Category</th>
               <th class="p-4">Price (ETB)</th>
-              <th class="p-4">Spiciness</th>
+              <th class="p-4">Fasting Type</th>
               <th class="p-4">Stock Availability</th>
               <th class="p-4 text-right">Actions</th>
             </tr>
@@ -181,7 +181,7 @@
             <label class="block text-xs font-semibold text-slate-300 mb-1">Category *</label>
             <select id="dishCategory" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white">
               <option value="traditional-mains">Traditional Meat Mains</option>
-              <option value="veggie-fasting">Fasting & Vegan</option>
+              <option value="veggie-fasting">Fasting Specials (የጾም)</option>
               <option value="starters">Starters & Breakfast</option>
               <option value="seafood">Seafood</option>
               <option value="desserts-drinks">Coffee & Drinks</option>
@@ -220,15 +220,12 @@
           </div>
         </div>
 
-        <!-- Dietary Checkboxes -->
+        <!-- Fasting Radio Options -->
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-2">Dietary Badges</label>
-          <div class="flex flex-wrap gap-3 text-xs text-slate-300">
-            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="vegan" class="dietary-check"> 🌱 Vegan</label>
-            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="vegetarian" class="dietary-check"> 🥗 Vegetarian</label>
-            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="halal" class="dietary-check" checked> 🥩 Halal</label>
-            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="glutenFree" class="dietary-check" checked> 🌾 Gluten-Free</label>
-            <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" value="nutFree" class="dietary-check" checked> 🥜 Nut-Free</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-2">Fasting Type & Signature</label>
+          <div class="flex flex-wrap gap-4 text-xs text-slate-300">
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="fastingType" value="fasting" class="accent-emerald-400" checked> 🥗 Fasting Dish (የጾም)</label>
+            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="fastingType" value="nonFasting" class="accent-rose-400"> 🥩 Non-Fasting Dish (የነጻ/የስጋ)</label>
             <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" id="checkChefSpecial" class="accent-amber-400"> ⭐ Chef Signature</label>
           </div>
         </div>
@@ -340,6 +337,13 @@
         const categoryName = (item.category && item.category.translations && item.category.translations[0]?.title) || item.categoryId || 'Main Dish';
         const isAvailable = item.isAvailable !== false;
         const imageUrl = item.image || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80';
+        
+        const isFastingDish = item.categoryId === 'veggie-fasting' || 
+                              Boolean(item.isFasting) || 
+                              (item.dietaryTags && (item.dietaryTags.includes('fasting') || item.dietaryTags.includes('vegan') || item.dietaryTags.includes('vegetarian')));
+        const fastingBadge = isFastingDish 
+          ? `<span class="text-emerald-400 font-semibold">🥗 Fasting (የጾም)</span>`
+          : `<span class="text-rose-400 font-semibold">🥩 Non-Fasting (የነጻ)</span>`;
 
         return `
           <tr class="hover:bg-white/5 transition-colors">
@@ -352,9 +356,7 @@
             </td>
             <td class="p-4 capitalize text-slate-400 font-medium">${categoryName}</td>
             <td class="p-4 font-bold text-amber-400 text-sm">${item.priceETB} Br</td>
-            <td class="p-4 text-xs text-slate-400">
-              <span>🌶️ Level ${item.spiciness || 0}</span>
-            </td>
+            <td class="p-4 text-xs">${fastingBadge}</td>
             <td class="p-4">
               <button class="toggle-availability-btn px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 transition-all ${isAvailable ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'}" data-id="${item.id}" data-status="${isAvailable}">
                 ${isAvailable ? '🟢 In Stock' : '🔴 Sold Out'}
@@ -436,13 +438,14 @@
     document.getElementById('addDishForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const dietaryTags = Array.from(document.querySelectorAll('.dietary-check:checked')).map(c => c.value);
+      const isFasting = document.querySelector('input[name="fastingType"]:checked')?.value === 'fasting';
+      const dietaryTags = [isFasting ? 'fasting' : 'nonFasting'];
 
       const titleEn = document.getElementById('titleEn').value.trim();
       const titleAm = document.getElementById('titleAm').value.trim() || titleEn;
       const titleOm = document.getElementById('titleOm').value.trim() || titleEn;
 
-      const descEn = document.getElementById('descEn').value.trim() || `Authentic Ethiopian ${titleEn} cooked to perfection with traditional herbs and berbere.`;
+      const descEn = document.getElementById('descEn').value.trim() || `Authentic Ethiopian ${titleEn} cooked to perfection with traditional herbs and spices.`;
       const descAm = document.getElementById('descAm').value.trim() || `በጥንቃቄ የተዘጋጀ ባህላዊ የኢትዮጵያ ${titleAm}።`;
       
       let imageUrl = document.getElementById('dishImage').value.trim();
@@ -457,6 +460,7 @@
         prepMinutes: Number(document.getElementById('dishPrepMinutes').value),
         calories: Number(document.getElementById('dishCalories').value),
         isChefSpecial: document.getElementById('checkChefSpecial').checked,
+        isFasting,
         dietaryTags,
         image: imageUrl,
         titleEn,
